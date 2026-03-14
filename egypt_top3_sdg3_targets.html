@@ -1,0 +1,426 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --t1: #CE1126;
+  --t2: #BA7517;
+  --t3: #185FA5;
+  --bg: var(--color-background-secondary);
+  --card: var(--color-background-primary);
+  --border: var(--color-border-tertiary);
+  --text: var(--color-text-primary);
+  --muted: var(--color-text-secondary);
+}
+.wrap { max-width: 860px; margin: 0 auto; padding-bottom: 2rem; }
+
+.hero { padding: 2rem; background: #04342C; border-radius: var(--border-radius-lg); margin-bottom: 2rem; }
+.hero-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #9FE1CB; margin-bottom: 0.5rem; font-weight: 500; }
+.hero h1 { font-size: 1.7rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; line-height: 1.2; }
+.hero p { font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.7; }
+.hero-pills { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+.hero-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+.hero-pill.r { border-color: #CE1126; background: rgba(206,17,38,0.2); }
+.hero-pill.a { border-color: #EF9F27; background: rgba(186,117,23,0.2); }
+.hero-pill.b { border-color: #3B8BD4; background: rgba(24,95,165,0.2); }
+
+.target-card { background: var(--card); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); margin-bottom: 2rem; overflow: hidden; }
+.target-top { padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 14px; }
+.rank-badge { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; color: #fff; flex-shrink: 0; margin-top: 2px; }
+.rank-1 { background: #CE1126; }
+.rank-2 { background: #BA7517; }
+.rank-3 { background: #185FA5; }
+.target-meta { flex: 1; }
+.target-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.tag-r { color: #CE1126; }
+.tag-a { color: #BA7517; }
+.tag-b { color: #185FA5; }
+.target-title { font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+.target-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.why-badge { display: inline-block; background: #FCEBEB; color: #A32D2D; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 10px; margin-top: 6px; }
+.why-badge.a { background: #FAEEDA; color: #854F0B; }
+.why-badge.b { background: #E6F1FB; color: #185FA5; }
+
+.divider-line { height: 0.5px; background: var(--border); }
+.body { padding: 1.25rem 1.5rem; }
+
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+.kpi { background: var(--bg); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; }
+.kpi-val { font-size: 1.7rem; font-weight: 500; line-height: 1; margin-bottom: 3px; }
+.kpi-lbl { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.kv-r { color: #CE1126; }
+.kv-a { color: #BA7517; }
+.kv-b { color: #185FA5; }
+.kv-g { color: #1D9E75; }
+
+.chart-wrap { position: relative; width: 100%; height: 230px; margin-bottom: 1.25rem; }
+.chart-sm { position: relative; width: 100%; height: 180px; margin-bottom: 1rem; }
+
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1.25rem; }
+.compare-table th { background: var(--bg); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; padding: 7px 12px; text-align: left; }
+.compare-table td { padding: 9px 12px; border-top: 0.5px solid var(--border); vertical-align: middle; }
+.compare-table tr:hover td { background: var(--bg); }
+.pill { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 8px; }
+.pill-red { background: #FCEBEB; color: #A32D2D; }
+.pill-grn { background: #EAF3DE; color: #3B6D11; }
+.pill-amb { background: #FAEEDA; color: #854F0B; }
+
+.insight { background: #E1F5EE; border-left: 3px solid #1D9E75; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 0.85rem 1rem; margin-bottom: 1rem; }
+.insight p { font-size: 13px; color: #04342C; line-height: 1.7; }
+.insight-red { background: #FCEBEB; border-left-color: #CE1126; }
+.insight-red p { color: #501313; }
+
+.action-list { margin-top: 0.5rem; }
+.action-item { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-top: 0.5px solid var(--border); font-size: 13px; color: var(--text); line-height: 1.5; }
+.action-item:first-child { border-top: none; padding-top: 0; }
+.action-num { background: var(--bg); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: var(--muted); flex-shrink: 0; margin-top: 1px; }
+
+.legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.lsq { width: 10px; height: 10px; border-radius: 2px; }
+
+.section-h { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.75rem; margin-top: 0.25rem; }
+
+.sources { background: var(--bg); border-radius: var(--border-radius-md); padding: 1rem; margin-top: 2rem; }
+.sources h3 { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+.sources a { font-size: 11px; color: #185FA5; display: block; margin-bottom: 3px; text-decoration: none; }
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-label">Egypt · SDG-3 Priority Analysis · 2020–2025</div>
+    <h1>Egypt's 3 Most Critical SDG-3 Targets to Improve</h1>
+    <p>Based on severity of burden, rate of deterioration, and gap vs. 2030 targets — these three areas represent Egypt's most urgent health priorities, each affecting millions of Egyptians right now.</p>
+    <div class="hero-pills">
+      <span class="hero-pill r">Priority 1 · Target 3.4 — NCDs &amp; Premature Death</span>
+      <span class="hero-pill a">Priority 2 · Target 3.8 — Universal Health Coverage</span>
+      <span class="hero-pill b">Priority 3 · Target 3.6 — Road Traffic Injuries</span>
+    </div>
+  </div>
+
+  <!-- ===== PRIORITY 1: NCDs ===== -->
+  <div class="target-card">
+    <div class="target-top">
+      <div class="rank-badge rank-1">1</div>
+      <div class="target-meta">
+        <div class="target-tag tag-r">Target 3.4 · Most Critical</div>
+        <div class="target-title">Non-Communicable Diseases &amp; Premature Mortality</div>
+        <div class="target-sub">Reduce premature mortality from NCDs by one-third by 2030. SDG goal: reduce cardiovascular, cancer, diabetes, and chronic respiratory deaths.</div>
+        <span class="why-badge">Why #1 for Egypt: 82% of all deaths are NCD-related — one of the highest in MENA. Multiple risk factors are actively worsening.</span>
+      </div>
+    </div>
+    <div class="divider-line"></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val kv-r">82%</div><div class="kpi-lbl">Share of all deaths in Egypt caused by NCDs</div></div>
+        <div class="kpi"><div class="kpi-val kv-r">67%</div><div class="kpi-lbl">Share of premature deaths (30–70 yrs) from NCDs</div></div>
+        <div class="kpi"><div class="kpi-val kv-r">28%</div><div class="kpi-lbl">Probability of dying from an NCD between ages 30–70</div></div>
+        <div class="kpi"><div class="kpi-val kv-r">10.9M</div><div class="kpi-lbl">Egyptians living with diabetes — 10th highest globally</div></div>
+        <div class="kpi"><div class="kpi-val kv-r">40%</div><div class="kpi-lbl">Adults in Egypt with hypertension</div></div>
+        <div class="kpi"><div class="kpi-val kv-g">33%</div><div class="kpi-lbl">SDG 3.4 target: reduce premature NCD deaths by one-third</div></div>
+      </div>
+
+      <div class="section-h">Egypt vs. MENA vs. First World — NCD Death Rate (per 100,000 pop.)</div>
+      <div class="legend">
+        <span><span class="lsq" style="background:#CE1126"></span>Egypt</span>
+        <span><span class="lsq" style="background:#EF9F27"></span>MENA avg.</span>
+        <span><span class="lsq" style="background:#185FA5"></span>First World avg.</span>
+      </div>
+      <div class="chart-wrap"><canvas id="ncd1"></canvas></div>
+
+      <div class="section-h">Egypt's NCD Risk Factor Profile — % Adult Population Affected</div>
+      <div class="chart-sm"><canvas id="ncd2"></canvas></div>
+
+      <div class="section-h">Comparative burden — NCD premature mortality probability (30–70 yrs)</div>
+      <table class="compare-table">
+        <thead><tr><th>Country / Region</th><th>Probability of premature NCD death</th><th>Cardiovascular deaths /100k</th><th>Diabetes prevalence</th><th>Trend 2020–2025</th></tr></thead>
+        <tbody>
+          <tr><td>Egypt</td><td><strong>28%</strong></td><td>~400</td><td>17%</td><td><span class="pill pill-red">↑ Worsening</span></td></tr>
+          <tr><td>Saudi Arabia</td><td>~18%</td><td>~250</td><td>18%</td><td><span class="pill pill-amb">→ Stable</span></td></tr>
+          <tr><td>UAE</td><td>~14%</td><td>~180</td><td>16%</td><td><span class="pill pill-grn">↓ Improving</span></td></tr>
+          <tr><td>MENA avg.</td><td>~22%</td><td>~300</td><td>15%</td><td><span class="pill pill-amb">→ Slow</span></td></tr>
+          <tr><td>Germany</td><td>~11%</td><td>~150</td><td>8%</td><td><span class="pill pill-grn">↓ Improving</span></td></tr>
+          <tr><td>France</td><td>~9%</td><td>~120</td><td>7%</td><td><span class="pill pill-grn">↓ Improving</span></td></tr>
+          <tr><td>USA</td><td>~14%</td><td>~200</td><td>10%</td><td><span class="pill pill-amb">→ Stable</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="insight insight-red">
+        <p><strong>Root cause analysis:</strong> NCDs in Egypt are fuelled by a convergence of crisis-level risk factors. The STEPwise WHO survey found 66% of Egyptian women are overweight, 42% obese, and 24% smoke — combined with nearly 75% of adults not performing vigorous physical activity. Cancer rates rose from 127 to 166 per 100,000 between 2007 and 2022. Only ~7% of Egypt's GDP is spent on all healthcare, making NCD prevention and management severely underfunded.</p>
+      </div>
+
+      <div class="section-h">Priority Actions for Egypt</div>
+      <div class="action-list">
+        <div class="action-item"><span class="action-num">1</span>Scale the WHO-Egypt NCD pilot (primary care integration) from 17 to 500+ centers nationally by 2027, targeting hypertension and diabetes screening for all adults over 40.</div>
+        <div class="action-item"><span class="action-num">2</span>Implement mandatory front-of-pack nutrition labelling and sugar/salt reduction targets in processed food — Egypt has no binding food reformulation policy as of 2025.</div>
+        <div class="action-item"><span class="action-num">3</span>Develop and fund a National Cancer Control Plan — Egypt has been working on this with WHO but implementation remains partial as of 2024.</div>
+        <div class="action-item"><span class="action-num">4</span>Expand the national diabetes registry and link it to the new UHIS system for coordinated chronic disease management pathways.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRIORITY 2: UHC ===== -->
+  <div class="target-card">
+    <div class="target-top">
+      <div class="rank-badge rank-2">2</div>
+      <div class="target-meta">
+        <div class="target-tag tag-a">Target 3.8 · Structural Emergency</div>
+        <div class="target-title">Universal Health Coverage &amp; Financial Protection</div>
+        <div class="target-sub">Achieve UHC including financial risk protection and access to quality essential health services for all.</div>
+        <span class="why-badge a">Why #2: Out-of-pocket spending at 62% is 23 percentage points above the LMICs average. Egypt needs 199,000 more hospital beds and 20,300 primary care facilities by 2035.</span>
+      </div>
+    </div>
+    <div class="divider-line"></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val kv-a">62%</div><div class="kpi-lbl">Out-of-pocket share of total health spending (2022)</div></div>
+        <div class="kpi"><div class="kpi-val kv-a">67</div><div class="kpi-lbl">Egypt's UHC Service Coverage Index (target: 80+)</div></div>
+        <div class="kpi"><div class="kpi-val kv-a">1.2%</div><div class="kpi-lbl">Government health spend as % of GDP (2024–25)</div></div>
+        <div class="kpi"><div class="kpi-val kv-a">0.5</div><div class="kpi-lbl">Primary care facilities per 10,000 people (WHO min: 2.0)</div></div>
+        <div class="kpi"><div class="kpi-val kv-a">3.9%</div><div class="kpi-lbl">Egyptians facing severe catastrophic health expenditure</div></div>
+        <div class="kpi"><div class="kpi-val kv-g">2018</div><div class="kpi-lbl">Year UHI Law enacted — Phase 1 rollout started in Port Said</div></div>
+      </div>
+
+      <div class="section-h">Out-of-Pocket Health Spending (% of total health expenditure) — 2020–2024</div>
+      <div class="legend">
+        <span><span class="lsq" style="background:#BA7517"></span>Egypt</span>
+        <span><span class="lsq" style="background:#185FA5"></span>MENA avg.</span>
+        <span><span class="lsq" style="background:#1D9E75"></span>Lower-middle income countries avg.</span>
+        <span><span class="lsq" style="background:#444"></span>First World avg.</span>
+        <span><span class="lsq" style="background:#E24B4A" style="border-radius:0;opacity:0.4;width:20px;height:4px"></span>WHO recommended max (20%)</span>
+      </div>
+      <div class="chart-wrap"><canvas id="uhc1"></canvas></div>
+
+      <div class="section-h">UHC Index — Egypt vs. comparable countries (2021)</div>
+      <div class="chart-sm"><canvas id="uhc2"></canvas></div>
+
+      <div class="section-h">Health Infrastructure Deficit — Egypt 2024</div>
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt (current)</th><th>WHO Minimum</th><th>Gap</th><th>Trend</th></tr></thead>
+        <tbody>
+          <tr><td>Primary care facilities per 10,000 pop.</td><td>0.5</td><td>2.0</td><td><span class="pill pill-red">−75% below target</span></td><td><span class="pill pill-red">↓ Falling by 2035 to 0.4</span></td></tr>
+          <tr><td>Hospital beds per 1,000 pop.</td><td>~1.5</td><td>3.0</td><td><span class="pill pill-red">−50%</span></td><td><span class="pill pill-amb">→ Slow addition</span></td></tr>
+          <tr><td>Physicians per 10,000 pop.</td><td>~9</td><td>23</td><td><span class="pill pill-red">−61%</span></td><td><span class="pill pill-amb">→ Brain drain persists</span></td></tr>
+          <tr><td>Government health spending % GDP</td><td>1.2%</td><td>5%+</td><td><span class="pill pill-red">Far below target</span></td><td><span class="pill pill-red">↓ Declining (down from 3%)</span></td></tr>
+          <tr><td>UHIS population coverage</td><td>~8% (Phase 1 govs.)</td><td>100%</td><td><span class="pill pill-red">−92%</span></td><td><span class="pill pill-grn">↑ Expanding (Phase 2 by 2027)</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="insight">
+        <p><strong>The UHI Law is Egypt's most important health reform</strong> — enacted in 2018, it mandates coverage for all citizens through a social health insurance model. Phase 1 launched in Port Said with World Bank support ($3B loan). However, at the current pace, full national rollout is not expected until the early 2030s. Meanwhile, with government health spending falling to just 1.2% of GDP in 2024–25 against a constitutional obligation of 3%, Egypt's health system operates on one of the most severe funding deficits in its modern history.</p>
+      </div>
+
+      <div class="section-h">Priority Actions for Egypt</div>
+      <div class="action-list">
+        <div class="action-item"><span class="action-num">1</span>Accelerate UHIS Phase 2 and 3 rollout — covering the 8 Phase 1 governorates fully and beginning the next 8 by 2026, reaching 50% national coverage by 2028.</div>
+        <div class="action-item"><span class="action-num">2</span>Enforce the constitutional mandate: government health spending must reach 3% of GDP minimum. The current 1.2% rate is legally unconstitutional.</div>
+        <div class="action-item"><span class="action-num">3</span>Build 20,300 primary healthcare facilities by 2035 as projected by UNICEF — at least 2,000–3,000 prioritised in rural Upper Egypt and underserved Delta areas by 2027.</div>
+        <div class="action-item"><span class="action-num">4</span>Introduce OOP caps and co-payment exemptions for the bottom 40% income bracket as part of UHIS benefits package refinement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRIORITY 3: Road Traffic ===== -->
+  <div class="target-card">
+    <div class="target-top">
+      <div class="rank-badge rank-3">3</div>
+      <div class="target-meta">
+        <div class="target-tag tag-b">Target 3.6 · Preventable Deaths Crisis</div>
+        <div class="target-title">Road Traffic Injuries &amp; Fatalities</div>
+        <div class="target-sub">Halve the number of global deaths and injuries from road traffic accidents by 2030 (baseline 2010).</div>
+        <span class="why-badge b">Why #3: 76,362 injuries in 2024 — a 7.5% single-year increase. Egypt is off-track for the 2030 halving target. Young men aged 15–24 bear the highest burden.</span>
+      </div>
+    </div>
+    <div class="divider-line"></div>
+    <div class="body">
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-val kv-b">5,260</div><div class="kpi-lbl">Road fatalities in Egypt in 2024 (official CAPMAS)</div></div>
+        <div class="kpi"><div class="kpi-val kv-b">76,362</div><div class="kpi-lbl">Road accident injuries in 2024 — up 7.5% from 2023</div></div>
+        <div class="kpi"><div class="kpi-val kv-b">83.6%</div><div class="kpi-lbl">Male share of road fatalities (2024)</div></div>
+        <div class="kpi"><div class="kpi-val kv-b">23.2%</div><div class="kpi-lbl">Share of deaths in 15–24 age group — highest affected group</div></div>
+        <div class="kpi"><div class="kpi-val kv-b">2.4%</div><div class="kpi-lbl">Share of all DALYs lost in Egypt from road traffic injuries</div></div>
+        <div class="kpi"><div class="kpi-val kv-g">−10.2%</div><div class="kpi-lbl">Reduction in fatalities 2023→2024 — first positive sign in years</div></div>
+      </div>
+
+      <div class="section-h">Egypt Road Fatalities Trend vs. SDG 3.6 Target (halve from 2010 baseline)</div>
+      <div class="legend">
+        <span><span class="lsq" style="background:#185FA5"></span>Egypt fatalities (CAPMAS)</span>
+        <span><span class="lsq" style="background:#1D9E75"></span>SDG 2030 target trajectory</span>
+        <span><span class="lsq" style="background:#EF9F27"></span>WHO adjusted estimate</span>
+      </div>
+      <div class="chart-wrap"><canvas id="rt1"></canvas></div>
+
+      <div class="section-h">Road deaths per 100,000 population — Egypt vs. comparators (2022–2024)</div>
+      <div class="chart-sm"><canvas id="rt2"></canvas></div>
+
+      <div class="section-h">Governorate-level breakdown — Egypt 2024 (top/bottom)</div>
+      <table class="compare-table">
+        <thead><tr><th>Governorate</th><th>Deaths (2024)</th><th>% of National Total</th><th>Context</th></tr></thead>
+        <tbody>
+          <tr><td>Cairo</td><td>766</td><td>14.6%</td><td>Highest absolute number — 2.5M vehicles on roads</td></tr>
+          <tr><td>Behira</td><td>604</td><td>11.5%</td><td>Highest rate per vehicle in Egypt (historically 2,192 D/MnV)</td></tr>
+          <tr><td>Alexandria</td><td>382</td><td>7.3%</td><td>Third highest — dense urban + highway traffic</td></tr>
+          <tr><td>Assiut, N. Sinai, Matruh</td><td>High rate</td><td>Above national avg.</td><td>Dangerous inter-city routes, poor road infrastructure</td></tr>
+          <tr><td>Suez</td><td>6</td><td>0.1%</td><td>Lowest — smallest vehicle fleet</td></tr>
+          <tr><td>North Sinai</td><td>7</td><td>0.1%</td><td>Lowest — small population, limited vehicle access</td></tr>
+        </tbody>
+      </table>
+
+      <div class="insight">
+        <p><strong>The 2024 data shows a first encouraging signal:</strong> fatalities fell 10.2% from 5,861 in 2023 to 5,260 in 2024 — Egypt's government has invested ~EGP 3 trillion in roads over the past decade, adding 144,300 km of paved roads. However, injuries rose 7.5% in the same year, suggesting road expansion is creating new high-speed corridors that increase injury risk even as some safety measures take effect. Enforcement gaps, the absence of speed camera coverage outside major highways, and no mandatory BAC (blood-alcohol) testing remain key structural gaps.</p>
+      </div>
+
+      <div class="section-h">Priority Actions for Egypt</div>
+      <div class="action-list">
+        <div class="action-item"><span class="action-num">1</span>Deploy speed camera networks across the 6 highest-mortality governorates (Cairo, Behira, Alexandria, Assiut, North Sinai, Matruh) — currently enforcement is concentrated on the desert highways.</div>
+        <div class="action-item"><span class="action-num">2</span>Mandate helmet use for all motorcyclists nationally with police enforcement — Egypt's motorcycle fatality rate per 10,000 vehicles is one of MENA's highest.</div>
+        <div class="action-item"><span class="action-num">3</span>Launch a national road safety data system integrating MoH death certificates, Ministry of Interior crash reports, and hospital injury data — current under-reporting is estimated at 30–40% by WHO.</div>
+        <div class="action-item"><span class="action-num">4</span>Target the 15–24 male cohort with road safety education campaigns — this group accounts for 23.2% of all road deaths despite comprising ~15% of the population.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h3>Sources used in this analysis</h3>
+    <a href="https://www.emro.who.int/egy/programmes/noncommunicable-diseases.html" target="_blank">WHO EMRO — NCDs in Egypt (risk factors, death share, surveillance)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8354445/" target="_blank">PMC — Quantifying NCD burden in Egypt using State-Space model (PLOS ONE, 2021)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12320059/" target="_blank">PMC — Diabetes &amp; cardiovascular burden in Egypt/MENA (BMJ Open, 2025)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11414705/" target="_blank">PMC — UHC progress in 22 MENA countries, UHC index 2021 (2024)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8741917/" target="_blank">PMC — Healthcare financing in Egypt: systematic review (J. Egyptian Public Health, 2022)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12604270/" target="_blank">PMC — Stakeholder perspectives on UHC implementation in Egypt (2021–22 qualitative study)</a>
+    <a href="https://www.agbi.com/analysis/health/2024/05/egypt-misses-healthcare-targets-as-population-ails/" target="_blank">AGBI — Egypt misses healthcare targets (May 2024) — OOP 62%, GDP 1.2%, hospital bed deficit</a>
+    <a href="https://www.arabfinance.com/en/News/newdetails/26297" target="_blank">Arab Finance — Egypt's 2024 Road Accident Statistics Factsheet (5,260 deaths, 76,362 injuries)</a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/22414128/" target="_blank">PubMed — Road Traffic Injuries and Data Systems in Egypt (2012, foundational estimates)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9298344/" target="_blank">PMC — Egypt's UHI Law: purchasing arrangements and UHC implications (2022)</a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var dpr = window.devicePixelRatio || 1;
+
+new Chart(document.getElementById('ncd1'), {
+  type: 'bar',
+  data: {
+    labels: ['Cardiovascular', 'Cancer', 'Diabetes & Kidney', 'Chronic Respiratory'],
+    datasets: [
+      { label: 'Egypt', data: [400, 88, 65, 35], backgroundColor: '#CE1126' },
+      { label: 'MENA avg.', data: [300, 80, 50, 28], backgroundColor: '#EF9F27' },
+      { label: 'First World', data: [150, 130, 22, 30], backgroundColor: '#185FA5' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { autoSkip: false, font: { size: 11 } } },
+      y: { title: { display: true, text: 'Deaths per 100,000 pop.', font: { size: 11 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('ncd2'), {
+  type: 'bar',
+  data: {
+    labels: ['Hypertension', 'Overweight', 'Obese', 'Physically inactive', 'Smoking', 'Diabetes'],
+    datasets: [{
+      label: 'Egypt % adults',
+      data: [40, 66, 42, 75, 24, 17],
+      backgroundColor: ['#CE1126','#D85A30','#E8593C','#BA7517','#854F0B','#A32D2D']
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { min: 0, max: 100, ticks: { callback: v => v + '%', font: { size: 11 } } },
+      y: { ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('uhc1'), {
+  type: 'line',
+  data: {
+    labels: ['2000','2005','2010','2015','2019','2021','2022','2024'],
+    datasets: [
+      { label: 'Egypt', data: [55, 58, 59, 60, 62, 62, 62, 62], borderColor: '#BA7517', borderWidth: 2.5, pointRadius: 4, tension: 0.3, fill: false },
+      { label: 'MENA avg.', data: [42, 44, 46, 48, 50, 51, 51, 52], borderColor: '#185FA5', borderWidth: 2, pointRadius: 3, tension: 0.3, fill: false },
+      { label: 'LMICs avg.', data: [36, 38, 39, 39, 39, 39, 39, 39], borderColor: '#1D9E75', borderWidth: 2, pointRadius: 3, tension: 0.3, fill: false },
+      { label: 'First World', data: [15, 17, 19, 21, 22, 23, 23, 23], borderColor: '#444', borderWidth: 1.5, borderDash: [5,3], pointRadius: 0, tension: 0.3, fill: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        min: 0, max: 80,
+        title: { display: true, text: 'Out-of-pocket % of total health spending', font: { size: 11 } },
+        ticks: { callback: v => v + '%' }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('uhc2'), {
+  type: 'bar',
+  data: {
+    labels: ['Yemen', 'Egypt', 'Morocco', 'Jordan', 'Tunisia', 'Saudi Arabia', 'UAE', 'Germany', 'France', 'UK'],
+    datasets: [{
+      label: 'UHC Index 2021',
+      data: [38, 67, 70, 75, 76, 80, 90, 87, 88, 88],
+      backgroundColor: ['#CE1126','#BA7517','#EF9F27','#EF9F27','#EF9F27','#1D9E75','#1D9E75','#185FA5','#185FA5','#185FA5']
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { min: 0, max: 100, title: { display: true, text: 'UHC Service Coverage Index', font: { size: 11 } } },
+      x: { ticks: { autoSkip: false, font: { size: 10 }, maxRotation: 35 } }
+    }
+  }
+});
+
+new Chart(document.getElementById('rt1'), {
+  type: 'line',
+  data: {
+    labels: ['2010','2012','2014','2016','2018','2020','2022','2023','2024'],
+    datasets: [
+      { label: 'Egypt (CAPMAS)', data: [7906, 8500, 9000, 8211, 8000, 7500, 6200, 5861, 5260], borderColor: '#185FA5', borderWidth: 2.5, pointRadius: 4, tension: 0.3, fill: false },
+      { label: 'SDG 2030 target (−50%)', data: [7906, 7000, 6300, 5600, 4900, 4200, 3600, 3300, 3000], borderColor: '#1D9E75', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, tension: 0.3, fill: false },
+      { label: 'WHO adjusted estimate', data: [12000, 11500, 10800, 9287, 8800, 8200, 7000, null, null], borderColor: '#EF9F27', borderWidth: 1.5, borderDash: [3,3], pointRadius: 3, tension: 0.3, fill: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { title: { display: true, text: 'Annual road traffic fatalities', font: { size: 11 } }, ticks: { callback: v => v.toLocaleString() } }
+    }
+  }
+});
+
+new Chart(document.getElementById('rt2'), {
+  type: 'bar',
+  data: {
+    labels: ['Egypt', 'Saudi Arabia', 'MENA avg.', 'Iran', 'Morocco', 'UAE', 'USA', 'France', 'Germany', 'UK'],
+    datasets: [{
+      label: 'Road deaths per 100k',
+      data: [11.8, 16, 18, 20, 12, 4.5, 12.4, 5.1, 3.3, 2.8],
+      backgroundColor: ['#CE1126','#BA7517','#EF9F27','#D85A30','#EF9F27','#1D9E75','#185FA5','#185FA5','#185FA5','#185FA5']
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { title: { display: true, text: 'Deaths per 100,000 pop.', font: { size: 11 } } },
+      x: { ticks: { autoSkip: false, font: { size: 10 }, maxRotation: 35 } }
+    }
+  }
+});
+</script>
