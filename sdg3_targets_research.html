@@ -1,0 +1,532 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@300;400&display=swap');
+  :root { --accent: #1D9E75; --accent2: #0F6E56; --warm: #BA7517; --danger: #A32D2D; --sky: #185FA5; --text: var(--color-text-primary); --muted: var(--color-text-secondary); --card: var(--color-background-primary); --surface: var(--color-background-secondary); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .report { max-width: 860px; margin: 0 auto; padding: 0 0 2rem; }
+  .hero { background: linear-gradient(135deg, #04342C 0%, #0F6E56 60%, #1D9E75 100%); color: #fff; padding: 3rem 2rem 2rem; border-radius: var(--border-radius-lg); margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+  .hero::after { content: ''; position: absolute; bottom: -40px; left: 30%; width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem; }
+  .hero h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 2.4rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.6rem; color: #fff; }
+  .hero h1 span { color: #9FE1CB; }
+  .hero p { font-size: 14px; color: rgba(255,255,255,0.8); max-width: 540px; line-height: 1.6; }
+  .hero-meta { display: flex; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .hero-meta span { font-size: 12px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 6px; }
+  .hero-meta strong { color: #fff; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+  .section-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; max-width: 700px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+  .stat-card { background: var(--surface); border-radius: var(--border-radius-md); padding: 1rem; text-align: center; }
+  .stat-card .val { font-size: 2rem; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 4px; }
+  .stat-card .lbl { font-size: 12px; color: var(--muted); }
+  .stat-card.green .val { color: var(--accent); }
+  .stat-card.amber .val { color: var(--warm); }
+  .stat-card.red .val { color: var(--danger); }
+  .stat-card.blue .val { color: var(--sky); }
+  .target-block { background: var(--card); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 1.5rem; overflow: hidden; }
+  .target-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--color-border-tertiary); cursor: pointer; user-select: none; }
+  .target-badge { background: var(--accent2); color: #fff; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 12px; white-space: nowrap; }
+  .target-title { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+  .target-status { font-size: 11px; padding: 3px 9px; border-radius: 10px; font-weight: 500; white-space: nowrap; }
+  .status-off { background: #FCEBEB; color: #A32D2D; }
+  .status-on { background: #EAF3DE; color: #3B6D11; }
+  .status-slow { background: #FAEEDA; color: #854F0B; }
+  .target-body { padding: 1.25rem; display: none; }
+  .target-block.open .target-body { display: block; }
+  .chevron { font-size: 10px; color: var(--muted); transition: transform 0.2s; }
+  .target-block.open .chevron { transform: rotate(90deg); }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 0.75rem; }
+  .compare-table th { background: var(--surface); font-weight: 500; padding: 8px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .compare-table td { padding: 10px 12px; border-top: 0.5px solid var(--color-border-tertiary); vertical-align: top; line-height: 1.5; }
+  .compare-table tr:hover td { background: var(--surface); }
+  .flag { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  .flag.eg { background: #CE1126; }
+  .flag.me { background: #007A3D; }
+  .flag.fw { background: #185FA5; }
+  .flag.gl { background: #444; }
+  .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 8px; font-weight: 500; }
+  .pill-up { background: #EAF3DE; color: #3B6D11; }
+  .pill-dn { background: #FCEBEB; color: #A32D2D; }
+  .pill-md { background: #FAEEDA; color: #854F0B; }
+  .chart-wrap { position: relative; width: 100%; height: 260px; margin-top: 1rem; }
+  .chart-wrap2 { position: relative; width: 100%; height: 220px; margin-top: 1rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; font-size: 12px; color: var(--muted); }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend-sq { width: 10px; height: 10px; border-radius: 2px; }
+  .summary-box { background: #E1F5EE; border-left: 3px solid var(--accent); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 1rem 1.25rem; margin-top: 1rem; }
+  .summary-box p { font-size: 13px; color: #04342C; line-height: 1.7; }
+  .links-section { margin-top: 2rem; padding: 1.25rem; background: var(--surface); border-radius: var(--border-radius-lg); }
+  .links-section h3 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.75rem; }
+  .links-section a { display: block; font-size: 12px; color: var(--sky); text-decoration: none; margin-bottom: 4px; }
+  .links-section a:hover { text-decoration: underline; }
+  .divider { height: 1px; background: var(--color-border-tertiary); margin: 2rem 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 1rem; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } .hero h1 { font-size: 1.8rem; } }
+  .mini-stat { font-size: 13px; margin: 4px 0; color: var(--muted); }
+  .mini-stat strong { color: var(--text); font-weight: 500; }
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tag { background: var(--surface); border: 0.5px solid var(--color-border-tertiary); border-radius: 20px; font-size: 11px; padding: 3px 10px; color: var(--muted); }
+</style>
+
+<div class="report">
+  <div class="hero">
+    <div class="hero-badge">Academic Research · SDG Series</div>
+    <h1>SDG-3: Good Health<br><span>& Well-Being</span></h1>
+    <p>A comparative statistical analysis of all 13 SDG-3 targets — examining progress in Egypt, the Middle East, and First World nations from 2020 to 2025.</p>
+    <div class="hero-meta">
+      <span><strong>Period:</strong> 2020 – 2025</span>
+      <span><strong>Focus:</strong> Egypt · Middle East · First World</span>
+      <span><strong>Sources:</strong> WHO · UN · World Bank · PMC</span>
+      <span><strong>Targets Covered:</strong> 3.1 – 3.d</span>
+    </div>
+  </div>
+
+  <!-- Global Overview Stats -->
+  <div class="section-label">Global snapshot · 2025</div>
+  <div class="stat-grid">
+    <div class="stat-card red"><div class="val">197</div><div class="lbl">Maternal deaths / 100k births (global 2023, Target: 70)</div></div>
+    <div class="stat-card green"><div class="val">4.8M</div><div class="lbl">Under-5 deaths 2023 (down from 10.1M in 2000)</div></div>
+    <div class="stat-card amber"><div class="val">71/100</div><div class="lbl">UHC Service Coverage Index (global 2023)</div></div>
+    <div class="stat-card blue"><div class="val">1.3M</div><div class="lbl">New HIV infections 2022 (27% fewer than 2015)</div></div>
+    <div class="stat-card red"><div class="val">249M</div><div class="lbl">Malaria cases globally 2022</div></div>
+    <div class="stat-card amber"><div class="val">0/13</div><div class="lbl">SDG-3 targets fully achieved as of 2025</div></div>
+  </div>
+
+  <div class="summary-box">
+    <p>Ten years into the 2030 Agenda, <strong>none of the 13 SDG-3 targets have been fully achieved globally.</strong> COVID-19 severely set back progress in maternal health, TB, immunization, and universal health coverage. Egypt shows impressive gains in several targets but faces critical burdens from NCDs and road traffic injuries. The Middle East is highly heterogeneous — Gulf states approach First World metrics while conflict-affected countries (Yemen, Syria) have regressed. First World nations lead but face rising NCD and mental health challenges.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CHARTS SECTION -->
+  <div class="section-label">Statistical overview</div>
+  <div class="section-title">Maternal mortality ratio (Target 3.1)</div>
+  <div class="section-desc">Deaths per 100,000 live births — the SDG goal is below 70 by 2030. Egypt has made the highest annual reduction rate in MENA at 8.3%.</div>
+
+  <div class="legend">
+    <span><span class="legend-sq" style="background:#CE1126"></span>Egypt</span>
+    <span><span class="legend-sq" style="background:#1D9E75"></span>MENA avg.</span>
+    <span><span class="legend-sq" style="background:#185FA5"></span>First World avg.</span>
+    <span><span class="legend-sq" style="background:#888"></span>SDG Target</span>
+  </div>
+  <div class="chart-wrap"><canvas id="c1"></canvas></div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Universal Health Coverage index (Target 3.8)</div>
+  <div class="section-desc">Score 0–100 combining 14 health service indicators. Global SCI rose from 54 (2000) to 71 (2023) but has slowed since 2015.</div>
+  <div class="legend">
+    <span><span class="legend-sq" style="background:#CE1126"></span>Egypt</span>
+    <span><span class="legend-sq" style="background:#EF9F27"></span>MENA low-income</span>
+    <span><span class="legend-sq" style="background:#1D9E75"></span>MENA high-income (UAE/SA)</span>
+    <span><span class="legend-sq" style="background:#185FA5"></span>First World avg.</span>
+  </div>
+  <div class="chart-wrap"><canvas id="c2"></canvas></div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Under-5 mortality rate (Target 3.2)</div>
+  <div class="section-desc">Deaths per 1,000 live births. SDG target: ≤25 by 2030. Egypt has already achieved this target.</div>
+  <div class="legend">
+    <span><span class="legend-sq" style="background:#CE1126"></span>Egypt</span>
+    <span><span class="legend-sq" style="background:#1D9E75"></span>MENA avg.</span>
+    <span><span class="legend-sq" style="background:#185FA5"></span>First World avg.</span>
+    <span><span class="legend-sq" style="background:#E24B4A"></span>Sub-Saharan Africa</span>
+  </div>
+  <div class="chart-wrap2"><canvas id="c3"></canvas></div>
+
+  <div class="divider"></div>
+
+  <!-- ALL 13 TARGETS — collapsible -->
+  <div class="section-label">Detailed breakdown</div>
+  <div class="section-title">All 13 SDG-3 Targets: Egypt vs Middle East vs First World</div>
+  <div class="section-desc">Click each target to expand statistics, trends, and regional comparisons for 2020–2025.</div>
+
+  <!-- TARGET 3.1 -->
+  <div class="target-block open" id="t1">
+    <div class="target-header" onclick="toggle('t1')">
+      <span class="target-badge">3.1</span>
+      <span class="target-title">Maternal mortality — reduce to &lt;70 per 100,000 live births</span>
+      <span class="target-status status-slow">Slow progress</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Region / Country</th><th>~2020 Rate</th><th>~2023–25 Rate</th><th>Trend</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><span class="flag eg"></span> Egypt</td><td>37 / 100k</td><td>~27 / 100k (est.)</td><td><span class="pill pill-up">↓ Improving</span></td><td>Highest MMR reduction in MENA: 8.3% annually. Already below SDG target of 70.</td></tr>
+          <tr><td><span class="flag me"></span> MENA avg.</td><td>~57 / 100k</td><td>~52 / 100k</td><td><span class="pill pill-md">↓ Moderate</span></td><td>Significant variation: UAE ~2, Yemen ~136. Conflict zones severely affected.</td></tr>
+          <tr><td><span class="flag fw"></span> First World avg.</td><td>~11 / 100k</td><td>~10 / 100k</td><td><span class="pill pill-up">↓ Near target</span></td><td>USA outlier at 23/100k. Most EU nations <8. Already met SDG target.</td></tr>
+          <tr><td><span class="flag gl"></span> Global</td><td>223 / 100k</td><td>197 / 100k (2023)</td><td><span class="pill pill-dn">↑ Still far</span></td><td>Sub-Saharan Africa + Southern Asia = 87% of all maternal deaths globally.</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p><strong>Egypt impact:</strong> Egypt has achieved the SDG 3.1 target of &lt;70 deaths per 100,000 live births — one of only a few MENA countries to do so. The government's Universal Health Insurance Law (2018) has boosted antenatal coverage significantly. Continued challenge: rural Upper Egypt still lags urban areas.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.2 -->
+  <div class="target-block" id="t2">
+    <div class="target-header" onclick="toggle('t2')">
+      <span class="target-badge">3.2</span>
+      <span class="target-title">Child mortality — end preventable deaths under 5 years</span>
+      <span class="target-status status-on">On track (Egypt/FW)</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Region</th><th>U5 Mortality 2020</th><th>U5 Mortality 2023</th><th>Trend</th><th>SDG Target</th></tr></thead>
+        <tbody>
+          <tr><td><span class="flag eg"></span> Egypt</td><td>~18 / 1,000</td><td>~17 / 1,000</td><td><span class="pill pill-up">↓ Achieved</span></td><td>≤25 ✓</td></tr>
+          <tr><td><span class="flag me"></span> MENA avg.</td><td>~22 / 1,000</td><td>~20 / 1,000</td><td><span class="pill pill-up">↓ On track</span></td><td>Most countries at or near target</td></tr>
+          <tr><td><span class="flag fw"></span> First World</td><td>~5 / 1,000</td><td>~4.5 / 1,000</td><td><span class="pill pill-up">↓ Achieved</span></td><td>Well below 25 ✓</td></tr>
+          <tr><td><span class="flag gl"></span> Global</td><td>~37 / 1,000</td><td>37 / 1,000 (2023)</td><td><span class="pill pill-md">→ Slow</span></td><td>54 countries off track by 2030</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Globally under-5 deaths dropped to 4.8 million in 2023, down from 10.1 million in 2000. Egypt has achieved this SDG target. However, neonatal mortality (first 28 days) remains a challenge — Egypt's neonatal rate is ~11/1,000, close to the SDG target of ≤12.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.3 -->
+  <div class="target-block" id="t3">
+    <div class="target-header" onclick="toggle('t3')">
+      <span class="target-badge">3.3</span>
+      <span class="target-title">Communicable diseases — HIV/AIDS, TB, malaria, hepatitis</span>
+      <span class="target-status status-off">Off track</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <div class="two-col">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;">HIV</p>
+          <div class="mini-stat"><strong>Global:</strong> 1.3M new infections 2022 (target: &lt;370k by 2025)</div>
+          <div class="mini-stat"><strong>Egypt:</strong> Low prevalence (&lt;0.02%), but stigma limits data</div>
+          <div class="mini-stat"><strong>MENA:</strong> Rising — only region with increasing HIV incidence</div>
+          <div class="mini-stat"><strong>First World:</strong> Declining; many EU countries near elimination</div>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;">Tuberculosis</p>
+          <div class="mini-stat"><strong>Global:</strong> 7.5M newly diagnosed in 2022 — highest since 1995</div>
+          <div class="mini-stat"><strong>Egypt:</strong> ~12/100k incidence; declining but COVID reversed gains</div>
+          <div class="mini-stat"><strong>MENA:</strong> Low-moderate burden except conflict zones (Syria, Yemen)</div>
+          <div class="mini-stat"><strong>First World:</strong> &lt;10/100k; near-elimination in Northern Europe</div>
+        </div>
+      </div>
+      <div class="two-col" style="margin-top:12px">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;">Malaria</p>
+          <div class="mini-stat"><strong>Global:</strong> 249M cases 2022 — above pre-pandemic level (233M)</div>
+          <div class="mini-stat"><strong>Egypt:</strong> Near-eliminated; declared malaria-free by WHO</div>
+          <div class="mini-stat"><strong>MENA:</strong> Low; residual risk in Yemen, Sudan border areas</div>
+          <div class="mini-stat"><strong>First World:</strong> Eliminated; only imported cases</div>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;">Hepatitis C (Egypt special)</p>
+          <div class="mini-stat"><strong>Egypt (2020):</strong> ~4.5% national HCV prevalence — highest in world</div>
+          <div class="mini-stat"><strong>Egypt (2024):</strong> ~2.8% following massive treatment campaign</div>
+          <div class="mini-stat"><strong>100M campaign:</strong> Egypt screened 62M+ citizens 2018–2022</div>
+          <div class="mini-stat"><strong>Achievement:</strong> One of the most successful HCV elimination programs globally</div>
+        </div>
+      </div>
+      <div class="summary-box"><p><strong>Egypt spotlight:</strong> Egypt's national Hepatitis C elimination program — screening over 62 million people and treating over 4 million — is one of the most successful public health campaigns in MENA history. Egypt has gone from the highest HCV burden in the world to a model WHO cites globally for elimination strategy.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.4 -->
+  <div class="target-block" id="t4">
+    <div class="target-header" onclick="toggle('t4')">
+      <span class="target-badge">3.4</span>
+      <span class="target-title">Non-communicable diseases & mental health</span>
+      <span class="target-status status-off">Off track globally</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East avg.</th><th>First World</th></tr></thead>
+        <tbody>
+          <tr><td>NCD share of all deaths</td><td><strong>82%</strong></td><td>~70%</td><td>~90%</td></tr>
+          <tr><td>Cardiovascular death rate (per 100k)</td><td>~400</td><td>~300</td><td>~150</td></tr>
+          <tr><td>Diabetes prevalence (%)</td><td>17% (one of highest globally)</td><td>~15%</td><td>~8–10%</td></tr>
+          <tr><td>Cancer mortality (per 100k)</td><td>~88</td><td>~80</td><td>~130 (higher detection)</td></tr>
+          <tr><td>Obesity rate (women %)</td><td>42% obese; 66% overweight</td><td>~35%</td><td>~28%</td></tr>
+          <tr><td>Hypertension prevalence</td><td>40%</td><td>~33%</td><td>~30%</td></tr>
+          <tr><td>Mental health treatment gap</td><td>&gt;90%</td><td>&gt;85%</td><td>~50–60%</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p><strong>Egypt NCD crisis:</strong> NCDs cause 82% of all deaths in Egypt and 67% of premature deaths. Risk factors are alarming: 40% hypertension prevalence, 17% diabetes rate, and some of the world's highest obesity rates. Out-of-pocket health spending is ~60% of total health expenditure, creating catastrophic financial burdens for many Egyptians.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.5 -->
+  <div class="target-block" id="t5">
+    <div class="target-header" onclick="toggle('t5')">
+      <span class="target-badge">3.5</span>
+      <span class="target-title">Substance abuse prevention and treatment</span>
+      <span class="target-status status-off">No progress globally</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East</th><th>First World</th><th>Global</th></tr></thead>
+        <tbody>
+          <tr><td>Treatment coverage (substance disorders)</td><td>&lt;5%</td><td>&lt;8%</td><td>~35–45%</td><td>&lt;9% (2022, down from 11% in 2015)</td></tr>
+          <tr><td>Alcohol use disorders</td><td>Low (religious norms)</td><td>Low–moderate</td><td>High in some countries</td><td>275M with drug use disorders</td></tr>
+          <tr><td>Cannabis/opioid prevalence</td><td>Rising concern</td><td>Rising sharply</td><td>High in NA/Europe</td><td>Opioid crisis ongoing in USA</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Globally, only 1 in 11 people with substance use disorders received treatment in 2022 — and the rate is DECLINING (from 11% in 2015 to under 9% in 2022). This is the only SDG-3 target where coverage is moving in the wrong direction globally. In Egypt and the Middle East, stigma and limited resources create near-total treatment gaps.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.6 -->
+  <div class="target-block" id="t6">
+    <div class="target-header" onclick="toggle('t6')">
+      <span class="target-badge">3.6</span>
+      <span class="target-title">Road traffic injuries — halve deaths and injuries</span>
+      <span class="target-status status-off">Egypt: Off track</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Country/Region</th><th>Road deaths per 100k (2020)</th><th>Road deaths per 100k (2024 est.)</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span class="flag eg"></span> Egypt</td><td>~21</td><td>~19</td><td><span class="pill pill-dn">Off track — one of MENA's highest</span></td></tr>
+          <tr><td><span class="flag me"></span> Saudi Arabia</td><td>~18</td><td>~16</td><td><span class="pill pill-md">Slow progress</span></td></tr>
+          <tr><td><span class="flag me"></span> MENA avg.</td><td>~20</td><td>~18</td><td><span class="pill pill-md">Lagging</span></td></tr>
+          <tr><td><span class="flag fw"></span> Germany</td><td>~3.7</td><td>~3.3</td><td><span class="pill pill-up">Strong progress</span></td></tr>
+          <tr><td><span class="flag fw"></span> USA</td><td>~11.1</td><td>~12.4</td><td><span class="pill pill-dn">Worsening</span></td></tr>
+          <tr><td><span class="flag gl"></span> Global</td><td>~17</td><td>~15</td><td><span class="pill pill-md">Half of all countries improved</span></td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p><strong>Egypt:</strong> Road traffic injuries are among the most problematic SDG-3 areas for Egypt and across North Africa. Infrastructure challenges, enforcement gaps, and rapid motorization drive high fatality rates. All six North African countries studied are lagging on this target for 2030.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.7 -->
+  <div class="target-block" id="t7">
+    <div class="target-header" onclick="toggle('t7')">
+      <span class="target-badge">3.7</span>
+      <span class="target-title">Sexual & reproductive health — universal access to family planning</span>
+      <span class="target-status status-slow">Mixed progress</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>MENA</th><th>First World</th><th>Global</th></tr></thead>
+        <tbody>
+          <tr><td>Modern contraception met need (%)</td><td>~72%</td><td>~65%</td><td>~85%</td><td>~76%</td></tr>
+          <tr><td>Adolescent birth rate (15–19) per 1,000</td><td>~55</td><td>~42</td><td>~12</td><td>38 (2024, down from 66 in 2000)</td></tr>
+          <tr><td>Antenatal care ≥4 visits (%)</td><td>~89%</td><td>~75%</td><td>~98%</td><td>~64%</td></tr>
+          <tr><td>Skilled birth attendance (%)</td><td>~92%</td><td>~85%</td><td>~99%</td><td>87% (2024)</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Egypt has made strong gains in antenatal care (from 50% to 89% coverage between 1990 and 2014) and skilled birth attendance (~92%). However, adolescent birth rates remain a concern at ~55/1,000 — roughly 4× higher than First World averages. The global adolescent birth rate fell from 66 to 38 per 1,000 between 2000 and 2024.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.8 -->
+  <div class="target-block" id="t8">
+    <div class="target-header" onclick="toggle('t8')">
+      <span class="target-badge">3.8</span>
+      <span class="target-title">Universal Health Coverage (UHC)</span>
+      <span class="target-status status-slow">Slowing progress</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Country/Region</th><th>UHC Index 2019</th><th>UHC Index 2021</th><th>UHC Index 2023 (est.)</th></tr></thead>
+        <tbody>
+          <tr><td><span class="flag eg"></span> Egypt</td><td>~62</td><td>~65</td><td>~67</td></tr>
+          <tr><td><span class="flag me"></span> UAE (best MENA)</td><td>~88</td><td>90.3</td><td>~91</td></tr>
+          <tr><td><span class="flag me"></span> Yemen (worst MENA)</td><td>~43</td><td>~38</td><td>~34</td></tr>
+          <tr><td><span class="flag me"></span> MENA avg.</td><td>~73</td><td>74.9</td><td>~76</td></tr>
+          <tr><td><span class="flag fw"></span> First World avg.</td><td>~82</td><td>~84</td><td>~85</td></tr>
+          <tr><td><span class="flag gl"></span> Global</td><td>~68</td><td>68</td><td>71</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p><strong>Egypt's UHC reform:</strong> Egypt enacted the Universal Health Insurance Law in 2018, rolling out coverage in phases starting with Port Said governorate. Progress is real but gradual — index ~67 vs global 71. The key challenge: out-of-pocket payments constitute ~60% of total health spending, pushing millions into financial hardship. Global SCI reached 71/100 in 2023 but is projected to only hit 74 by 2030 — short of universal coverage. 4.6 billion people remain without full essential health coverage.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.9 -->
+  <div class="target-block" id="t9">
+    <div class="target-header" onclick="toggle('t9')">
+      <span class="target-badge">3.9</span>
+      <span class="target-title">Deaths from hazardous chemicals & air/water/soil pollution</span>
+      <span class="target-status status-off">Major concern in Egypt</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East</th><th>First World</th></tr></thead>
+        <tbody>
+          <tr><td>Air pollution deaths per 100k</td><td>~78</td><td>~50–70</td><td>~15–25</td></tr>
+          <tr><td>Access to safe drinking water (%)</td><td>~98% (urban), ~88% (rural)</td><td>~88%</td><td>~99%</td></tr>
+          <tr><td>Access to safe sanitation (%)</td><td>~93%</td><td>~82%</td><td>~99%</td></tr>
+          <tr><td>Cities monitoring air quality</td><td>Cairo — severely polluted</td><td>120+ cities in EMRO now monitoring</td><td>Most cities comply with WHO</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Cairo consistently ranks among the world's most polluted cities. Air pollution mortality in Egypt is among the highest in the region. The WHO Eastern Mediterranean Region launched a regional action plan with 120+ cities beginning air quality monitoring — a positive step. First World countries have reduced pollution deaths substantially through environmental regulations.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.a -->
+  <div class="target-block" id="ta">
+    <div class="target-header" onclick="toggle('ta')">
+      <span class="target-badge">3.a</span>
+      <span class="target-title">Tobacco control — implement WHO FCTC</span>
+      <span class="target-status status-slow">Partial progress</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East</th><th>First World</th></tr></thead>
+        <tbody>
+          <tr><td>Male smoking prevalence (%)</td><td>~40%</td><td>~35%</td><td>~20–25%</td></tr>
+          <tr><td>Shisha/waterpipe use</td><td>Very high — growing among youth</td><td>Culturally prevalent</td><td>Low</td></tr>
+          <tr><td>Tobacco tax as % of retail price</td><td>~40% (below WHO 75% target)</td><td>Variable</td><td>60–80%</td></tr>
+          <tr><td>Smoke-free legislation</td><td>Partial (2010 law, weak enforcement)</td><td>Inconsistent</td><td>Comprehensive in most countries</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Egypt has a 24% overall smoking prevalence and growing shisha use. WHO has conducted 3 key tobacco control studies in Egypt. The government has been urged to raise tobacco taxes to the WHO-recommended 75% of retail price — current levels (~40%) are insufficient as a deterrent. Waterpipe tobacco presents a particular challenge given cultural norms across MENA.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.b -->
+  <div class="target-block" id="tb">
+    <div class="target-header" onclick="toggle('tb')">
+      <span class="target-badge">3.b</span>
+      <span class="target-title">Access to medicines, vaccines, and R&D support</span>
+      <span class="target-status status-slow">Uneven access</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East</th><th>First World</th></tr></thead>
+        <tbody>
+          <tr><td>Childhood immunization DTP3 (%)</td><td>~94%</td><td>~87%</td><td>~95%</td></tr>
+          <tr><td>COVID-19 vaccination rate (full)</td><td>~45%</td><td>~60% avg (very variable)</td><td>~75–80%</td></tr>
+          <tr><td>Essential medicine availability (public)</td><td>~65%</td><td>~55–80%</td><td>~95%</td></tr>
+          <tr><td>Local pharmaceutical manufacturing</td><td>Strong — Egypt is MENA's largest pharma hub</td><td>Growing</td><td>Dominant globally</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Egypt is the largest pharmaceutical manufacturer in the MENA region and played a key role in COVID-19 vaccine production for Africa through its partnership with Sinovac and AstraZeneca. Childhood vaccination rates (~94% DTP3) are strong. However, 68 million children globally were un- or under-vaccinated as of 2022 — largely in low-income countries — a COVID-era regression.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.c -->
+  <div class="target-block" id="tc">
+    <div class="target-header" onclick="toggle('tc')">
+      <span class="target-badge">3.c</span>
+      <span class="target-title">Health workforce — financing and density in developing countries</span>
+      <span class="target-status status-slow">Insufficient</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East avg.</th><th>First World</th><th>WHO minimum</th></tr></thead>
+        <tbody>
+          <tr><td>Physicians per 10,000 pop.</td><td>~9</td><td>~15 (range: 3–30)</td><td>~30–40</td><td>23</td></tr>
+          <tr><td>Nurses/midwives per 10,000</td><td>~15</td><td>~22</td><td>~80–100</td><td>23</td></tr>
+          <tr><td>Health expenditure (% GDP)</td><td>~4.5%</td><td>~4–8%</td><td>~10–12%</td><td>5%+</td></tr>
+          <tr><td>Out-of-pocket health spending</td><td>~60% of total</td><td>~40%</td><td>~15–25%</td><td>&lt;20% recommended</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>Egypt faces a significant health workforce deficit — 9 physicians per 10,000 population against a WHO minimum of 23. Brain drain to Gulf countries and Europe is a persistent challenge. The new Universal Health Insurance system aims to improve health financing, but the burden of out-of-pocket spending at 60% remains catastrophically high for low-income Egyptians.</p></div>
+    </div>
+  </div>
+
+  <!-- TARGET 3.d -->
+  <div class="target-block" id="td">
+    <div class="target-header" onclick="toggle('td')">
+      <span class="target-badge">3.d</span>
+      <span class="target-title">Global health security — early warning and risk management</span>
+      <span class="target-status status-slow">COVID exposed gaps</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="target-body">
+      <table class="compare-table">
+        <thead><tr><th>Indicator</th><th>Egypt</th><th>Middle East</th><th>First World</th></tr></thead>
+        <tbody>
+          <tr><td>International Health Regulations (IHR) score</td><td>~53%</td><td>~55–70%</td><td>~75–90%</td></tr>
+          <tr><td>COVID-19 response readiness</td><td>Moderate — significant mortality underreporting</td><td>Mixed</td><td>Strong, but exposed inequalities</td></tr>
+          <tr><td>Pandemic treaty (2025)</td><td>Signatory</td><td>Most are signatories</td><td>Key negotiators</td></tr>
+        </tbody>
+      </table>
+      <div class="summary-box"><p>In May 2025, countries adopted the first-ever global pandemic preparedness agreement — a landmark achievement for SDG 3.d. Egypt and MENA countries showed moderate preparedness during COVID-19. The US withdrawal from WHO in 2025 has complicated global health security financing, with particular impacts on African and MENA programs that depend on US-funded WHO operations.</p></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- LINKS -->
+  <div class="links-section">
+    <h3>📚 Sources & Research Links</h3>
+    <a href="https://sdgs.un.org/goals/goal3" target="_blank">1. UN SDG Goal 3 — Official page with all targets and 2024/2025 reports</a>
+    <a href="https://unstats.un.org/sdgs/report/2025/Goal-03/" target="_blank">2. UN Stats — SDG 3 Progress Report 2025</a>
+    <a href="https://www.who.int/data/gho/data/themes/world-health-statistics" target="_blank">3. WHO — World Health Statistics & Global Health Observatory</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6493284/" target="_blank">4. PMC/NIH — Gap analysis of SDG-3 in North Africa (Egypt, Libya, Tunisia, Algeria, Morocco, Mauritania)</a>
+    <a href="https://ghrp.biomedcentral.com/articles/10.1186/s41256-025-00459-1" target="_blank">5. BioMedCentral — Maternal & child mortality in MENA 2000–2020 (health financing analysis)</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11414705/" target="_blank">6. PMC — Measuring UHC progress in 22 MENA countries (2024)</a>
+    <a href="https://www.who.int/news/item/06-12-2025-most-countries-make-progress-towards-universal-health-coverage-but-major-challenges-remain-who-world-bank-report-finds" target="_blank">7. WHO/World Bank — UHC Global Monitoring Report 2025</a>
+    <a href="https://www.emro.who.int/egy/programmes/noncommunicable-diseases.html" target="_blank">8. WHO EMRO — NCDs in Egypt (official country page)</a>
+    <a href="https://sdg.iisd.org/news/sdg-3-ensure-healthy-lives-and-promote-well-being-for-all-at-all-ages/" target="_blank">9. IISD SDG Knowledge Hub — SDG-3 Status Review 2025</a>
+    <a href="https://en.wikipedia.org/wiki/Sustainable_Development_Goal_3" target="_blank">10. Wikipedia — SDG-3 comprehensive overview with all targets and indicators</a>
+    <a href="https://datatopics.worldbank.org/sdgatlas/goal-3-good-health-and-well-being/" target="_blank">11. World Bank — SDG Atlas: Good Health and Well-Being</a>
+    <a href="https://www.who.int/about/accountability/results/who-results-report-2024-2025/region-EMRO/2024/egypt" target="_blank">12. WHO Results Report 2024–2025: Egypt (Eastern Mediterranean)</a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function toggle(id) {
+  var el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+var years = ['2015','2018','2020','2022','2023'];
+
+new Chart(document.getElementById('c1'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [
+      { label: 'Egypt', data: [45,40,37,30,27], borderColor:'#CE1126', backgroundColor:'rgba(206,17,38,0.07)', borderWidth:2.5, pointRadius:4, tension:0.3 },
+      { label: 'MENA avg.', data: [68,62,57,53,52], borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.07)', borderWidth:2.5, pointRadius:4, tension:0.3 },
+      { label: 'First World', data: [14,12,11,10,10], borderColor:'#185FA5', backgroundColor:'rgba(24,95,165,0.07)', borderWidth:2.5, pointRadius:4, tension:0.3 },
+      { label: 'SDG Target (70)', data: [70,70,70,70,70], borderColor:'#888', borderDash:[6,4], borderWidth:1.5, pointRadius:0, tension:0 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales: { y: { min:0, max:250, title:{ display:true, text:'Deaths per 100,000 live births', font:{size:11} } } } }
+});
+
+new Chart(document.getElementById('c2'), {
+  type: 'bar',
+  data: {
+    labels: ['2015','2017','2019','2021','2023'],
+    datasets: [
+      { label: 'Egypt', data: [56,60,62,65,67], backgroundColor:'#CE1126' },
+      { label: 'MENA low-income', data: [40,42,44,46,48], backgroundColor:'#EF9F27' },
+      { label: 'MENA high-income', data: [78,82,86,88,90], backgroundColor:'#1D9E75' },
+      { label: 'First World avg.', data: [77,80,82,84,85], backgroundColor:'#185FA5' }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales: { y:{ min:20, max:100, title:{ display:true, text:'UHC Service Coverage Index (0–100)', font:{size:11} } }, x:{ ticks:{ autoSkip:false } } } }
+});
+
+new Chart(document.getElementById('c3'), {
+  type: 'line',
+  data: {
+    labels: ['2000','2010','2015','2019','2022','2023'],
+    datasets: [
+      { label: 'Egypt', data: [43,29,24,20,18,17], borderColor:'#CE1126', borderWidth:2.5, pointRadius:4, tension:0.3, fill:false },
+      { label: 'MENA avg.', data: [55,35,27,23,21,20], borderColor:'#1D9E75', borderWidth:2.5, pointRadius:4, tension:0.3, fill:false },
+      { label: 'First World', data: [9,7,6,5,4.8,4.5], borderColor:'#185FA5', borderWidth:2.5, pointRadius:4, tension:0.3, fill:false },
+      { label: 'Sub-Saharan Africa', data: [180,120,95,75,62,60], borderColor:'#E24B4A', borderWidth:1.8, borderDash:[4,3], pointRadius:3, tension:0.3, fill:false }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales: { y:{ min:0, max:190, title:{ display:true, text:'Deaths per 1,000 live births', font:{size:11} } } } }
+});
+</script>
