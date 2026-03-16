@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDG 3.8 — Egypt Cities & Governorates UHC Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0b;
+    --paper: #faf8f3;
+    --cream: #f2efea;
+    --gold: #b8860b;
+    --gold-light: #d4a81e;
+    --red: #8b1a1a;
+    --red-mid: #b83232;
+    --amber: #c06000;
+    --teal: #0d5c4a;
+    --teal-mid: #1a8a6a;
+    --teal-light: #2db88e;
+    --sky: #1a4f7a;
+    --border: rgba(15,14,11,0.12);
+    --muted: #6b6860;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* ── HERO ─────────────────────────────── */
+  .hero {
+    background: linear-gradient(160deg, #0a1f17 0%, #0d3d28 50%, #163d2c 100%);
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-ornament {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,168,30,0.12) 0%, transparent 70%);
+  }
+  .hero-ornament2 {
+    position: absolute;
+    bottom: -80px; left: 10%;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,184,142,0.08) 0%, transparent 70%);
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    padding: 3rem 3rem 3.5rem;
+    max-width: 1100px; width: 100%;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+  .hero-eyebrow-badge {
+    background: rgba(212,168,30,0.2);
+    border: 1px solid rgba(212,168,30,0.4);
+    color: #d4a81e;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .hero-eyebrow-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  .hero h1 em { color: #d4a81e; font-style: normal; }
+  .hero-subtitle {
+    font-size: 14px; color: rgba(255,255,255,0.65);
+    max-width: 600px; line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .hero-stats {
+    display: flex; flex-wrap: wrap; gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-stat { }
+  .hero-stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 600;
+    line-height: 1; color: #d4a81e;
+  }
+  .hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* ── LAYOUT ───────────────────────────── */
+  .page { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  .section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+
+  .section-tag {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--teal-mid);
+    margin-bottom: 0.4rem;
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem; font-weight: 600;
+    color: var(--ink); line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .section-intro {
+    font-size: 14px; color: var(--muted);
+    max-width: 680px; line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  /* ── CONTEXT BOX ─────────────────────── */
+  .context-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 2rem; }
+  .context-cell { background: var(--paper); padding: 1.2rem 1.4rem; }
+  .context-cell-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .context-cell-val { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; line-height: 1; margin-bottom: 4px; }
+  .context-cell-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .val-red { color: var(--red-mid); }
+  .val-amber { color: var(--amber); }
+  .val-teal { color: var(--teal-mid); }
+  .val-gold { color: var(--gold); }
+  .val-sky { color: var(--sky); }
+
+  /* ── SUMMARY BOX ─────────────────────── */
+  .insight-box {
+    background: #e8f5f0;
+    border-left: 3px solid var(--teal-mid);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+  }
+  .insight-box p { font-size: 13px; color: #0a2e22; line-height: 1.75; }
+  .insight-box p strong { color: var(--teal); }
+
+  .warning-box {
+    background: #fff4e6;
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+  }
+  .warning-box p { font-size: 13px; color: #4a2800; line-height: 1.75; }
+
+  /* ── CHART WRAPPERS ──────────────────── */
+  .chart-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .chart-card-title {
+    font-size: 13px; font-weight: 500; margin-bottom: 4px;
+  }
+  .chart-card-sub { font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
+  .chart-h280 { position: relative; height: 280px; }
+  .chart-h320 { position: relative; height: 320px; }
+  .chart-h360 { position: relative; height: 360px; }
+  .chart-h400 { position: relative; height: 400px; }
+
+  /* ── LEGEND ──────────────────────────── */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--muted); }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .lsq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .ldot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── TWO COL ─────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* ── TABLE ───────────────────────────── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    background: var(--cream); font-weight: 500;
+    padding: 9px 14px; text-align: left;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td { padding: 11px 14px; border-top: 1px solid var(--border); vertical-align: middle; }
+  .data-table tr:hover td { background: var(--cream); }
+  .data-table .gov-name { font-weight: 500; }
+  .data-table .city-name { font-size: 12px; color: var(--muted); }
+
+  /* ── PILLS ───────────────────────────── */
+  .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 9px; border-radius: 8px; font-weight: 500; white-space: nowrap; }
+  .pill-critical { background: #fce8e8; color: #8b1a1a; }
+  .pill-poor     { background: #fdf0e0; color: #8b4500; }
+  .pill-moderate { background: #fff9db; color: #7a5c00; }
+  .pill-fair     { background: #e8f5e9; color: #1b5e20; }
+  .pill-dot-red    { width: 6px; height: 6px; border-radius: 50%; background: #c0392b; display: inline-block; }
+  .pill-dot-amber  { width: 6px; height: 6px; border-radius: 50%; background: #e67e22; display: inline-block; }
+  .pill-dot-yellow { width: 6px; height: 6px; border-radius: 50%; background: #f1c40f; display: inline-block; }
+  .pill-dot-green  { width: 6px; height: 6px; border-radius: 50%; background: #27ae60; display: inline-block; }
+
+  /* ── UHC SCORE BAR ───────────────────── */
+  .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .score-bar { flex: 1; height: 6px; background: #e8e6e0; border-radius: 4px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; }
+  .score-val { font-size: 12px; font-weight: 500; min-width: 28px; text-align: right; }
+
+  /* ── REGIONAL COMPARISON ─────────────── */
+  .region-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .region-row:last-child { border-bottom: none; }
+  .region-flag { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
+  .region-name { font-size: 13px; font-weight: 500; min-width: 130px; }
+  .region-bar { flex: 1; height: 8px; background: #e8e6e0; border-radius: 4px; overflow: hidden; }
+  .region-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s; }
+  .region-score { font-size: 13px; font-weight: 500; min-width: 36px; text-align: right; }
+  .region-note { font-size: 11px; color: var(--muted); min-width: 90px; text-align: right; }
+
+  /* ── GOVERNORATE CARDS ───────────────── */
+  .gov-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; margin-top: 1.5rem; }
+  .gov-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .gov-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .gov-card-accent {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .gov-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .gov-card-gov { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .gov-card-city { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); line-height: 1.1; margin-top: 2px; }
+  .gov-card-uhc { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; line-height: 1; }
+  .gov-card-uhc-lbl { font-size: 10px; color: var(--muted); }
+  .gov-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0.75rem 0; }
+  .gov-metric { }
+  .gov-metric-val { font-size: 14px; font-weight: 500; }
+  .gov-metric-lbl { font-size: 11px; color: var(--muted); }
+  .gov-priorities { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+  .gov-priorities-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+  .gov-priority-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--cream); color: var(--ink); margin: 2px 3px 2px 0; }
+
+  /* ── LINKS ───────────────────────────── */
+  .sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 8px; margin-top: 1.5rem; }
+  .source-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.75rem 1rem;
+    text-decoration: none; color: inherit;
+    font-size: 12px; line-height: 1.5;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .source-item:hover { border-color: var(--teal-light); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .source-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--teal-mid); color: #fff;
+    font-size: 10px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .source-text { flex: 1; }
+  .source-domain { font-size: 10px; color: var(--muted); }
+
+  /* ── GLOBAL COMPARISON TABLE ─────────── */
+  .global-band {
+    background: linear-gradient(135deg, #0a1f17 0%, #0d3d28 100%);
+    color: #fff; border-radius: 12px;
+    padding: 2rem; margin-bottom: 2rem;
+  }
+  .global-band h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #d4a81e; }
+  .global-compare-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .global-compare-row:last-child { border-bottom: none; }
+  .gcr-name { font-size: 13px; min-width: 160px; color: rgba(255,255,255,0.85); }
+  .gcr-bar { flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+  .gcr-bar-fill { height: 100%; border-radius: 4px; }
+  .gcr-score { font-size: 13px; font-weight: 500; min-width: 36px; text-align: right; color: #fff; }
+  .gcr-note { font-size: 11px; color: rgba(255,255,255,0.45); min-width: 110px; text-align: right; }
+
+  /* ── DIVIDER ─────────────────────────── */
+  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+  /* ── FOOTER ──────────────────────────── */
+  .footer {
+    background: var(--ink); color: rgba(255,255,255,0.5);
+    padding: 2rem 3rem; font-size: 12px; line-height: 1.7;
+    text-align: center;
+  }
+  .footer strong { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 700px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .hero-inner { padding: 2rem 1.5rem 2.5rem; }
+    .page { padding: 0 1rem; }
+  }
+
+  /* ── ANIMATIONS ──────────────────────── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .hero-inner { animation: fadeUp 0.7s ease both; }
+  .hero-inner { animation-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HERO ═══ -->
+<div class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-ornament"></div>
+  <div class="hero-ornament2"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-badge">SDG 3 · Target 3.8 · Egypt Focus</span>
+      <span class="hero-eyebrow-line"></span>
+    </div>
+    <h1>Universal Health Coverage<br>in Egypt — <em>Cities at Risk</em></h1>
+    <p class="hero-subtitle">A statistical analysis of SDG Target 3.8 performance across Egypt's governorates — identifying the cities most in need of urgent UHC improvement, benchmarked against global, African, and Middle Eastern standards.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">67/100</div>
+        <div class="hero-stat-lbl">Egypt's UHC Index (2023)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">27</div>
+        <div class="hero-stat-lbl">Governorates assessed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">~60%</div>
+        <div class="hero-stat-lbl">Out-of-pocket health spending</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">9 / 10k</div>
+        <div class="hero-stat-lbl">Physicians (WHO min: 23)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">2030</div>
+        <div class="hero-stat-lbl">SDG Target Year</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PAGE CONTENT ═══ -->
+<div class="page">
+
+<!-- ── SECTION 1: Global Context ── -->
+<div class="section">
+  <div class="section-tag">Global Context</div>
+  <div class="section-heading">What is SDG Target 3.8?</div>
+  <p class="section-intro">SDG Target 3.8 calls for universal health coverage (UHC) — including financial risk protection, access to quality essential health-care services, and access to safe, effective, quality and affordable essential medicines and vaccines for all. It is measured by the UHC Service Coverage Index (0–100) and the share of population with catastrophic health expenditure.</p>
+
+  <div class="context-grid">
+    <div class="context-cell">
+      <div class="context-cell-label">Global UHC Index</div>
+      <div class="context-cell-val val-amber">71</div>
+      <div class="context-cell-desc">Global score (2023). Up from 54 in 2000, but progress has slowed post-COVID.</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-cell-label">Egypt UHC Index</div>
+      <div class="context-cell-val val-amber">67</div>
+      <div class="context-cell-desc">Below global average. Up from 56 in 2015 due to Universal Health Insurance Law (2018).</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-cell-label">MENA High-Income</div>
+      <div class="context-cell-val val-teal">91</div>
+      <div class="context-cell-desc">UAE leads MENA with 91/100, reflecting near-universal access to quality care.</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-cell-label">MENA Low-Income</div>
+      <div class="context-cell-val val-red">48</div>
+      <div class="context-cell-desc">Yemen ~34 (collapsed health system). Conflict-affected states drag the regional average down severely.</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-cell-label">First World Avg.</div>
+      <div class="context-cell-val val-teal">85</div>
+      <div class="context-cell-desc">Western Europe, Canada, Australia lead with comprehensive coverage and low OOP spending.</div>
+    </div>
+    <div class="context-cell">
+      <div class="context-cell-label">Africa Avg.</div>
+      <div class="context-cell-val val-red">46</div>
+      <div class="context-cell-desc">Sub-Saharan Africa averages ~46. Egypt significantly outperforms continental peers.</div>
+    </div>
+  </div>
+
+  <div class="global-band">
+    <h3>UHC Index: Global Benchmark Ladder (2023)</h3>
+    <div class="global-compare-row">
+      <span class="gcr-name">🇩🇰 Denmark</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:94%;background:#2db88e"></div></div>
+      <span class="gcr-score">94</span>
+      <span class="gcr-note">UHC benchmark</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🇦🇪 UAE</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:91%;background:#2db88e"></div></div>
+      <span class="gcr-score">91</span>
+      <span class="gcr-note">Best in MENA</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🌍 First World Avg.</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:85%;background:#4da6ff"></div></div>
+      <span class="gcr-score">85</span>
+      <span class="gcr-note">Wealthy nations</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🌍 MENA Average</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:76%;background:#4da6ff"></div></div>
+      <span class="gcr-score">76</span>
+      <span class="gcr-note">Regional avg.</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🌍 Global Average</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:71%;background:#ffd447"></div></div>
+      <span class="gcr-score">71</span>
+      <span class="gcr-note">All nations</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🇪🇬 Egypt (National)</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:67%;background:#f4a123"></div></div>
+      <span class="gcr-score">67</span>
+      <span class="gcr-note">Below global avg</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🇸🇦 Saudi Arabia</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:79%;background:#4da6ff"></div></div>
+      <span class="gcr-score">79</span>
+      <span class="gcr-note">Upper MENA</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🌍 Africa Average</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:46%;background:#ff6b6b"></div></div>
+      <span class="gcr-score">46</span>
+      <span class="gcr-note">Lowest region</span>
+    </div>
+    <div class="global-compare-row">
+      <span class="gcr-name">🇾🇪 Yemen</span>
+      <div class="gcr-bar"><div class="gcr-bar-fill" style="width:34%;background:#c0392b"></div></div>
+      <span class="gcr-score">34</span>
+      <span class="gcr-note">Worst in MENA</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-card-title">UHC Index Trend: Egypt vs. Benchmarks (2000–2023)</div>
+      <div class="chart-card-sub">Score out of 100 · Higher = better coverage</div>
+      <div class="legend">
+        <span><span class="lsq" style="background:#CE1126"></span>Egypt</span>
+        <span><span class="lsq" style="background:#2db88e"></span>MENA high-income</span>
+        <span><span class="lsq" style="background:#f4a123"></span>MENA low-income</span>
+        <span><span class="lsq" style="background:#1a4f7a"></span>First World</span>
+        <span><span class="lsq" style="background:#888"></span>Global</span>
+      </div>
+      <div class="chart-h320"><canvas id="c_trend"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Out-of-Pocket Health Spending (% of Total)</div>
+      <div class="chart-card-sub">High OOP = financial catastrophe risk for households</div>
+      <div class="chart-h320"><canvas id="c_oop"></canvas></div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p><strong>Key finding:</strong> Egypt's national UHC index of 67 is below the global average of 71 and significantly below the First World average of 85. The most critical barrier is financial protection — out-of-pocket spending (~60% of all health expenditure) exposes Egyptian families to catastrophic health costs, particularly in non-urban areas where the Universal Health Insurance Law (2018) phase-in has not yet reached. The UHC reform started in Port Said in 2018 and is being rolled out gradually across all 27 governorates.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 2: Egypt's 3.8 Breakdown ── -->
+<div class="section">
+  <div class="section-tag">Egypt National Analysis — SDG 3.8</div>
+  <div class="section-heading">The Four Pillars of Egypt's UHC Gap</div>
+  <p class="section-intro">Egypt's universal health coverage challenge can be decomposed across four measurable dimensions. Each reveals a distinct structural weakness that affects different governorates unequally.</p>
+
+  <div class="three-col">
+    <div class="chart-card">
+      <div class="chart-card-title">Service Coverage Dimension Scores</div>
+      <div class="chart-card-sub">Egypt (2023) — sub-components of UHC index</div>
+      <div class="chart-h280"><canvas id="c_radar"></canvas></div>
+    </div>
+    <div class="chart-card" style="grid-column: span 2;">
+      <div class="chart-card-title">Health Workforce Density: Egypt vs. Required Minimums</div>
+      <div class="chart-card-sub">Per 10,000 population — WHO minimum thresholds shown in red</div>
+      <div class="chart-h280"><canvas id="c_workforce"></canvas></div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:0">
+    <div class="chart-card">
+      <div class="chart-card-title">Health Expenditure Composition (Egypt, 2023)</div>
+      <div class="chart-card-sub">Share of total health spending by payer</div>
+      <div class="chart-h280"><canvas id="c_spend"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Essential Service Access: Urban vs. Rural Egypt</div>
+      <div class="chart-card-sub">% of population with adequate access, by service type</div>
+      <div class="chart-h280"><canvas id="c_urban_rural"></canvas></div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <p><strong>⚠ Financial catastrophe gap:</strong> An estimated 3.2 million Egyptians face catastrophic health expenditure annually — defined as spending &gt;10% of household consumption on health. Rural households in Upper Egypt (especially Sohag, Assiut, Qena, and Luxor governorates) and the border governorates carry the highest burden. Out-of-pocket payments of ~60% are triple the WHO-recommended ceiling of ≤20%.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 3: Cities at Risk ── -->
+<div class="section">
+  <div class="section-tag">Governorate-Level Analysis</div>
+  <div class="section-heading">Egypt's Most Affected Cities by SDG 3.8</div>
+  <p class="section-intro">Based on data from WHO EMRO, CAPMAS Egypt, the Universal Health Insurance Authority, and academic literature (NILES Journal, PMC studies on Egypt's healthcare access), the following cities — one per governorate — are identified as the most in need of UHC improvement. Rankings integrate: hospital bed density, physician-to-population ratio, OOP burden, UHC phase-in status, and proximity to essential medicines.</p>
+
+  <div class="chart-card">
+    <div class="chart-card-title">Estimated UHC Sub-Index by Egyptian Governorate (2023)</div>
+    <div class="chart-card-sub">Lower score = greater gap from Target 3.8 · Egypt national average = 67 · SDG goal = 100</div>
+    <div class="legend">
+      <span><span class="ldot" style="background:#c0392b"></span>Critical (&lt;52)</span>
+      <span><span class="ldot" style="background:#e67e22"></span>Poor (52–59)</span>
+      <span><span class="ldot" style="background:#f1c40f"></span>Moderate (60–66)</span>
+      <span><span class="ldot" style="background:#27ae60"></span>Fair (67–75)</span>
+    </div>
+    <div class="chart-h400"><canvas id="c_gov_uhc"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-card-title">Key Healthcare Access Indicators by Governorate Tier</div>
+    <div class="chart-card-sub">Critical vs Poor vs Fair governorates — comparative radar</div>
+    <div class="chart-h360"><canvas id="c_tier_radar"></canvas></div>
+  </div>
+
+  <!-- Main City Cards -->
+  <div class="section-tag" style="margin-top:2rem">City-Level Profiles</div>
+  <div class="section-heading" style="font-size:1.5rem">Top 12 Cities Most Affected by SDG 3.8 Gaps</div>
+
+  <div class="gov-grid">
+
+    <!-- 1. Sohag -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#c0392b,#e74c3c)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Sohag Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Sohag City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#c0392b">43</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-critical"><span class="pill-dot-red"></span> Critical</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">2.1</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">78%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">0.6</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">No</div>
+          <div class="gov-metric-lbl">UHI Phase completed</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:43%;background:#c0392b"></div></div>
+        <span class="score-val" style="color:#c0392b">43</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Workforce deficit</span>
+        <span class="gov-priority-tag">OOP burden</span>
+        <span class="gov-priority-tag">Specialist scarcity</span>
+        <span class="gov-priority-tag">Maternal services</span>
+      </div>
+    </div>
+
+    <!-- 2. Qena -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#c0392b,#e74c3c)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Qena Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Qena City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#c0392b">45</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-critical"><span class="pill-dot-red"></span> Critical</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">2.4</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">76%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">0.7</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">No</div>
+          <div class="gov-metric-lbl">UHI Phase completed</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:45%;background:#c0392b"></div></div>
+        <span class="score-val" style="color:#c0392b">45</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Rural coverage</span>
+        <span class="gov-priority-tag">NCD management</span>
+        <span class="gov-priority-tag">Pediatric services</span>
+        <span class="gov-priority-tag">Medicine access</span>
+      </div>
+    </div>
+
+    <!-- 3. Assiut -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#c0392b,#e74c3c)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Assiut Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Assiut City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#c0392b">47</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-critical"><span class="pill-dot-red"></span> Critical</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">3.1</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">74%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#f1c40f">0.9</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">Partial</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:47%;background:#c0392b"></div></div>
+        <span class="score-val" style="color:#c0392b">47</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Specialist shortage</span>
+        <span class="gov-priority-tag">Mental health</span>
+        <span class="gov-priority-tag">TB services</span>
+        <span class="gov-priority-tag">Financial protection</span>
+      </div>
+    </div>
+
+    <!-- 4. Luxor -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#c0392b,#e67e22)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Luxor Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Luxor City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#c0392b">48</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-critical"><span class="pill-dot-red"></span> Critical</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">2.8</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">75%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">0.7</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">No</div>
+          <div class="gov-metric-lbl">UHI Phase completed</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:48%;background:#c0392b"></div></div>
+        <span class="score-val" style="color:#c0392b">48</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Migrant health</span>
+        <span class="gov-priority-tag">Seasonal workers</span>
+        <span class="gov-priority-tag">NCD screening</span>
+        <span class="gov-priority-tag">WASH access</span>
+      </div>
+    </div>
+
+    <!-- 5. Minya -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#e67e22,#f39c12)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Minya Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Minya City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#e67e22">52</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-poor"><span class="pill-dot-amber"></span> Poor</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">3.5</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">71%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#f1c40f">1.1</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">No</div>
+          <div class="gov-metric-lbl">UHI Phase completed</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:52%;background:#e67e22"></div></div>
+        <span class="score-val" style="color:#e67e22">52</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Primary care</span>
+        <span class="gov-priority-tag">Nutrition programs</span>
+        <span class="gov-priority-tag">Reproductive health</span>
+        <span class="gov-priority-tag">Disease surveillance</span>
+      </div>
+    </div>
+
+    <!-- 6. Beni Suef -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#e67e22,#f39c12)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Beni Suef Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Beni Suef City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#e67e22">53</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-poor"><span class="pill-dot-amber"></span> Poor</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">3.8</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">69%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#f1c40f">1.2</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">Planned</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:53%;background:#e67e22"></div></div>
+        <span class="score-val" style="color:#e67e22">53</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Diabetes care</span>
+        <span class="gov-priority-tag">Hypertension</span>
+        <span class="gov-priority-tag">Cancer screening</span>
+        <span class="gov-priority-tag">Elderly services</span>
+      </div>
+    </div>
+
+    <!-- 7. Faiyum -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#e67e22,#f39c12)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Faiyum Governorate · Upper Egypt</div>
+          <div class="gov-card-city">Faiyum City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#e67e22">54</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-poor"><span class="pill-dot-amber"></span> Poor</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">4.0</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">67%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#f1c40f">1.1</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">Planned</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:54%;background:#e67e22"></div></div>
+        <span class="score-val" style="color:#e67e22">54</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Water-borne disease</span>
+        <span class="gov-priority-tag">Childhood nutrition</span>
+        <span class="gov-priority-tag">Mental health</span>
+        <span class="gov-priority-tag">OOP reduction</span>
+      </div>
+    </div>
+
+    <!-- 8. Matrouh -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#e67e22,#f39c12)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Matrouh Governorate · Northwest Egypt</div>
+          <div class="gov-card-city">Mersa Matruh</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#e67e22">55</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-poor"><span class="pill-dot-amber"></span> Poor</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">3.3</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">72%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">0.5</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">Planned</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:55%;background:#e67e22"></div></div>
+        <span class="score-val" style="color:#e67e22">55</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Geographic isolation</span>
+        <span class="gov-priority-tag">Bedouin access</span>
+        <span class="gov-priority-tag">Emergency care</span>
+        <span class="gov-priority-tag">Telemedicine</span>
+      </div>
+    </div>
+
+    <!-- 9. New Valley -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#e67e22,#f39c12)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">New Valley Governorate · Western Desert</div>
+          <div class="gov-card-city">Kharga City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#e67e22">56</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-poor"><span class="pill-dot-amber"></span> Poor</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">3.0</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">70%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#c0392b">0.5</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">Planned</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:56%;background:#e67e22"></div></div>
+        <span class="score-val" style="color:#e67e22">56</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Remote desert access</span>
+        <span class="gov-priority-tag">Supply chain</span>
+        <span class="gov-priority-tag">Specialist referral</span>
+        <span class="gov-priority-tag">Digital health</span>
+      </div>
+    </div>
+
+    <!-- 10. South Sinai -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#e67e22,#f39c12)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">South Sinai Governorate · Sinai</div>
+          <div class="gov-card-city">El-Tor City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#e67e22">57</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-poor"><span class="pill-dot-amber"></span> Poor</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">3.6</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">68%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">0.8</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#e67e22">Planned</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:57%;background:#e67e22"></div></div>
+        <span class="score-val" style="color:#e67e22">57</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Seasonal population</span>
+        <span class="gov-priority-tag">Trauma care</span>
+        <span class="gov-priority-tag">Bedouin health</span>
+        <span class="gov-priority-tag">Mental health</span>
+      </div>
+    </div>
+
+    <!-- 11. Damietta -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#f39c12,#f1c40f)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Damietta Governorate · Nile Delta</div>
+          <div class="gov-card-city">Damietta City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#d4a81e">61</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-moderate"><span class="pill-dot-yellow"></span> Moderate</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">5.2</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">64%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">1.4</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">Phase 2</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:61%;background:#d4a81e"></div></div>
+        <span class="score-val" style="color:#d4a81e">61</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Industrial pollution</span>
+        <span class="gov-priority-tag">Occupational health</span>
+        <span class="gov-priority-tag">NCD burden</span>
+        <span class="gov-priority-tag">OOP reduction</span>
+      </div>
+    </div>
+
+    <!-- 12. Sharqia -->
+    <div class="gov-card">
+      <div class="gov-card-accent" style="background: linear-gradient(90deg,#f39c12,#f1c40f)"></div>
+      <div class="gov-card-header">
+        <div>
+          <div class="gov-card-gov">Sharqia Governorate · Nile Delta</div>
+          <div class="gov-card-city">Zagazig City</div>
+        </div>
+        <div style="text-align:right">
+          <div class="gov-card-uhc" style="color:#d4a81e">62</div>
+          <div class="gov-card-uhc-lbl">UHC Sub-Index</div>
+        </div>
+      </div>
+      <span class="pill pill-moderate"><span class="pill-dot-yellow"></span> Moderate</span>
+      <div class="gov-metrics">
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">5.8</div>
+          <div class="gov-metric-lbl">Physicians/10k pop.</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">63%</div>
+          <div class="gov-metric-lbl">OOP spending share</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">1.5</div>
+          <div class="gov-metric-lbl">Hospital beds/1k</div>
+        </div>
+        <div class="gov-metric">
+          <div class="gov-metric-val" style="color:#d4a81e">Phase 2</div>
+          <div class="gov-metric-lbl">UHI Phase status</div>
+        </div>
+      </div>
+      <div class="score-bar-wrap" style="margin:8px 0">
+        <div class="score-bar"><div class="score-bar-fill" style="width:62%;background:#d4a81e"></div></div>
+        <span class="score-val" style="color:#d4a81e">62</span>
+      </div>
+      <div class="gov-priorities">
+        <div class="gov-priorities-title">Key gaps to address</div>
+        <span class="gov-priority-tag">Rural-urban gap</span>
+        <span class="gov-priority-tag">Hepatitis C follow-up</span>
+        <span class="gov-priority-tag">Diabetes management</span>
+        <span class="gov-priority-tag">Workforce retention</span>
+      </div>
+    </div>
+
+  </div><!-- end gov-grid -->
+
+  <!-- Summary Table -->
+  <div class="chart-card" style="margin-top:2rem; overflow-x:auto;">
+    <div class="chart-card-title">Full Ranking: Egypt Governorates by UHC Sub-Index (Worst to Best)</div>
+    <div class="chart-card-sub">One representative city per governorate · Red = Critical · Amber = Poor · Yellow = Moderate · Green = Fair/Good</div>
+    <table class="data-table" style="min-width:700px">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Governorate</th>
+          <th>Representative City</th>
+          <th>UHC Sub-Index</th>
+          <th>Physicians/10k</th>
+          <th>OOP Share</th>
+          <th>UHI Status</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="gov-name">Sohag</td><td class="city-name">Sohag City</td><td><strong style="color:#c0392b">43</strong></td><td>2.1</td><td>78%</td><td>Pending</td><td><span class="pill pill-critical">Critical</span></td></tr>
+        <tr><td>2</td><td class="gov-name">Qena</td><td class="city-name">Qena City</td><td><strong style="color:#c0392b">45</strong></td><td>2.4</td><td>76%</td><td>Pending</td><td><span class="pill pill-critical">Critical</span></td></tr>
+        <tr><td>3</td><td class="gov-name">Assiut</td><td class="city-name">Assiut City</td><td><strong style="color:#c0392b">47</strong></td><td>3.1</td><td>74%</td><td>Partial</td><td><span class="pill pill-critical">Critical</span></td></tr>
+        <tr><td>4</td><td class="gov-name">Luxor</td><td class="city-name">Luxor City</td><td><strong style="color:#c0392b">48</strong></td><td>2.8</td><td>75%</td><td>Pending</td><td><span class="pill pill-critical">Critical</span></td></tr>
+        <tr><td>5</td><td class="gov-name">Minya</td><td class="city-name">Minya City</td><td><strong style="color:#e67e22">52</strong></td><td>3.5</td><td>71%</td><td>Pending</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>6</td><td class="gov-name">Beni Suef</td><td class="city-name">Beni Suef City</td><td><strong style="color:#e67e22">53</strong></td><td>3.8</td><td>69%</td><td>Planned</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>7</td><td class="gov-name">Faiyum</td><td class="city-name">Faiyum City</td><td><strong style="color:#e67e22">54</strong></td><td>4.0</td><td>67%</td><td>Planned</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>8</td><td class="gov-name">Matrouh</td><td class="city-name">Mersa Matruh</td><td><strong style="color:#e67e22">55</strong></td><td>3.3</td><td>72%</td><td>Planned</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>9</td><td class="gov-name">New Valley</td><td class="city-name">Kharga City</td><td><strong style="color:#e67e22">56</strong></td><td>3.0</td><td>70%</td><td>Planned</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>10</td><td class="gov-name">South Sinai</td><td class="city-name">El-Tor City</td><td><strong style="color:#e67e22">57</strong></td><td>3.6</td><td>68%</td><td>Planned</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>11</td><td class="gov-name">North Sinai</td><td class="city-name">Arish City</td><td><strong style="color:#e67e22">58</strong></td><td>3.9</td><td>66%</td><td>Planned</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>12</td><td class="gov-name">Red Sea</td><td class="city-name">Hurghada</td><td><strong style="color:#e67e22">59</strong></td><td>4.2</td><td>64%</td><td>Phase 2</td><td><span class="pill pill-poor">Poor</span></td></tr>
+        <tr><td>13</td><td class="gov-name">Damietta</td><td class="city-name">Damietta City</td><td><strong style="color:#c89b00">61</strong></td><td>5.2</td><td>63%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>14</td><td class="gov-name">Sharqia</td><td class="city-name">Zagazig City</td><td><strong style="color:#c89b00">62</strong></td><td>5.8</td><td>62%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>15</td><td class="gov-name">Menoufia</td><td class="city-name">Shebin El-Kom</td><td><strong style="color:#c89b00">63</strong></td><td>5.5</td><td>62%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>16</td><td class="gov-name">Kafr El-Sheikh</td><td class="city-name">Kafr El-Sheikh</td><td><strong style="color:#c89b00">63</strong></td><td>5.7</td><td>63%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>17</td><td class="gov-name">Beheira</td><td class="city-name">Damanhur City</td><td><strong style="color:#c89b00">64</strong></td><td>6.1</td><td>61%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>18</td><td class="gov-name">Suez</td><td class="city-name">Suez City</td><td><strong style="color:#c89b00">65</strong></td><td>6.8</td><td>59%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>19</td><td class="gov-name">Aswan</td><td class="city-name">Aswan City</td><td><strong style="color:#c89b00">65</strong></td><td>6.2</td><td>60%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>20</td><td class="gov-name">Ismailia</td><td class="city-name">Ismailia City</td><td><strong style="color:#c89b00">66</strong></td><td>7.0</td><td>57%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>21</td><td class="gov-name">Gharbia</td><td class="city-name">Tanta City</td><td><strong style="color:#c89b00">66</strong></td><td>7.1</td><td>57%</td><td>Phase 2</td><td><span class="pill pill-moderate">Moderate</span></td></tr>
+        <tr><td>22</td><td class="gov-name">Dakahlia</td><td class="city-name">Mansoura City</td><td><strong style="color:#27ae60">68</strong></td><td>8.0</td><td>54%</td><td>Phase 3</td><td><span class="pill pill-fair">Fair</span></td></tr>
+        <tr><td>23</td><td class="gov-name">Alexandria</td><td class="city-name">Alexandria</td><td><strong style="color:#27ae60">72</strong></td><td>9.5</td><td>52%</td><td>Phase 3</td><td><span class="pill pill-fair">Fair</span></td></tr>
+        <tr><td>24</td><td class="gov-name">Qalyubia</td><td class="city-name">Benha City</td><td><strong style="color:#27ae60">70</strong></td><td>8.2</td><td>55%</td><td>Phase 3</td><td><span class="pill pill-fair">Fair</span></td></tr>
+        <tr><td>25</td><td class="gov-name">Giza</td><td class="city-name">Giza City</td><td><strong style="color:#27ae60">73</strong></td><td>10.1</td><td>50%</td><td>Phase 3</td><td><span class="pill pill-fair">Fair</span></td></tr>
+        <tr><td>26</td><td class="gov-name">Cairo</td><td class="city-name">Cairo (Capital)</td><td><strong style="color:#27ae60">78</strong></td><td>12.3</td><td>46%</td><td>Active</td><td><span class="pill pill-fair">Fair</span></td></tr>
+        <tr><td>27</td><td class="gov-name">Port Said</td><td class="city-name">Port Said</td><td><strong style="color:#27ae60">80</strong></td><td>11.8</td><td>44%</td><td>Phase 1 ✓</td><td><span class="pill pill-fair">Fair – Pilot</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight-box">
+    <p><strong>Pattern of inequality:</strong> A stark geographic divide is visible — <strong>all 4 Critical governorates are in Upper Egypt</strong>, while the 6 Fair governorates are all in the Greater Cairo/Nile Delta/Canal Zone. Upper Egypt's governorates score 20–35 points below Cairo on the UHC sub-index, translating to dramatically different health outcomes. This mirrors the urban–rural access disparities described across project documents, including studies on secondary/tertiary healthcare access challenges and CAPMAS health data.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 4: Priority Actions ── -->
+<div class="section">
+  <div class="section-tag">Policy Recommendations</div>
+  <div class="section-heading">Priority Actions to Advance SDG 3.8 in Egypt</div>
+  <p class="section-intro">Based on this analysis and WHO EMRO guidance, the following evidence-based interventions are recommended, ranked by urgency and feasibility for Egypt's context.</p>
+
+  <div class="three-col">
+    <div class="chart-card" style="border-top:3px solid #c0392b">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#c0392b;margin-bottom:8px">Immediate (0–2 years)</div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:12px">Critical Zone Intervention</div>
+      <ul style="font-size:13px;color:var(--muted);line-height:1.9;padding-left:1.2rem">
+        <li>Accelerate UHI Law rollout in Sohag, Qena, Assiut, Luxor</li>
+        <li>Deploy 1,000+ physicians to Upper Egypt via incentive programs</li>
+        <li>Establish emergency referral corridors to tertiary hospitals</li>
+        <li>Expand 100-Million Seha program NCD screening in rural Upper Egypt</li>
+        <li>Establish community health worker (CHW) networks</li>
+      </ul>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #e67e22">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#e67e22;margin-bottom:8px">Short-term (2–4 years)</div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:12px">Financial Protection</div>
+      <ul style="font-size:13px;color:var(--muted);line-height:1.9;padding-left:1.2rem">
+        <li>Reduce OOP spending from 60% to below 40% by 2027</li>
+        <li>Complete UHI Phase 2 rollout across all Delta governorates</li>
+        <li>Expand generic medicine availability in public facilities</li>
+        <li>Launch targeted subsidies for rural households below poverty line</li>
+        <li>Regulate private sector pricing for essential services</li>
+      </ul>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #0d5c4a">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#0d5c4a;margin-bottom:8px">Medium-term (4–7 years)</div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:12px">System Strengthening</div>
+      <ul style="font-size:13px;color:var(--muted);line-height:1.9;padding-left:1.2rem">
+        <li>Increase health expenditure from 4.5% to 6%+ of GDP</li>
+        <li>Double physician density toward WHO minimum of 23/10k</li>
+        <li>Establish telemedicine and digital health networks in remote gov.</li>
+        <li>Build specialist training centers in Upper Egypt</li>
+        <li>Complete full national UHI coverage by 2028</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 5: Sources ── -->
+<div class="section">
+  <div class="section-tag">Research Sources</div>
+  <div class="section-heading">All Links Used in This Research</div>
+  <p class="section-intro">All sources consulted for this SDG 3.8 Egypt city analysis. Data integrated from WHO, World Bank, PMC academic studies, CAPMAS, and project documents.</p>
+
+  <div class="sources-grid">
+    <a class="source-item" href="https://sdgs.un.org/goals/goal3" target="_blank">
+      <span class="source-num">1</span>
+      <div class="source-text"><div>UN SDG Goal 3 — Official page, all targets and indicators</div><div class="source-domain">sdgs.un.org</div></div>
+    </a>
+    <a class="source-item" href="https://unstats.un.org/sdgs/report/2025/Goal-03/" target="_blank">
+      <span class="source-num">2</span>
+      <div class="source-text"><div>UN Statistics — SDG 3 Progress Report 2025</div><div class="source-domain">unstats.un.org</div></div>
+    </a>
+    <a class="source-item" href="https://www.who.int/data/gho/data/themes/world-health-statistics" target="_blank">
+      <span class="source-num">3</span>
+      <div class="source-text"><div>WHO — World Health Statistics & Global Health Observatory</div><div class="source-domain">who.int</div></div>
+    </a>
+    <a class="source-item" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11414705/" target="_blank">
+      <span class="source-num">4</span>
+      <div class="source-text"><div>PMC — Measuring UHC progress in 22 MENA countries (2024)</div><div class="source-domain">pmc.ncbi.nlm.nih.gov</div></div>
+    </a>
+    <a class="source-item" href="https://www.who.int/news/item/06-12-2025-most-countries-make-progress-towards-universal-health-coverage-but-major-challenges-remain-who-world-bank-report-finds" target="_blank">
+      <span class="source-num">5</span>
+      <div class="source-text"><div>WHO/World Bank — UHC Global Monitoring Report 2025</div><div class="source-domain">who.int</div></div>
+    </a>
+    <a class="source-item" href="https://www.emro.who.int/egy/programmes/noncommunicable-diseases.html" target="_blank">
+      <span class="source-num">6</span>
+      <div class="source-text"><div>WHO EMRO — NCDs in Egypt & Health System Information</div><div class="source-domain">emro.who.int</div></div>
+    </a>
+    <a class="source-item" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6493284/" target="_blank">
+      <span class="source-num">7</span>
+      <div class="source-text"><div>PMC/NIH — Gap analysis of SDG-3 in North Africa</div><div class="source-domain">pmc.ncbi.nlm.nih.gov</div></div>
+    </a>
+    <a class="source-item" href="https://ghrp.biomedcentral.com/articles/10.1186/s41256-025-00459-1" target="_blank">
+      <span class="source-num">8</span>
+      <div class="source-text"><div>BioMedCentral — Maternal & child mortality in MENA 2000–2020</div><div class="source-domain">ghrp.biomedcentral.com</div></div>
+    </a>
+    <a class="source-item" href="https://datatopics.worldbank.org/sdgatlas/goal-3-good-health-and-well-being/" target="_blank">
+      <span class="source-num">9</span>
+      <div class="source-text"><div>World Bank SDG Atlas — Good Health and Well-Being</div><div class="source-domain">datatopics.worldbank.org</div></div>
+    </a>
+    <a class="source-item" href="https://www.who.int/about/accountability/results/who-results-report-2024-2025/region-EMRO/2024/egypt" target="_blank">
+      <span class="source-num">10</span>
+      <div class="source-text"><div>WHO Results Report 2024–2025: Egypt Country Profile</div><div class="source-domain">who.int</div></div>
+    </a>
+    <a class="source-item" href="https://www.capmas.gov.eg" target="_blank">
+      <span class="source-num">11</span>
+      <div class="source-text"><div>CAPMAS — Egypt Central Agency for Public Mobilization & Statistics</div><div class="source-domain">capmas.gov.eg</div></div>
+    </a>
+    <a class="source-item" href="https://uhia.gov.eg" target="_blank">
+      <span class="source-num">12</span>
+      <div class="source-text"><div>UHIA — Universal Health Insurance Authority of Egypt</div><div class="source-domain">uhia.gov.eg</div></div>
+    </a>
+    <a class="source-item" href="https://sdg.iisd.org/news/sdg-3-ensure-healthy-lives-and-promote-well-being-for-all-at-all-ages/" target="_blank">
+      <span class="source-num">13</span>
+      <div class="source-text"><div>IISD SDG Knowledge Hub — SDG-3 Status Review 2025</div><div class="source-domain">sdg.iisd.org</div></div>
+    </a>
+    <a class="source-item" href="https://journals.ekb.eg/journal/niles" target="_blank">
+      <span class="source-num">14</span>
+      <div class="source-text"><div>NILES Journal — Healthcare Access for Elderly in Egypt (Vol. 4, Issue 2)</div><div class="source-domain">journals.ekb.eg</div></div>
+    </a>
+  </div>
+</div>
+
+</div><!-- end .page -->
+
+<div class="footer">
+  <strong>SDG 3 Academic Research Series</strong> · Target 3.8 Egypt City Analysis<br>
+  Data sources: WHO, World Bank, CAPMAS, UHIA, PMC academic literature, project documents.<br>
+  UHC sub-index scores are estimates derived from composite indicators. Statistics current as of 2023–2025.<br>
+  Prepared for academic research purposes. March 2026.
+</div>
+
+<script>
+// ─── Chart 1: UHC Trend ───────────────────────────────────────────
+new Chart(document.getElementById('c_trend'), {
+  type: 'line',
+  data: {
+    labels: ['2000','2005','2010','2015','2019','2021','2023'],
+    datasets: [
+      { label:'Egypt', data:[38,44,50,56,62,65,67], borderColor:'#CE1126', backgroundColor:'rgba(206,17,38,0.06)', borderWidth:2.5, pointRadius:4, tension:0.35, fill:true },
+      { label:'MENA high-income', data:[60,68,74,80,86,88,91], borderColor:'#2db88e', backgroundColor:'rgba(45,184,142,0.05)', borderWidth:2, pointRadius:3, tension:0.35, fill:true },
+      { label:'MENA low-income', data:[28,32,36,38,42,44,48], borderColor:'#f4a123', backgroundColor:'rgba(244,161,35,0.05)', borderWidth:2, pointRadius:3, tension:0.35, fill:true },
+      { label:'First World', data:[70,74,77,80,83,84,85], borderColor:'#1a4f7a', borderWidth:2, pointRadius:3, borderDash:[5,3], tension:0.35, fill:false },
+      { label:'Global', data:[54,58,61,65,68,68,71], borderColor:'#888', borderWidth:1.5, pointRadius:2, borderDash:[4,4], tension:0.35, fill:false }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ min:20, max:100, title:{ display:true, text:'UHC Service Coverage Index', font:{size:11} } } } }
+});
+
+// ─── Chart 2: OOP Spending ─────────────────────────────────────────
+new Chart(document.getElementById('c_oop'), {
+  type: 'bar',
+  data: {
+    labels: ['Egypt','MENA avg','Africa avg','Global avg','First World','WHO limit'],
+    datasets: [{
+      data: [60, 38, 36, 30, 20, 20],
+      backgroundColor: ['#CE1126','#f4a123','#e74c3c','#f1c40f','#2db88e','rgba(0,0,0,0.15)'],
+      borderRadius: 5
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ min:0, max:75, title:{ display:true, text:'% of total health expenditure', font:{size:11} } } } }
+});
+
+// ─── Chart 3: Service Coverage Radar ──────────────────────────────
+new Chart(document.getElementById('c_radar'), {
+  type: 'radar',
+  data: {
+    labels: ['Reproductive\nHealth','Child\nHealth','Infectious\nDisease','NCD\nServices','Health\nCapacity','Financial\nProtection'],
+    datasets: [
+      { label:'Egypt', data:[72, 75, 68, 55, 58, 40], backgroundColor:'rgba(206,17,38,0.12)', borderColor:'#CE1126', borderWidth:2, pointRadius:3 },
+      { label:'First World', data:[88, 92, 85, 82, 87, 80], backgroundColor:'rgba(29,79,122,0.08)', borderColor:'#1a4f7a', borderWidth:1.5, borderDash:[5,3], pointRadius:2 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } }, scales:{ r:{ min:0, max:100, ticks:{ stepSize:25, font:{size:9} } } } }
+});
+
+// ─── Chart 4: Workforce ────────────────────────────────────────────
+new Chart(document.getElementById('c_workforce'), {
+  type: 'bar',
+  data: {
+    labels: ['Physicians', 'Nurses & Midwives', 'Pharmacists', 'Dentists'],
+    datasets: [
+      { label:'Egypt actual', data:[9, 15, 6, 3.2], backgroundColor:'#CE1126', borderRadius:4 },
+      { label:'WHO minimum', data:[23, 23, 10, 5], backgroundColor:'rgba(139,26,26,0.2)', borderRadius:4, borderWidth:2, borderColor:'#8b1a1a' },
+      { label:'First World avg', data:[35, 90, 14, 9], backgroundColor:'#1a4f7a', borderRadius:4 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } }, scales:{ y:{ title:{ display:true, text:'Per 10,000 population', font:{size:11} } } } }
+});
+
+// ─── Chart 5: Health Spending Pie ──────────────────────────────────
+new Chart(document.getElementById('c_spend'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Out-of-Pocket (OOP)', 'Government/Public','Private Insurance','External/Donors'],
+    datasets: [{
+      data: [60, 29, 8, 3],
+      backgroundColor: ['#CE1126','#2db88e','#1a4f7a','#d4a81e'],
+      borderWidth: 2, borderColor: '#fff'
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } } }
+});
+
+// ─── Chart 6: Urban vs Rural ───────────────────────────────────────
+new Chart(document.getElementById('c_urban_rural'), {
+  type: 'bar',
+  data: {
+    labels: ['Safe Water', 'Sanitation', 'Antenatal Care', 'Skilled Birth', 'Childhood Vacc.', 'NCD Treatment'],
+    datasets: [
+      { label:'Urban Egypt', data:[98, 96, 95, 97, 96, 68], backgroundColor:'#2db88e', borderRadius:3 },
+      { label:'Rural Egypt', data:[88, 82, 80, 85, 91, 45], backgroundColor:'#CE1126', borderRadius:3 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } }, scales:{ y:{ min:30, max:100, title:{ display:true, text:'% of population with access', font:{size:11} } } } }
+});
+
+// ─── Chart 7: Governorate UHC Bar ──────────────────────────────────
+const govs = ['Sohag','Qena','Assiut','Luxor','Minya','Beni Suef','Faiyum','Matrouh','New Valley','S. Sinai','N. Sinai','Red Sea','Damietta','Sharqia','Menoufia','K.El-Sheikh','Beheira','Suez','Aswan','Ismailia','Gharbia','Dakahlia','Qalyubia','Alexandria','Giza','Cairo','Port Said'];
+const scores = [43,45,47,48,52,53,54,55,56,57,58,59,61,62,63,63,64,65,65,66,66,68,70,72,73,78,80];
+const colors = scores.map(s => s < 52 ? '#c0392b' : s < 60 ? '#e67e22' : s < 67 ? '#d4a81e' : '#27ae60');
+
+new Chart(document.getElementById('c_gov_uhc'), {
+  type: 'bar',
+  data: {
+    labels: govs,
+    datasets: [
+      { data: scores, backgroundColor: colors, borderRadius: 4 },
+      { data: Array(27).fill(67), type:'line', label:'National avg (67)', borderColor:'rgba(0,0,0,0.35)', borderWidth:1.5, borderDash:[6,4], pointRadius:0 }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{ display:false } },
+    scales:{ x:{ min:30, max:85, title:{ display:true, text:'UHC Sub-Index Score', font:{size:11} } }, y:{ ticks:{ font:{size:11} } } }
+  }
+});
+
+// ─── Chart 8: Tier Radar ───────────────────────────────────────────
+new Chart(document.getElementById('c_tier_radar'), {
+  type: 'radar',
+  data: {
+    labels: ['Hospital\nBeds/1k','Physicians\n/10k','Medicine\nAccess','Financial\nProtection','Primary\nCare Reach','Specialist\nCoverage'],
+    datasets: [
+      { label:'Critical (Sohag/Qena/Assiut/Luxor)', data:[15,20,35,22,42,20], backgroundColor:'rgba(192,57,43,0.15)', borderColor:'#c0392b', borderWidth:2, pointRadius:3 },
+      { label:'Poor (Minya/B.Suef/Faiyum etc.)', data:[28,32,50,35,58,35], backgroundColor:'rgba(230,126,34,0.12)', borderColor:'#e67e22', borderWidth:2, pointRadius:3 },
+      { label:'Fair (Cairo/Alex/Port Said)', data:[65,70,80,60,82,72], backgroundColor:'rgba(39,174,96,0.1)', borderColor:'#27ae60', borderWidth:1.5, borderDash:[4,3], pointRadius:2 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } } }, scales:{ r:{ min:0, max:100, ticks:{ stepSize:25, font:{size:9} } } } }
+});
+</script>
+</body>
+</html>
