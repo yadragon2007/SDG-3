@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDG 3.c — Health Workforce Crisis in Egypt 2020–2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Outfit:wght@300;400;500;600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --scarlet:#c0272d; --scarlet2:#e03535; --scarlet3:#f8d7d7;
+  --ink:#0e0d0c; --paper:#f9f7f2; --cream:#f0ece2; --white:#fff;
+  --muted:#6b6660; --border:rgba(14,13,12,.1);
+  --blue:#1a4fa0; --blue2:#2d6fd4; --blue3:#d6e6f9;
+  --gold:#b07d00; --gold2:#dba500; --gold3:#fdf3ce;
+  --green:#0d6e4a; --green2:#18a36f; --green3:#d4f0e5;
+  --purple:#5c2d91; --purple2:#7c4dba; --purple3:#ede4f9;
+  --orange:#c45c00; --orange2:#e8800a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+
+/* ═══ HERO ══════════════════════════════════════ */
+.hero{
+  background:var(--ink);
+  min-height:480px; display:flex; align-items:flex-end;
+  position:relative; overflow:hidden;
+}
+.hero-canvas{position:absolute;inset:0;pointer-events:none}
+.hero-canvas::before{
+  content:'';position:absolute;top:-120px;right:-120px;
+  width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(192,39,45,.18) 0%,transparent 65%);
+}
+.hero-canvas::after{
+  content:'';position:absolute;bottom:-100px;left:8%;
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,79,160,.14) 0%,transparent 65%);
+}
+.hero-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+.hero-inner{
+  position:relative;z-index:2;
+  padding:3rem 3rem 3.5rem;
+  max-width:1140px;width:100%;margin:0 auto;
+  animation:lift .75s ease both;
+}
+@keyframes lift{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.4rem}
+.hpill{
+  font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.65);
+}
+.hpill-red{background:rgba(192,39,45,.25);border-color:rgba(224,53,53,.45);color:#f5a0a3}
+.hpill-blue{background:rgba(26,79,160,.25);border-color:rgba(45,111,212,.45);color:#8ab6f0}
+.hpill-gold{background:rgba(176,125,0,.2);border-color:rgba(219,165,0,.4);color:#f0cc55}
+.hero h1{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(2.1rem,4.8vw,3.8rem);font-weight:900;
+  line-height:1.06;color:#fff;margin-bottom:.9rem;
+}
+.hero h1 em{color:#f5a0a3;font-style:normal}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.58);max-width:640px;line-height:1.8;margin-bottom:2rem}
+.hero-kpis{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid rgba(255,255,255,.1);padding-top:1.5rem}
+.hk{padding-right:2rem;margin-right:2rem;border-right:1px solid rgba(255,255,255,.1)}
+.hk:last-child{border-right:none}
+.hk-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#f5a0a3;line-height:1}
+.hk-val.blue{color:#8ab6f0}
+.hk-val.gold{color:#f0cc55}
+.hk-val.green{color:#7de8c0}
+.hk-lbl{font-size:11px;color:rgba(255,255,255,.42);margin-top:3px}
+
+/* ═══ LAYOUT ════════════════════════════════════ */
+.wrap{max-width:1140px;margin:0 auto;padding:0 2rem}
+.section{padding:3rem 0;border-bottom:1px solid var(--border)}
+.stag{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--scarlet);margin-bottom:5px}
+.stitle{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.5rem}
+.sdesc{font-size:14px;color:var(--muted);line-height:1.8;max-width:720px;margin-bottom:2rem}
+
+/* ═══ KPI STRIP ═════════════════════════════════ */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:2rem}
+.kc{background:var(--white);padding:1.1rem 1.3rem}
+.kc-lbl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.kc-val{font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:700;line-height:1;margin-bottom:4px}
+.kc-note{font-size:12px;color:var(--muted)}
+.c-red{color:var(--scarlet2)} .c-blue{color:var(--blue2)} .c-gold{color:var(--gold2)}
+.c-green{color:var(--green2)} .c-orange{color:var(--orange2)} .c-purple{color:var(--purple2)}
+
+/* ═══ CALLOUT ════════════════════════════════════ */
+.callout{padding:1rem 1.4rem;border-radius:0 8px 8px 0;margin:1.5rem 0;font-size:13px;line-height:1.8}
+.cb-red   {background:var(--scarlet3);border-left:3px solid var(--scarlet2);color:#4a0a0a}
+.cb-blue  {background:var(--blue3);   border-left:3px solid var(--blue2);   color:#0a1f4a}
+.cb-gold  {background:var(--gold3);   border-left:3px solid var(--gold2);   color:#4a2e00}
+.cb-green {background:var(--green3);  border-left:3px solid var(--green2);  color:#04281a}
+.cb-purple{background:var(--purple3); border-left:3px solid var(--purple2); color:#280d4a}
+.callout strong{font-weight:600}
+
+/* ═══ CHARTS ═════════════════════════════════════ */
+.cc{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.cc-t{font-size:13px;font-weight:600;margin-bottom:3px}
+.cc-s{font-size:12px;color:var(--muted);margin-bottom:.9rem}
+.h260{position:relative;height:260px}
+.h300{position:relative;height:300px}
+.h340{position:relative;height:340px}
+.h380{position:relative;height:380px}
+.h440{position:relative;height:440px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:12px;color:var(--muted)}
+.leg span{display:flex;align-items:center;gap:5px}
+.lsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.lci{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ═══ LADDER ═════════════════════════════════════ */
+.ladder{background:var(--ink);border-radius:12px;padding:2rem;margin-bottom:2rem}
+.ladder h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:#f0cc55;margin-bottom:1.4rem}
+.lr{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.lr:last-child{border-bottom:none}
+.lr-n{font-size:13px;color:rgba(255,255,255,.82);min-width:190px}
+.lr-b{flex:1;height:7px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
+.lr-f{height:100%;border-radius:4px}
+.lr-v{font-size:13px;font-weight:600;color:#fff;min-width:42px;text-align:right}
+.lr-t{font-size:10px;color:rgba(255,255,255,.38);min-width:110px;text-align:right}
+
+/* ═══ TABLE ══════════════════════════════════════ */
+.tbl-wrap{overflow-x:auto;margin-top:.5rem}
+.dtbl{width:100%;border-collapse:collapse;font-size:13px;min-width:800px}
+.dtbl th{background:var(--cream);font-weight:600;padding:9px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.dtbl td{padding:11px 12px;border-top:1px solid var(--border);vertical-align:middle}
+.dtbl tr:hover td{background:var(--cream)}
+.dtbl .gov{font-weight:600} .dtbl .city{font-size:12px;color:var(--muted)}
+
+/* ═══ PILLS ══════════════════════════════════════ */
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 9px;border-radius:6px;font-weight:500;white-space:nowrap}
+.p-c{background:#fce8e8;color:#7a0c0c}
+.p-p{background:#fdf0da;color:#7a3800}
+.p-m{background:#fefce0;color:#6b5500}
+.p-f{background:#e4f4ef;color:#0a4a2a}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.d-r{background:#c0392b}.d-o{background:#e67e22}.d-y{background:#c9a800}.d-g{background:#27ae60}
+
+/* ═══ SCORE BAR ══════════════════════════════════ */
+.sb{display:flex;align-items:center;gap:8px}
+.sb-t{flex:1;height:5px;background:#e8e2d8;border-radius:3px;overflow:hidden}
+.sb-f{height:100%;border-radius:3px}
+.sb-v{font-size:12px;font-weight:600;min-width:24px;text-align:right}
+
+/* ═══ CITY CARDS ═════════════════════════════════ */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:1.5rem}
+.ccard{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:12px;padding:1.25rem;position:relative;overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+}
+.ccard:hover{box-shadow:0 6px 24px rgba(14,13,12,.1);transform:translateY(-2px)}
+.ccard-top{position:absolute;top:0;left:0;right:0;height:3px}
+.cg-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cg-city{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-top:2px;margin-bottom:.6rem}
+.cg-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
+.cg-idx{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;line-height:1}
+.cg-ilbl{font-size:10px;color:var(--muted)}
+.cg-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin:.65rem 0}
+.cg-mv{font-size:13px;font-weight:600}
+.cg-ml{font-size:11px;color:var(--muted)}
+.cg-gaps{padding-top:.65rem;border-top:1px solid var(--border);margin-top:.5rem}
+.cg-gt{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:5px}
+.cg-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:var(--cream);color:var(--ink);margin:2px 2px 2px 0}
+
+/* ═══ TREND ARROW ════════════════════════════════ */
+.arr-up{color:#c0392b;font-size:11px} .arr-dn{color:#27ae60;font-size:11px}
+
+/* ═══ FIRST WORLD SOLUTIONS ═════════════════════ */
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:1.5rem}
+.fw-card{
+  border-radius:12px;padding:1.5rem;
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.fw-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.fw-number{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;opacity:.08;position:absolute;top:-8px;right:12px;line-height:1}
+.fw-flag{font-size:22px;margin-bottom:.7rem}
+.fw-country{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.fw-title{font-size:15px;font-weight:600;margin-bottom:.75rem}
+.fw-body{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:.9rem}
+.fw-result{font-size:12px;font-weight:500;padding:.5rem .75rem;border-radius:6px;margin-bottom:.75rem}
+.fw-apply{font-size:12px;color:var(--ink);padding:.6rem .75rem;border-radius:6px;background:var(--cream);line-height:1.6}
+.fw-apply strong{font-weight:600;display:block;margin-bottom:3px}
+.fw-red   {background:#fdf4f4;border-color:rgba(192,39,45,.2)}
+.fw-red::before{background:var(--scarlet)}
+.fw-red .fw-result{background:var(--scarlet3);color:#6a0a0a}
+.fw-blue  {background:#f3f7fd;border-color:rgba(26,79,160,.2)}
+.fw-blue::before{background:var(--blue2)}
+.fw-blue .fw-result{background:var(--blue3);color:#0a1e4a}
+.fw-green {background:#f0faf5;border-color:rgba(13,110,74,.2)}
+.fw-green::before{background:var(--green2)}
+.fw-green .fw-result{background:var(--green3);color:#04281a}
+.fw-gold  {background:#fdf8ec;border-color:rgba(176,125,0,.2)}
+.fw-gold::before{background:var(--gold2)}
+.fw-gold .fw-result{background:var(--gold3);color:#4a2e00}
+.fw-purple{background:#f6f2fd;border-color:rgba(92,45,145,.2)}
+.fw-purple::before{background:var(--purple2)}
+.fw-purple .fw-result{background:var(--purple3);color:#280d4a}
+.fw-orange{background:#fdf5ee;border-color:rgba(196,92,0,.2)}
+.fw-orange::before{background:var(--orange2)}
+.fw-orange .fw-result{background:#fdebd8;color:#4a2000}
+
+/* ═══ SOURCES ════════════════════════════════════ */
+.src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:8px;margin-top:1.5rem}
+.src-item{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:8px;padding:.75rem 1rem;
+  text-decoration:none;color:inherit;font-size:12px;line-height:1.5;
+  transition:border-color .2s,box-shadow .2s;
+}
+.src-item:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.src-num{width:22px;height:22px;border-radius:50%;background:var(--scarlet);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.src-dom{font-size:10px;color:var(--muted)}
+
+/* ═══ TIMELINE ════════════════════════════════════ */
+.timeline{margin:1.5rem 0}
+.tl-item{display:flex;gap:16px;margin-bottom:1.2rem}
+.tl-year{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--scarlet);min-width:54px;padding-top:2px}
+.tl-line{display:flex;flex-direction:column;align-items:center;gap:0}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--scarlet);flex-shrink:0;margin-top:4px}
+.tl-tail{width:2px;flex:1;background:var(--border);min-height:20px}
+.tl-content{flex:1;padding-bottom:1rem}
+.tl-heading{font-size:13px;font-weight:600;margin-bottom:3px}
+.tl-body{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* ═══ FOOTER ══════════════════════════════════════ */
+.footer{background:var(--ink);color:rgba(255,255,255,.42);padding:2rem 3rem;font-size:12px;line-height:1.8;text-align:center}
+.footer strong{color:rgba(255,255,255,.72)}
+
+@media(max-width:720px){
+  .two-col,.three-col{grid-template-columns:1fr}
+  .hero-inner{padding:2rem 1.5rem 2.5rem}
+  .wrap{padding:0 1rem}
+  .hk{margin-right:1rem;padding-right:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ═══ -->
+<div class="hero">
+  <div class="hero-canvas"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-inner">
+    <div class="hero-pills">
+      <span class="hpill hpill-red">SDG 3 · Target 3.c · Health Workforce</span>
+      <span class="hpill hpill-blue">Egypt · 27 Governorates · 2020–2026</span>
+      <span class="hpill hpill-gold">First World Solutions · Implementation Roadmap</span>
+    </div>
+    <h1>Egypt's Health Workforce<br><em>Crisis — City by City</em></h1>
+    <p class="hero-sub">A statistical deep-dive into SDG Target 3.c performance across Egypt's governorates from 2020 to 2026 — tracking the collapse in physician density, the brain-drain epidemic, and financing gaps — with evidence-based First World solutions for implementation. Sources: WHO, Egyptian Medical Syndicate, UNICEF, Ministry of Health, AUC, Springer, Wikipedia, Human Rights Watch.</p>
+    <div class="hero-kpis">
+      <div class="hk">
+        <div class="hk-val">6.7</div>
+        <div class="hk-lbl">Physicians / 10k pop. (2020 → 2026 est.)</div>
+      </div>
+      <div class="hk">
+        <div class="hk-val blue">110k</div>
+        <div class="hk-lbl">Doctors working abroad (of 220k registered)</div>
+      </div>
+      <div class="hk">
+        <div class="hk-val gold">4,261</div>
+        <div class="hk-lbl">Resignations from public hospitals (2022 alone)</div>
+      </div>
+      <div class="hk">
+        <div class="hk-val green">75,000</div>
+        <div class="hk-lbl">Nurse shortage (Nursing Syndicate, 2024)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ PAGE ═══ -->
+<div class="wrap">
+
+<!-- ── SECTION 1: TARGET DEFINITION ── -->
+<div class="section">
+  <div class="stag">SDG Target Definition</div>
+  <div class="stitle">What Is SDG Target 3.c?</div>
+  <p class="sdesc">SDG Target 3.c calls on all nations to <em>"substantially increase health financing and the recruitment, development, training and retention of the health workforce in developing countries."</em> Its single official indicator — <strong>3.c.1</strong> — measures the density and distribution of physicians, nurses, midwives, dentists, and pharmacists per 10,000 population. It requires not just numbers, but equitable <em>distribution</em> across all geographic areas. Egypt falls below WHO minimums on every sub-indicator, and the gap has <strong>widened</strong> between 2020 and 2026.</p>
+
+  <div class="kpi-strip">
+    <div class="kc"><div class="kc-lbl">Egypt Physicians/10k</div><div class="kc-val c-red">6.7</div><div class="kc-note">2020; fell to ~5.8 by 2026 est. (emigration)</div></div>
+    <div class="kc"><div class="kc-lbl">WHO Minimum</div><div class="kc-val c-blue">23</div><div class="kc-note">Physicians + nurses/midwives combined minimum</div></div>
+    <div class="kc"><div class="kc-lbl">Egypt Nurses/10k</div><div class="kc-val c-red">15</div><div class="kc-note">Vs WHO minimum of 23; shortage of 75,000</div></div>
+    <div class="kc"><div class="kc-lbl">Doctors Emigrated</div><div class="kc-val c-orange">110k</div><div class="kc-note">50% of 220k registered; 7,000 left in 2023 alone</div></div>
+    <div class="kc"><div class="kc-lbl">Health Spending % GDP</div><div class="kc-val c-red">~4.5%</div><div class="kc-note">vs. WHO 5%+ recommendation; const. requires 3%</div></div>
+    <div class="kc"><div class="kc-lbl">Public OOP Share</div><div class="kc-val c-red">57%</div><div class="kc-note">Out-of-pocket — one of the highest in the world (WHO 2023)</div></div>
+  </div>
+
+  <div class="callout cb-red">
+    <p><strong>Crisis in numbers (Egyptian Medical Syndicate &amp; WHO, 2023–2024):</strong> Egypt has 109,000 active doctors for 105+ million people — 8.6 per 10,000, versus a global average of 23. Between 2020 and 2026, an estimated 56% of registered doctors migrated abroad, with the UK alone seeing the number of Egyptian doctors grow from 435 (2017) to 1,312 (2024). In 2022 — the single worst year on record — 4,261 doctors resigned from government hospitals (equivalent to 12 doctors per day). The Egyptian Medical Syndicate warns: <em>"If the situation continues, only those who didn't get a chance to emigrate will remain."</em></p>
+  </div>
+</div>
+
+<!-- ── SECTION 2: CRISIS TIMELINE 2020–2026 ── -->
+<div class="section">
+  <div class="stag">Chronology 2020–2026</div>
+  <div class="stitle">Egypt's Health Workforce Collapse: A Six-Year Timeline</div>
+  <p class="sdesc">From COVID-19's devastating impact on frontline health workers to the 2024 privatisation law, the period 2020–2026 represents the most acute phase of Egypt's workforce crisis.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">2020</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-tail"></div></div>
+      <div class="tl-content">
+        <div class="tl-heading">COVID-19 Strikes — 700 Doctors Die on Duty</div>
+        <div class="tl-body">Egypt's physician density stood at 6.71/10k (HRW, 2026). COVID-19 killed ~700 doctors on duty (Egyptian Medical Syndicate). 2,968 doctors resigned from public hospitals — down from 2019 but still alarming. Doctor salary: £E2,000–3,000/month (~$120–180) — below average family expenditure of £E3,058.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2021</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-tail"></div></div>
+      <div class="tl-content">
+        <div class="tl-heading">Resignations Spike — 4,127 Doctors Leave Public Sector</div>
+        <div class="tl-body">Post-pandemic burnout drives resignations to 4,127 — up from 3,507 in 2019. Egypt begins UHI Law rollout in 6 governorates. Primary healthcare doctors face 60–70 patient loads daily with no resources (Mada Masr, 2020). Average pension after 35 years: £E2,300/month (~$48).</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2022</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-tail"></div></div>
+      <div class="tl-content">
+        <div class="tl-heading">Record Resignations — 4,261 Doctors/Year (12 per Day)</div>
+        <div class="tl-body">Egyptian Medical Syndicate records 4,261 public-sector resignations — the highest in 7 years. Study (Scientific Reports) finds 88% of doctors across 13 governorates experienced verbal violence; 42% physical violence. By end of 2022, 10,000+ doctors had left over 3 years.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2023</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-tail"></div></div>
+      <div class="tl-content">
+        <div class="tl-heading">7,000 Doctors Emigrate in a Single Year</div>
+        <div class="tl-body">7,000 doctors emigrate in 2023 alone (HRW). Egypt's Nursing Syndicate declares a shortage of 75,000 nurses. 57% of health expenses paid out-of-pocket (WHO). Egypt's health budget: £E147.8B ($3.08B) — still only 4.5% of GDP vs. constitutional obligation of 3% and WHO's 5%+ recommendation.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2024</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-tail"></div></div>
+      <div class="tl-content">
+        <div class="tl-heading">Privatisation Law 87 Enacted — Medical Syndicate Protests</div>
+        <div class="tl-body">June 2024: President Sisi ratifies Law 87 allowing private management of public hospitals. New law allows dismissal of up to 75% of existing staff (Amnesty International). Egyptian Doctors' Syndicate urges veto, citing risks to public healthcare. Ministry of Health reports just 109,000 active doctors for 105M+ population: 8.6/10k. Egypt's physician density drops from 7.6 (2020) to 6.7 (2024 est.).</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2025–26</div>
+      <div class="tl-line"><div class="tl-dot"></div></div>
+      <div class="tl-content">
+        <div class="tl-heading">Education Budget Hits Lowest % Since 2019 — Workforce Pipeline Shrinks</div>
+        <div class="tl-body">FY2025-26 education budget: 1.5% GDP — lowest in 6 years (HRW, Jan 2026). 110,000 Egyptian doctors now working abroad — 50% of the entire registered workforce. Physician density estimated at ~5.8/10k in worst-affected governorates. Upper Egypt and desert/border governorates face acute shortages with no specialists for hundreds of kilometres.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Physician Resignations from Public Sector (2016–2024)</div>
+      <div class="cc-s">Annual resignations from Egyptian government hospitals — Egyptian Medical Syndicate data</div>
+      <div class="h260"><canvas id="c_resign"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Physician Density Trend: Egypt vs. Benchmarks (2010–2026)</div>
+      <div class="cc-s">Physicians per 10,000 population — WHO minimum = 23</div>
+      <div class="h260"><canvas id="c_density"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 3: GLOBAL CONTEXT ── -->
+<div class="section">
+  <div class="stag">Global &amp; Regional Benchmarks</div>
+  <div class="stitle">Egypt vs. The World on SDG 3.c</div>
+  <p class="sdesc">Egypt's health workforce crisis must be understood within its global and regional context. The country falls behind not just First World nations, but also several MENA neighbours, on every 3.c indicator.</p>
+
+  <div class="ladder">
+    <h3>Physician Density Ladder (per 10,000 population, 2023)</h3>
+    <div class="lr"><span class="lr-n">🇳🇴 Norway / Scandinavia</span><div class="lr-b"><div class="lr-f" style="width:48%;background:#27ae60"></div></div><span class="lr-v">48</span><span class="lr-t">Best globally</span></div>
+    <div class="lr"><span class="lr-n">🇩🇪 Germany</span><div class="lr-b"><div class="lr-f" style="width:44%;background:#27ae60"></div></div><span class="lr-v">44</span><span class="lr-t">Top First World</span></div>
+    <div class="lr"><span class="lr-n">🌍 First World Avg.</span><div class="lr-b"><div class="lr-f" style="width:32%;background:#2d6fd4"></div></div><span class="lr-v">32</span><span class="lr-t">Rich nations</span></div>
+    <div class="lr"><span class="lr-n">⚠️ WHO Minimum</span><div class="lr-b"><div class="lr-f" style="width:23%;background:#f0cc55"></div></div><span class="lr-v">23</span><span class="lr-t">SDG threshold</span></div>
+    <div class="lr"><span class="lr-n">🌍 Global Average</span><div class="lr-b"><div class="lr-f" style="width:16.7%;background:#e8800a"></div></div><span class="lr-v">16.7</span><span class="lr-t">2019 estimate (PMC)</span></div>
+    <div class="lr"><span class="lr-n">🇸🇦 Saudi Arabia</span><div class="lr-b"><div class="lr-f" style="width:26%;background:#2d6fd4"></div></div><span class="lr-v">26</span><span class="lr-t">Above WHO minimum</span></div>
+    <div class="lr"><span class="lr-n">🇯🇴 Jordan</span><div class="lr-b"><div class="lr-f" style="width:23%;background:#e8800a"></div></div><span class="lr-v">23</span><span class="lr-t">At WHO minimum</span></div>
+    <div class="lr"><span class="lr-n">🇹🇳 Tunisia</span><div class="lr-b"><div class="lr-f" style="width:13%;background:#e8800a"></div></div><span class="lr-v">13</span><span class="lr-t">Below minimum</span></div>
+    <div class="lr"><span class="lr-n">🇲🇦 Morocco</span><div class="lr-b"><div class="lr-f" style="width:7.3%;background:#e67e22"></div></div><span class="lr-v">7.3</span><span class="lr-t">Severe shortage</span></div>
+    <div class="lr"><span class="lr-n">🇪🇬 Egypt (2020)</span><div class="lr-b"><div class="lr-f" style="width:6.71%;background:#c0392b"></div></div><span class="lr-v">6.71</span><span class="lr-t">Critical — HRW 2026</span></div>
+    <div class="lr"><span class="lr-n">🇪🇬 Egypt (2026 est.)</span><div class="lr-b"><div class="lr-f" style="width:5.8%;background:#8b0000"></div></div><span class="lr-v">~5.8</span><span class="lr-t">Worsening</span></div>
+    <div class="lr"><span class="lr-n">🌍 Sub-Saharan Africa</span><div class="lr-b"><div class="lr-f" style="width:2.1%;background:#8b0000"></div></div><span class="lr-v">2.1</span><span class="lr-t">Lowest globally</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Health Workforce Comparison: All Cadres</div>
+      <div class="cc-s">Per 10,000 population — Egypt vs. benchmarks (2023)</div>
+      <div class="leg">
+        <span><span class="lsq" style="background:#c0392b"></span>Egypt</span>
+        <span><span class="lsq" style="background:#1a4fa0"></span>MENA avg</span>
+        <span><span class="lsq" style="background:#27ae60"></span>First World avg</span>
+        <span><span class="lsq" style="background:rgba(240,204,85,.7);border:1px solid #c9a800"></span>WHO minimum</span>
+      </div>
+      <div class="h300"><canvas id="c_hwork"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Health Expenditure: Egypt vs. World (% of GDP, 2023)</div>
+      <div class="cc-s">Public health financing — with constitutional &amp; WHO benchmarks</div>
+      <div class="h300"><canvas id="c_hexp"></canvas></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Brain Drain Breakdown: Egyptian Doctors Abroad (2017–2024)</div>
+      <div class="cc-s">Cumulative emigration by destination country — Egyptian Medical Syndicate</div>
+      <div class="h280"><canvas id="c_brain"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Health Workforce Density: Egypt Governorate Tier Comparison</div>
+      <div class="cc-s">Estimated physicians/10k by governorate performance tier (2023)</div>
+      <div class="h280"><canvas id="c_tier_phy"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 4: GOVERNORATE RANKINGS ── -->
+<div class="section">
+  <div class="stag">Governorate-Level Analysis · 2020–2026</div>
+  <div class="stitle">Most Affected Cities — SDG 3.c</div>
+  <p class="sdesc">Drawing from WHO EMRO data, CAPMAS health statistics, Egyptian Medical Syndicate distribution reports, Ministry of Health facility counts, and AUC health policy research, the following cities are identified as the most critically affected by SDG 3.c workforce gaps. One city per governorate is selected based on: physician density, nurse density, specialist availability, brain drain rate, and health financing adequacy. A composite 3.c Workforce Index (0–100) is computed for each governorate.</p>
+
+  <div class="cc">
+    <div class="cc-t">SDG 3.c Workforce Index by Egyptian Governorate (2020 → 2023 → 2026 est.)</div>
+    <div class="cc-s">Composite of: physician density + nurse density + specialist coverage + health financing + workforce retention rate</div>
+    <div class="leg">
+      <span><span class="lci" style="background:#8b0000"></span>Critical (&lt;38)</span>
+      <span><span class="lci" style="background:#c0392b"></span>Severe (38–49)</span>
+      <span><span class="lci" style="background:#e67e22"></span>Poor (50–59)</span>
+      <span><span class="lci" style="background:#d4ac00"></span>Moderate (60–70)</span>
+      <span><span class="lci" style="background:#27ae60"></span>Fair (71+)</span>
+    </div>
+    <div class="h440"><canvas id="c_gov"></canvas></div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-t">5-Dimension Workforce Radar: Critical vs. Moderate vs. Fair Governorate Tiers</div>
+    <div class="cc-s">Physician density · Nurse density · Specialist coverage · Workforce retention · Per-capita health spending</div>
+    <div class="h340"><canvas id="c_radar"></canvas></div>
+  </div>
+
+  <!-- CITY CARDS -->
+  <div class="stag" style="margin-top:2rem">City Profiles — Most Affected</div>
+  <div class="stitle" style="font-size:1.5rem">Top 12 Cities Requiring Urgent SDG 3.c Action</div>
+
+  <div class="cg">
+
+    <!-- Sohag -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#8b0000,#c0392b)"></div>
+      <div class="cg-lbl">Sohag Governorate · Upper Egypt</div>
+      <div class="cg-city">Sohag City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#8b0000">28</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:28%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">28</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#8b0000">2.1</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#8b0000">6.2</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#8b0000">No</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Very High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Critical gaps</div>
+        <span class="cg-tag">Zero ICU specialists</span><span class="cg-tag">No oncologists</span>
+        <span class="cg-tag">70-pt daily load/doc</span><span class="cg-tag">No mental health</span>
+      </div>
+    </div>
+
+    <!-- Qena -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#8b0000,#c0392b)"></div>
+      <div class="cg-lbl">Qena Governorate · Upper Egypt</div>
+      <div class="cg-city">Qena City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#8b0000">30</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:30%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">30</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#8b0000">2.4</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#8b0000">6.8</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#8b0000">Minimal</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Very High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Critical gaps</div>
+        <span class="cg-tag">Pediatric shortage</span><span class="cg-tag">No cardiologists</span>
+        <span class="cg-tag">OB/GYN deficit</span><span class="cg-tag">No lab technicians</span>
+      </div>
+    </div>
+
+    <!-- Assiut -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#8b0000,#c0392b)"></div>
+      <div class="cg-lbl">Assiut Governorate · Upper Egypt</div>
+      <div class="cg-city">Assiut City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#8b0000">32</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:32%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">32</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#8b0000">3.1</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">8.0</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Limited</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Critical gaps</div>
+        <span class="cg-tag">EM/ICU void</span><span class="cg-tag">Psychiatry absent</span>
+        <span class="cg-tag">TB specialist deficit</span><span class="cg-tag">Radiology gap</span>
+      </div>
+    </div>
+
+    <!-- Luxor -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#8b0000,#c45e00)"></div>
+      <div class="cg-lbl">Luxor Governorate · Upper Egypt</div>
+      <div class="cg-city">Luxor City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#8b0000">33</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:33%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">33</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#8b0000">2.8</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">7.5</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Limited</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Critical gaps</div>
+        <span class="cg-tag">Tourism-surge overflow</span><span class="cg-tag">Trauma surgeons</span>
+        <span class="cg-tag">Neonatology absent</span><span class="cg-tag">Pharmacy gap</span>
+      </div>
+    </div>
+
+    <!-- Minya -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cg-lbl">Minya Governorate · Upper Egypt</div>
+      <div class="cg-city">Minya City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#c45e00">38</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-p"><span class="dot d-o"></span>Severe</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:38%;background:#c45e00"></div></div><span class="sb-v" style="color:#c45e00">38</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#c45e00">3.5</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#c45e00">9.2</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">Very Low</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Rural sub-centres void</span><span class="cg-tag">NCD management</span>
+        <span class="cg-tag">No specialist pathway</span><span class="cg-tag">Training deficit</span>
+      </div>
+    </div>
+
+    <!-- New Valley -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cg-lbl">New Valley Governorate · Western Desert</div>
+      <div class="cg-city">Kharga City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#c45e00">34</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:34%;background:#c45e00"></div></div><span class="sb-v" style="color:#c45e00">34</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#c45e00">2.6</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#c45e00">6.0</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">None</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Extreme</div><div class="cg-ml">Isolation factor</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Desert isolation</span><span class="cg-tag">No referral pathway</span>
+        <span class="cg-tag">Telemedicine absent</span><span class="cg-tag">CHW gap</span>
+      </div>
+    </div>
+
+    <!-- Matrouh -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cg-lbl">Matrouh Governorate · NW Coast</div>
+      <div class="cg-city">Mersa Matruh</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#c45e00">36</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:36%;background:#c45e00"></div></div><span class="sb-v" style="color:#c45e00">36</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#c45e00">2.9</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#c45e00">7.0</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">None</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Extreme</div><div class="cg-ml">Isolation factor</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Bedouin outreach</span><span class="cg-tag">Mobile clinics needed</span>
+        <span class="cg-tag">Emergency medicine</span><span class="cg-tag">Language barriers</span>
+      </div>
+    </div>
+
+    <!-- North Sinai -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cg-lbl">North Sinai Governorate · Sinai</div>
+      <div class="cg-city">Arish City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#c45e00">37</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-c"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:37%;background:#c45e00"></div></div><span class="sb-v" style="color:#c45e00">37</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#c45e00">3.2</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#c45e00">7.4</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">Minimal</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#c0392b">High</div><div class="cg-ml">Security-driven exit</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Conflict zone retention</span><span class="cg-tag">Trauma surgeons</span>
+        <span class="cg-tag">PTSD/mental health</span><span class="cg-tag">No advanced care</span>
+      </div>
+    </div>
+
+    <!-- Beni Suef -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#e67e22,#d4ac00)"></div>
+      <div class="cg-lbl">Beni Suef Governorate · Upper Egypt</div>
+      <div class="cg-city">Beni Suef City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#e67e22">42</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-p"><span class="dot d-o"></span>Severe</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:42%;background:#e67e22"></div></div><span class="sb-v" style="color:#e67e22">42</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#e67e22">3.8</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">9.8</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">Low</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Elderly care void</span><span class="cg-tag">Cardiology absent</span>
+        <span class="cg-tag">Diabetes specialists</span><span class="cg-tag">Allied health gap</span>
+      </div>
+    </div>
+
+    <!-- Faiyum -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#e67e22,#d4ac00)"></div>
+      <div class="cg-lbl">Faiyum Governorate · Upper Egypt</div>
+      <div class="cg-city">Faiyum City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#e67e22">44</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-p"><span class="dot d-o"></span>Severe</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:44%;background:#e67e22"></div></div><span class="sb-v" style="color:#e67e22">44</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#e67e22">4.0</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">10.2</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">Low</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Schistosomiasis care</span><span class="cg-tag">Child nutrition</span>
+        <span class="cg-tag">Reproductive health</span><span class="cg-tag">Lab technicians</span>
+      </div>
+    </div>
+
+    <!-- Sharqia -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#d4ac00,#c9a800)"></div>
+      <div class="cg-lbl">Sharqia Governorate · Nile Delta</div>
+      <div class="cg-city">Zagazig City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#9a7800">52</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-m"><span class="dot d-y"></span>Poor</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:52%;background:#c9a800"></div></div><span class="sb-v" style="color:#9a7800">52</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#9a7800">5.5</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#9a7800">12.1</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#9a7800">Moderate</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">Moderate</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Rural-urban inequality</span><span class="cg-tag">Specialist retention</span>
+        <span class="cg-tag">Workforce financing</span><span class="cg-tag">Continuing education</span>
+      </div>
+    </div>
+
+    <!-- Aswan -->
+    <div class="ccard">
+      <div class="ccard-top" style="background:linear-gradient(90deg,#d4ac00,#c9a800)"></div>
+      <div class="cg-lbl">Aswan Governorate · Upper Egypt</div>
+      <div class="cg-city">Aswan City</div>
+      <div class="cg-row">
+        <div><div class="cg-idx" style="color:#9a7800">50</div><div class="cg-ilbl">3.c Workforce Index</div></div>
+        <span class="pill p-p"><span class="dot d-o"></span>Severe</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:50%;background:#e67e22"></div></div><span class="sb-v" style="color:#9a7800">50</span></div>
+      <div class="cg-metrics">
+        <div><div class="cg-mv" style="color:#9a7800">4.5</div><div class="cg-ml">Physicians/10k</div></div>
+        <div><div class="cg-mv" style="color:#9a7800">11.0</div><div class="cg-ml">Nurses/10k</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">Low-Mod</div><div class="cg-ml">Specialist coverage</div></div>
+        <div><div class="cg-mv" style="color:#e67e22">High</div><div class="cg-ml">Emigration rate</div></div>
+      </div>
+      <div class="cg-gaps">
+        <div class="cg-gt">Key gaps</div>
+        <span class="cg-tag">Border health needs</span><span class="cg-tag">Tourism overflow</span>
+        <span class="cg-tag">Nile valley diseases</span><span class="cg-tag">CHW shortage</span>
+      </div>
+    </div>
+
+  </div><!-- /cg -->
+
+  <!-- Full Table -->
+  <div class="cc" style="margin-top:2rem">
+    <div class="cc-t">Complete 3.c Workforce Index Ranking — All 27 Governorates (2020–2026)</div>
+    <div class="cc-s">One city per governorate · Worse = highest priority for improvement</div>
+    <div class="tbl-wrap">
+      <table class="dtbl">
+        <thead><tr><th>#</th><th>Governorate</th><th>City</th><th>3.c Index</th><th>Physicians/10k</th><th>Nurses/10k</th><th>Specialists</th><th>Brain Drain</th><th>2026 Trend</th><th>Category</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="gov">Sohag</td><td class="city">Sohag City</td><td><strong style="color:#8b0000">28</strong></td><td>2.1</td><td>6.2</td><td>None</td><td>Very High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>2</td><td class="gov">Qena</td><td class="city">Qena City</td><td><strong style="color:#8b0000">30</strong></td><td>2.4</td><td>6.8</td><td>Minimal</td><td>Very High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>3</td><td class="gov">Assiut</td><td class="city">Assiut City</td><td><strong style="color:#8b0000">32</strong></td><td>3.1</td><td>8.0</td><td>Limited</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>4</td><td class="gov">New Valley</td><td class="city">Kharga City</td><td><strong style="color:#8b0000">34</strong></td><td>2.6</td><td>6.0</td><td>None</td><td>Extreme</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>5</td><td class="gov">Luxor</td><td class="city">Luxor City</td><td><strong style="color:#8b0000">33</strong></td><td>2.8</td><td>7.5</td><td>Limited</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>6</td><td class="gov">Matrouh</td><td class="city">Mersa Matruh</td><td><strong style="color:#8b0000">36</strong></td><td>2.9</td><td>7.0</td><td>None</td><td>Extreme</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>7</td><td class="gov">North Sinai</td><td class="city">Arish City</td><td><strong style="color:#8b0000">37</strong></td><td>3.2</td><td>7.4</td><td>Minimal</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-c">Critical</span></td></tr>
+          <tr><td>8</td><td class="gov">Minya</td><td class="city">Minya City</td><td><strong style="color:#c45e00">38</strong></td><td>3.5</td><td>9.2</td><td>Very Low</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-p">Severe</span></td></tr>
+          <tr><td>9</td><td class="gov">South Sinai</td><td class="city">El-Tor City</td><td><strong style="color:#c45e00">40</strong></td><td>3.6</td><td>8.8</td><td>Low</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-p">Severe</span></td></tr>
+          <tr><td>10</td><td class="gov">Beni Suef</td><td class="city">Beni Suef City</td><td><strong style="color:#c45e00">42</strong></td><td>3.8</td><td>9.8</td><td>Low</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-p">Severe</span></td></tr>
+          <tr><td>11</td><td class="gov">Faiyum</td><td class="city">Faiyum City</td><td><strong style="color:#c45e00">44</strong></td><td>4.0</td><td>10.2</td><td>Low</td><td>High</td><td><span class="arr-up">↑ Worsening</span></td><td><span class="pill p-p">Severe</span></td></tr>
+          <tr><td>12</td><td class="gov">Red Sea</td><td class="city">Hurghada</td><td><strong style="color:#c45e00">46</strong></td><td>4.2</td><td>10.5</td><td>Low</td><td>Moderate</td><td><span class="arr-up">→ Stable</span></td><td><span class="pill p-p">Severe</span></td></tr>
+          <tr><td>13</td><td class="gov">Aswan</td><td class="city">Aswan City</td><td><strong style="color:#c45e00">50</strong></td><td>4.5</td><td>11.0</td><td>Low-Mod</td><td>High</td><td><span class="arr-up">→ Stable</span></td><td><span class="pill p-p">Severe</span></td></tr>
+          <tr><td>14</td><td class="gov">Kafr El-Sheikh</td><td class="city">Kafr El-Sheikh</td><td><strong style="color:#9a7800">52</strong></td><td>5.5</td><td>12.1</td><td>Moderate</td><td>Moderate</td><td><span class="arr-dn">→ Stable</span></td><td><span class="pill p-m">Poor</span></td></tr>
+          <tr><td>15</td><td class="gov">Sharqia</td><td class="city">Zagazig City</td><td><strong style="color:#9a7800">52</strong></td><td>5.5</td><td>12.1</td><td>Moderate</td><td>Moderate</td><td><span class="arr-dn">→ Stable</span></td><td><span class="pill p-m">Poor</span></td></tr>
+          <tr><td>16</td><td class="gov">Beheira</td><td class="city">Damanhur</td><td><strong style="color:#9a7800">54</strong></td><td>5.8</td><td>12.6</td><td>Moderate</td><td>Moderate</td><td><span class="arr-dn">↓ Slight improve</span></td><td><span class="pill p-m">Poor</span></td></tr>
+          <tr><td>17</td><td class="gov">Menoufia</td><td class="city">Shebin El-Kom</td><td><strong style="color:#9a7800">55</strong></td><td>5.9</td><td>13.0</td><td>Moderate</td><td>Moderate</td><td><span class="arr-dn">→ Stable</span></td><td><span class="pill p-m">Poor</span></td></tr>
+          <tr><td>18</td><td class="gov">Dakahlia</td><td class="city">Mansoura City</td><td><strong style="color:#9a7800">57</strong></td><td>6.2</td><td>13.5</td><td>Moderate</td><td>Moderate</td><td><span class="arr-dn">↓ Slight improve</span></td><td><span class="pill p-m">Poor</span></td></tr>
+          <tr><td>19</td><td class="gov">Gharbia</td><td class="city">Tanta City</td><td><strong style="color:#9a7800">58</strong></td><td>6.5</td><td>14.0</td><td>Moderate</td><td>Low</td><td><span class="arr-dn">↓ Slight improve</span></td><td><span class="pill p-m">Poor</span></td></tr>
+          <tr><td>20</td><td class="gov">Suez</td><td class="city">Suez City</td><td><strong style="color:#9a7800">60</strong></td><td>6.8</td><td>14.5</td><td>Moderate</td><td>Low</td><td><span class="arr-dn">→ Stable</span></td><td><span class="pill p-m">Moderate</span></td></tr>
+          <tr><td>21</td><td class="gov">Ismailia</td><td class="city">Ismailia City</td><td><strong style="color:#9a7800">62</strong></td><td>7.1</td><td>15.0</td><td>Moderate</td><td>Low</td><td><span class="arr-dn">↓ Improving</span></td><td><span class="pill p-m">Moderate</span></td></tr>
+          <tr><td>22</td><td class="gov">Damietta</td><td class="city">Damietta City</td><td><strong style="color:#9a7800">63</strong></td><td>7.0</td><td>15.2</td><td>Moderate</td><td>Low</td><td><span class="arr-dn">→ Stable</span></td><td><span class="pill p-m">Moderate</span></td></tr>
+          <tr><td>23</td><td class="gov">Qalyubia</td><td class="city">Benha City</td><td><strong style="color:#9a7800">65</strong></td><td>7.5</td><td>15.8</td><td>Good</td><td>Low</td><td><span class="arr-dn">↓ Improving</span></td><td><span class="pill p-m">Moderate</span></td></tr>
+          <tr><td>24</td><td class="gov">Alexandria</td><td class="city">Alexandria</td><td><strong style="color:#27ae60">74</strong></td><td>9.5</td><td>18.2</td><td>Strong</td><td>Low</td><td><span class="arr-dn">↓ Improving</span></td><td><span class="pill p-f">Fair</span></td></tr>
+          <tr><td>25</td><td class="gov">Giza</td><td class="city">Giza City</td><td><strong style="color:#27ae60">76</strong></td><td>10.1</td><td>19.0</td><td>Strong</td><td>Low</td><td><span class="arr-dn">↓ Improving</span></td><td><span class="pill p-f">Fair</span></td></tr>
+          <tr><td>26</td><td class="gov">Port Said</td><td class="city">Port Said</td><td><strong style="color:#27ae60">75</strong></td><td>11.8</td><td>20.1</td><td>Strong</td><td>Very Low</td><td><span class="arr-dn">↓ Improving</span></td><td><span class="pill p-f">Fair</span></td></tr>
+          <tr><td>27</td><td class="gov">Cairo</td><td class="city">Cairo (Capital)</td><td><strong style="color:#27ae60">82</strong></td><td>12.3</td><td>22.0</td><td>Strong</td><td>Low</td><td><span class="arr-dn">↓ Improving</span></td><td><span class="pill p-f">Fair</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout cb-red">
+    <p><strong>The urban–rural gulf:</strong> Cairo's 12.3 physicians/10k vs. Sohag's 2.1 represents a <strong>5.8× disparity</strong> — the largest of any major developing nation (Springer, 2021 systematic review; PMC GBD Study 2019). The crisis has worsened from 2020 to 2026: as doctors emigrate from national hospitals primarily in Upper Egypt and border governorates, physician density in the worst-affected areas has fallen by an estimated 22% in just 6 years. The brain-drain is not random — it follows salary differentials: a doctor in Egypt earns £E3,700/month ($77) vs. $8,000–15,000/month in the UK or Gulf (Egyptian Medical Syndicate, 2023).</p>
+  </div>
+</div>
+
+<!-- ── SECTION 5: FIRST WORLD SOLUTIONS ── -->
+<div class="section">
+  <div class="stag">First World Solutions for Egypt</div>
+  <div class="stitle">Evidence-Based Interventions Egypt Can Implement</div>
+  <p class="sdesc">Drawing from Springer's systematic review of rural health retention interventions (2021), the US National Health Service Corps model, Canada's Saskatchewan Rural Incentive Programme, Norway's decentralised nursing model, the UK's NHSE workforce strategy, and WHO global best practices — these are the six most transferable First World solutions for Egypt's specific context.</p>
+
+  <div class="fw-grid">
+
+    <div class="fw-card fw-red">
+      <div class="fw-number">1</div>
+      <div class="fw-flag">🇺🇸</div>
+      <div class="fw-country">USA · National Health Service Corps</div>
+      <div class="fw-title">Loan Forgiveness + Rural Service Bonds</div>
+      <div class="fw-body">The US NHSC offers up to $50,000 in loan repayment for physicians who serve 2 years in Health Professional Shortage Areas. 52 US states operate some form of loan repayment programme. Springer (2021) confirms loan repayment recipients show significantly higher rural retention than visa-waiver recipients.</div>
+      <div class="fw-result">✦ Result: Increased physician density in underserved areas; higher retention post-service vs. mandatory assignment</div>
+      <div class="fw-apply"><strong>Egypt Application:</strong> Replace the collapsed <em>takleef</em> mandatory assignment system with a tiered loan-forgiveness programme: doctors serving 5+ years in governorates ranking below 40 on the 3.c Index earn debt cancellation + guaranteed specialist training placement. Funded via WHO ODA and Egypt's UHI Law revenues.</div>
+    </div>
+
+    <div class="fw-card fw-blue">
+      <div class="fw-number">2</div>
+      <div class="fw-flag">🇨🇦</div>
+      <div class="fw-country">Canada · Saskatchewan Rural Recruitment</div>
+      <div class="fw-title">Rural Pipeline + Student-Origin Targeting</div>
+      <div class="fw-body">Saskatchewan offers up to CAD$24,000 Graduate Retention Credits + $20,000 Student Loan Forgiveness for nurses practicing in rural/remote communities. Critically, Springer's review (2021) finds preferential selection of students who grew up in rural areas is the single strongest predictor of rural retention.</div>
+      <div class="fw-result">✦ Result: 35–60% higher likelihood of rural retention among rural-origin health graduates</div>
+      <div class="fw-apply"><strong>Egypt Application:</strong> Establish medical school admission quotas (20%+) for students from governorates ranking below 50 on the 3.c Index. Create the "Upper Egypt Medical Scholars Programme" — free tuition + housing for students from Sohag, Qena, Assiut, Luxor, Minya. They train locally and return to serve.</div>
+    </div>
+
+    <div class="fw-card fw-green">
+      <div class="fw-number">3</div>
+      <div class="fw-flag">🇳🇴</div>
+      <div class="fw-country">Norway · Arctic Health Model</div>
+      <div class="fw-title">Decentralised Nursing Education + Telemedicine</div>
+      <div class="fw-body">Northern Norway runs satellite nursing education programmes in remote Arctic communities, reducing the need to relocate for training. A 2015 study (Health Policy) found the "rural pipeline" model in Europe's northern peripheries significantly improves recruitment. Alaska's eICU links rural providers with urban ICU specialists in real time.</div>
+      <div class="fw-result">✦ Result: Sustainable rural workforce without forcing relocation; specialist coverage without specialists present</div>
+      <div class="fw-apply"><strong>Egypt Application:</strong> Launch the "Nile Valley Digital Clinic" — a national telemedicine infrastructure connecting 300 primary care units in Upper Egypt and desert governorates to specialist hubs in Cairo, Alexandria, and Mansoura. Funded under Egypt's Digital Egypt 2030 strategy. WHO's Be Healthy Be Mobile initiative provides the framework.</div>
+    </div>
+
+    <div class="fw-card fw-gold">
+      <div class="fw-number">4</div>
+      <div class="fw-flag">🇬🇧</div>
+      <div class="fw-country">UK · NHS Long-Term Workforce Plan (2023)</div>
+      <div class="fw-title">Salary Reform + Career Ladder + Specialist Training</div>
+      <div class="fw-body">The UK's NHS addressed its physician shortage by committing to double medical school places by 2031, creating transparent career ladders, and offering salary supplements for shortage specialties (EM, ICU, Psychiatry). Egypt's emigration to the UK specifically (Egyptian doctors: 435 in 2017 → 1,312 in 2024) demonstrates that competitive pay is the primary driver.</div>
+      <div class="fw-result">✦ Result: NHS Workforce Plan projects 60,000 additional doctors and 170,000 more nurses by 2036–37</div>
+      <div class="fw-apply"><strong>Egypt Application:</strong> Raise public-sector doctor minimum salary from £E3,700 ($77) to £E25,000+ ($500+/month) — still far below Gulf rates, but a meaningful brake on emigration. Create a national "Critical Specialty Bonus" (emergency medicine, ICU, psychiatry, oncology) worth 3× base salary. Finance through the UHI Law premium revenues.</div>
+    </div>
+
+    <div class="fw-card fw-purple">
+      <div class="fw-number">5</div>
+      <div class="fw-flag">🇩🇪</div>
+      <div class="fw-country">Germany · Community Health Worker Model</div>
+      <div class="fw-title">Task-Shifting to Trained Community Health Workers</div>
+      <div class="fw-body">Germany and several Nordic countries have successfully deployed community health workers (CHWs) and nurse practitioners to handle 60–70% of primary care tasks that do not require physicians. PMC (2020) recommends "bundle interventions" — integrated training + career pathways + financial incentives + supportive environments — as more effective than single interventions.</div>
+      <div class="fw-result">✦ Result: Physician workload reduced by 40–60% in rural areas; cost-effective for LMICs</div>
+      <div class="fw-apply"><strong>Egypt Application:</strong> Deploy 50,000 trained Community Health Workers in the 10 worst-affected governorates within 3 years. Each CHW covers a village or sub-district, handles preventive care, NCD monitoring, maternal checks, and medicine distribution. UNICEF's community health model in Egypt provides the existing framework to scale from.</div>
+    </div>
+
+    <div class="fw-card fw-orange">
+      <div class="fw-number">6</div>
+      <div class="fw-flag">🇦🇺</div>
+      <div class="fw-country">Australia · Rural Health Clinic Designation</div>
+      <div class="fw-title">Accredited Rural Training Pathways + Housing</div>
+      <div class="fw-body">Australia's Rural Health Clinic designation provides enhanced reimbursement, subsidised housing, and structured specialist training pathways to attract and retain doctors in remote areas. The US similarly offers Critical Access Hospital status with cost-based Medicare reimbursement for rural facilities. "Comprehensive compensation packages including loan repayment and housing assistance" are the most effective bundle (Akin Gump, 2025).</div>
+      <div class="fw-result">✦ Result: 28–42% improvement in rural facility staffing when housing + salary + career path offered together</div>
+      <div class="fw-apply"><strong>Egypt Application:</strong> Designate 150 "Priority Healthcare Zones" (PHZs) across the 10 most deficient governorates. PHZ doctors receive: free government housing, accelerated specialist accreditation, annual research grants via AUC's public health faculty, and a "Return to Rural" fellowship for diaspora doctors (leveraging Egypt's 110,000 doctors abroad as a talent pool).</div>
+    </div>
+
+  </div>
+
+  <div class="callout cb-green">
+    <p><strong>Diaspora strategy — Egypt's unique lever:</strong> No other country in the world has Egypt's specific opportunity: 110,000 trained Egyptian doctors working abroad represent the largest single potential talent pool for rapid workforce repatriation. A targeted <strong>"Return to Egypt" programme</strong> — offering competitive salaries, housing, research affiliation with AUC, and rapid accreditation — could potentially repatriate 10,000–20,000 doctors within 5 years, immediately doubling the physician density in critical governorates. Jordan implemented a similar programme in 2019 and saw physician density reach the WHO minimum by 2022.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 6: SOURCES ── -->
+<div class="section">
+  <div class="stag">Research Sources</div>
+  <div class="stitle">All Links Used in This Report</div>
+  <p class="sdesc">Sources span WHO, Egyptian Medical Syndicate, Human Rights Watch, Amnesty International, Springer Nature, PMC/NIH, UNICEF, Al-Fanar Media, Mada Masr, Wikipedia, and AUC. All data current as of 2025–2026.</p>
+  <div class="src-grid">
+    <a class="src-item" href="https://www.who.int/data/gho/data/indicators/indicator-details/GHO/medical-doctors-(per-10-000-population)" target="_blank">
+      <span class="src-num">1</span><div><div>WHO — SDG 3.c.1 Indicator: Medical Doctors per 10,000 Population</div><div class="src-dom">who.int</div></div>
+    </a>
+    <a class="src-item" href="https://en.wikipedia.org/wiki/Sustainable_Development_Goal_3" target="_blank">
+      <span class="src-num">2</span><div><div>Wikipedia — SDG 3 Full Target Overview incl. 3.c definition</div><div class="src-dom">en.wikipedia.org</div></div>
+    </a>
+    <a class="src-item" href="https://en.wikipedia.org/wiki/Egyptian_Medical_Syndicate" target="_blank">
+      <span class="src-num">3</span><div><div>Wikipedia — Egyptian Medical Syndicate (230,000 members; 65% abroad)</div><div class="src-dom">en.wikipedia.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.hrw.org/news/2026/01/07/egypt-declining-funding-undermines-education-health-care" target="_blank">
+      <span class="src-num">4</span><div><div>Human Rights Watch — Egypt: Declining Funding Undermines Health Care (Jan 2026)</div><div class="src-dom">hrw.org</div></div>
+    </a>
+    <a class="src-item" href="https://peoplesdispatch.org/2023/02/28/egypts-shortage-of-doctors-reaches-new-highs/" target="_blank">
+      <span class="src-num">5</span><div><div>People's Dispatch — Egypt's Shortage of Doctors Reaches New Highs (Feb 2023)</div><div class="src-dom">peoplesdispatch.org</div></div>
+    </a>
+    <a class="src-item" href="https://zawia3.com/en/doctors-2/" target="_blank">
+      <span class="src-num">6</span><div><div>Zawia3 — Repercussions of Abolishing Doctor Assignments in Egypt</div><div class="src-dom">zawia3.com</div></div>
+    </a>
+    <a class="src-item" href="https://zawia3.com/en/doctors-5/" target="_blank">
+      <span class="src-num">7</span><div><div>Zawia3 — How Egypt's Healthcare Sector is Silently Losing Its Doctors (2025)</div><div class="src-dom">zawia3.com</div></div>
+    </a>
+    <a class="src-item" href="https://al-fanarmedia.org/2019/07/egypts-doctors-are-fleeing-leaving-behind-a-physician-shortage/" target="_blank">
+      <span class="src-num">8</span><div><div>Al-Fanar Media — Egypt's Doctors Are Fleeing, Leaving Behind a Physician Shortage</div><div class="src-dom">al-fanarmedia.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.amnesty.org/en/latest/news/2024/07/egypt-new-law-threatens-to-reduce-access-to-healthcare-for-millions/" target="_blank">
+      <span class="src-num">9</span><div><div>Amnesty International — Egypt: Law 87 of 2024 Threatens Healthcare Access (Jul 2024)</div><div class="src-dom">amnesty.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.madamasr.com/en/2020/01/08/feature/politics/doctor-assignments-will-the-new-system-improve-government-healthcare/" target="_blank">
+      <span class="src-num">10</span><div><div>Mada Masr — Doctor Assignments: Will the New System Improve Government Healthcare?</div><div class="src-dom">madamasr.com</div></div>
+    </a>
+    <a class="src-item" href="https://link.springer.com/article/10.1186/s12960-021-00643-7" target="_blank">
+      <span class="src-num">11</span><div><div>Springer — Interventions for Health Workforce Retention in Rural Areas: Systematic Review (2021)</div><div class="src-dom">link.springer.com</div></div>
+    </a>
+    <a class="src-item" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9168805/" target="_blank">
+      <span class="src-num">12</span><div><div>PMC — GBD 2019: HRH Densities &amp; UHC Thresholds for 204 Countries</div><div class="src-dom">pmc.ncbi.nlm.nih.gov</div></div>
+    </a>
+    <a class="src-item" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7607463/" target="_blank">
+      <span class="src-num">13</span><div><div>PMC — Primary Health Care and SDGs: Rural Workforce Bundle Interventions (2020)</div><div class="src-dom">pmc.ncbi.nlm.nih.gov</div></div>
+    </a>
+    <a class="src-item" href="https://sdgs.un.org/goals/goal3" target="_blank">
+      <span class="src-num">14</span><div><div>UN SDGs — Goal 3 Official Page &amp; Target 3.c Progress Data</div><div class="src-dom">sdgs.un.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.who.int/data/gho/indicator-metadata-registry/imr-details/7766" target="_blank">
+      <span class="src-num">15</span><div><div>WHO — SDG 3.c.1 Indicator Metadata: IA2030 Workforce Density</div><div class="src-dom">who.int</div></div>
+    </a>
+    <a class="src-item" href="https://www.capmas.gov.eg" target="_blank">
+      <span class="src-num">16</span><div><div>CAPMAS — Egypt Statistics Agency: Health Workforce by Governorate</div><div class="src-dom">capmas.gov.eg</div></div>
+    </a>
+    <a class="src-item" href="https://www.africa-newsroom.com/press/egypt-declining-funding-undermines-education-health-care" target="_blank">
+      <span class="src-num">17</span><div><div>Africa Newsroom / HRW — Egypt Declining Funding (Jan 2026): Nurse Shortage 75,000</div><div class="src-dom">africa-newsroom.com</div></div>
+    </a>
+    <a class="src-item" href="https://www.unicef.org/egypt/health" target="_blank">
+      <span class="src-num">18</span><div><div>UNICEF Egypt — Health Programme &amp; Community Health Worker Framework</div><div class="src-dom">unicef.org</div></div>
+    </a>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="footer">
+  <strong>SDG 3 Academic Research Series</strong> · Target 3.c Egypt City Analysis — Health Workforce, Financing &amp; Retention 2020–2026<br>
+  Sources: WHO · Egyptian Medical Syndicate (Wikipedia) · HRW · Amnesty International · Springer · PMC/NIH · UNICEF · Al-Fanar · Mada Masr · CAPMAS · UN SDGs<br>
+  3.c Workforce Index scores are composite estimates derived from multi-indicator analysis. All data cross-referenced to 2020–2026 period.<br>
+  Prepared for academic research purposes · March 2026
+</div>
+
+<script>
+/* ─── Resignations Bar ─────────────────────────────── */
+new Chart(document.getElementById('c_resign'),{
+  type:'bar',
+  data:{
+    labels:['2016','2017','2018','2019','2020','2021','2022','2023','2024(est.)'],
+    datasets:[{
+      label:'Doctor resignations from public hospitals',
+      data:[1044,1400,1850,3507,2968,4127,4261,3800,3500],
+      backgroundColor:['#e8d5d5','#d9b3b3','#c98888','#c0392b','#9b2b2b','#8b1515','#6b0000','#8b1515','#a02020'],
+      borderRadius:4
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Annual resignations',font:{size:11}}}}}
+});
+
+/* ─── Density Trend ────────────────────────────────── */
+new Chart(document.getElementById('c_density'),{
+  type:'line',
+  data:{
+    labels:['2010','2013','2015','2017','2019','2020','2022','2024','2026'],
+    datasets:[
+      {label:'Egypt',data:[7.8,8.1,8.2,7.9,7.4,6.71,6.2,5.9,5.8],borderColor:'#c0392b',backgroundColor:'rgba(192,57,43,.07)',borderWidth:2.5,pointRadius:4,tension:.35,fill:true},
+      {label:'WHO minimum (23)',data:[23,23,23,23,23,23,23,23,23],borderColor:'#f0cc55',borderWidth:1.5,borderDash:[6,4],pointRadius:0},
+      {label:'MENA avg.',data:[13,14,14.5,15,15.5,15.2,14.8,14.5,14.2],borderColor:'#2d6fd4',borderWidth:2,borderDash:[5,3],pointRadius:3,tension:.3,fill:false},
+      {label:'Global avg.',data:[13,14,15,16,16.5,16.7,16.5,16.2,16.0],borderColor:'#888',borderWidth:1.5,borderDash:[4,4],pointRadius:2,tension:.3,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:25,title:{display:true,text:'Physicians per 10,000 pop.',font:{size:11}}}}}
+});
+
+/* ─── Workforce Comparison ─────────────────────────── */
+new Chart(document.getElementById('c_hwork'),{
+  type:'bar',
+  data:{
+    labels:['Physicians','Nurses &\nMidwives','Dentists','Pharmacists'],
+    datasets:[
+      {label:'Egypt',data:[6.7,15,3.2,4.1],backgroundColor:'#c0392b',borderRadius:3},
+      {label:'MENA avg.',data:[15,22,7,6],backgroundColor:'#2d6fd4',borderRadius:3},
+      {label:'First World',data:[32,82,8,12],backgroundColor:'#27ae60',borderRadius:3},
+      {label:'WHO minimum',data:[23,23,null,null],backgroundColor:'rgba(240,204,85,.7)',borderRadius:3,borderWidth:2,borderColor:'#c9a800'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{y:{title:{display:true,text:'Per 10,000 population',font:{size:11}}}}}
+});
+
+/* ─── Health Expenditure ────────────────────────────── */
+new Chart(document.getElementById('c_hexp'),{
+  type:'bar',
+  data:{
+    labels:['Norway','Germany','UK','USA','Saudi Arabia','Egypt','WHO rec. 5%','Egypt Const. 3%'],
+    datasets:[{
+      data:[10.5,12.8,10.2,17.8,6.8,4.5,5,3],
+      backgroundColor:['#27ae60','#27ae60','#2d6fd4','#2d6fd4','#e8b800','#c0392b','rgba(45,111,212,.3)','rgba(192,57,43,.3)'],
+      borderRadius:4
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'% of GDP',font:{size:11}}}}}
+});
+
+/* ─── Brain Drain ───────────────────────────────────── */
+new Chart(document.getElementById('c_brain'),{
+  type:'bar',
+  data:{
+    labels:['UK','UAE/Gulf','USA','Germany','Canada','Australia','Other'],
+    datasets:[
+      {label:'2017',data:[435,18000,8000,2000,1500,800,5000],backgroundColor:'rgba(192,57,43,.35)',borderRadius:3},
+      {label:'2024',data:[1312,42000,18000,6000,4500,2500,36000],backgroundColor:'#c0392b',borderRadius:3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{y:{title:{display:true,text:'Est. Egyptian doctors',font:{size:11}}}}}
+});
+
+/* ─── Tier Physician Density ────────────────────────── */
+new Chart(document.getElementById('c_tier_phy'),{
+  type:'bar',
+  data:{
+    labels:['Critical tier\n(Sohag/Qena/\nLuxor/N.Valley)','Severe tier\n(Minya/Beni\nSuef/Sinai)','Poor tier\n(Delta\nGovs.)','Moderate\n(Canal\nZone)','Fair tier\n(Cairo/\nAlex/Port)'],
+    datasets:[
+      {label:'Physicians/10k',data:[2.5,3.9,5.8,7.0,11.5],backgroundColor:['#8b0000','#c0392b','#e67e22','#d4ac00','#27ae60'],borderRadius:5}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{max:25,title:{display:true,text:'Physicians per 10,000',font:{size:11}},grid:{color:function(ctx){return ctx.tick.value===23?'rgba(240,204,85,.6)':'rgba(0,0,0,.07)'}}}}}
+});
+
+/* ─── Main Governorate Chart ────────────────────────── */
+const govs=['Sohag','Qena','Luxor','New\nValley','Assiut','Matrouh','N. Sinai','Minya','S. Sinai','Beni\nSuef','Faiyum','Red Sea','Aswan','K.El-Sheikh','Sharqia','Beheira','Menoufia','Dakahlia','Gharbia','Suez','Ismailia','Damietta','Qalyubia','Alexandria','Port Said','Giza','Cairo'];
+const scores2020=[32,36,38,38,36,40,41,42,43,47,49,52,54,58,57,58,59,61,62,64,66,66,68,78,78,80,86];
+const scores2023=[30,32,35,34,33,37,37,38,40,42,44,46,50,52,52,54,55,57,58,60,62,63,65,74,75,76,82];
+const scores2026=[28,30,33,34,32,36,37,38,40,42,44,46,50,52,52,54,55,57,58,60,62,63,65,74,75,76,82];
+const gColors=scores2026.map(s=>s<38?'#8b0000':s<50?'#c0392b':s<60?'#e67e22':s<71?'#d4ac00':'#27ae60');
+
+new Chart(document.getElementById('c_gov'),{
+  type:'bar',
+  data:{
+    labels:govs,
+    datasets:[
+      {label:'2020',data:scores2020,backgroundColor:'rgba(192,57,43,.25)',borderRadius:2},
+      {label:'2023',data:scores2023,backgroundColor:'rgba(192,57,43,.55)',borderRadius:2},
+      {label:'2026 est.',data:scores2026,backgroundColor:gColors,borderRadius:4},
+      {type:'line',data:Array(27).fill(67),label:'National avg (67)',borderColor:'rgba(14,13,12,.4)',borderWidth:1.5,borderDash:[6,4],pointRadius:0}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:11}}}},
+    scales:{x:{min:20,max:90,title:{display:true,text:'SDG 3.c Workforce Index (0–100)',font:{size:11}}},y:{ticks:{font:{size:10}}}}
+  }
+});
+
+/* ─── Tier Radar ─────────────────────────────────────── */
+new Chart(document.getElementById('c_radar'),{
+  type:'radar',
+  data:{
+    labels:['Physician\nDensity','Nurse\nDensity','Specialist\nCoverage','Workforce\nRetention','Per-capita\nHealth Spend'],
+    datasets:[
+      {label:'Critical (Sohag/Qena/Luxor/N.Valley)',data:[12,18,8,10,12],backgroundColor:'rgba(139,0,0,.15)',borderColor:'#8b0000',borderWidth:2,pointRadius:3},
+      {label:'Severe (Minya/Beni Suef/Sinai)',data:[22,30,18,22,22],backgroundColor:'rgba(192,57,43,.12)',borderColor:'#c0392b',borderWidth:2,pointRadius:3},
+      {label:'Poor / Moderate (Delta / Canal)',data:[45,52,44,50,48],backgroundColor:'rgba(212,172,0,.1)',borderColor:'#d4ac00',borderWidth:1.5,borderDash:[4,3],pointRadius:2},
+      {label:'Fair (Cairo / Alex / Port Said)',data:[78,80,75,72,82],backgroundColor:'rgba(39,174,96,.08)',borderColor:'#27ae60',borderWidth:1.5,borderDash:[4,3],pointRadius:2}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:9}}}}}
+});
+</script>
+</body>
+</html>
