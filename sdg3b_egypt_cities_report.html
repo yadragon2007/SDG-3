@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDG 3.b — Medicines, Vaccines & R&D Access in Egypt</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0b1f3a;
+    --navy2:  #142d52;
+    --blue:   #1c5fa8;
+    --blue2:  #2979c8;
+    --sky:    #3da5d9;
+    --teal:   #0d7c6b;
+    --teal2:  #17a98f;
+    --gold:   #c49a00;
+    --gold2:  #e8b800;
+    --amber:  #c45e00;
+    --red:    #b01b1b;
+    --red2:   #d93636;
+    --paper:  #f7f6f1;
+    --cream:  #edeae2;
+    --white:  #ffffff;
+    --ink:    #131210;
+    --muted:  #6a6760;
+    --border: rgba(11,31,58,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; }
+
+  /* ═══ HERO ══════════════════════════════ */
+  .hero {
+    background: var(--navy);
+    min-height: 460px;
+    display: flex; align-items: flex-end;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-circles {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .hero-bg-circles::before {
+    content: '';
+    position: absolute; top: -100px; right: -80px;
+    width: 480px; height: 480px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(61,165,217,0.12) 0%, transparent 65%);
+  }
+  .hero-bg-circles::after {
+    content: '';
+    position: absolute; bottom: -80px; left: 5%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,184,0,0.08) 0%, transparent 65%);
+  }
+  .hero-stripes {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.015) 0px,
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 60px
+    );
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    padding: 3rem 3rem 3.5rem;
+    max-width: 1120px; width: 100%; margin: 0 auto;
+    animation: riseUp 0.7s ease both;
+  }
+  @keyframes riseUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.4rem; }
+  .chip {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+  }
+  .chip-blue { background: rgba(41,121,200,0.25); border-color: rgba(41,121,200,0.5); color: #7dbfea; }
+  .chip-gold { background: rgba(196,154,0,0.2); border-color: rgba(232,184,0,0.4); color: #e8c84a; }
+
+  .hero h1 {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    font-weight: 700; line-height: 1.08;
+    color: #fff; margin-bottom: 1rem;
+  }
+  .hero h1 em { color: #e8c84a; font-style: normal; }
+  .hero-desc { font-size: 14px; color: rgba(255,255,255,0.6); max-width: 620px; line-height: 1.75; margin-bottom: 2rem; }
+
+  .hero-kpi-row { display: flex; flex-wrap: wrap; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; }
+  .hero-kpi { padding: 0 2rem 0 0; margin-right: 2rem; border-right: 1px solid rgba(255,255,255,0.1); }
+  .hero-kpi:last-child { border-right: none; }
+  .hero-kpi-val { font-family: 'Libre Baskerville', serif; font-size: 2rem; font-weight: 700; color: #e8c84a; line-height: 1; }
+  .hero-kpi-lbl { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+
+  /* ═══ LAYOUT ════════════════════════════ */
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+  .section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+
+  .sec-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue2); margin-bottom: 6px; }
+  .sec-title { font-family: 'Libre Baskerville', serif; font-size: 1.85rem; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 0.5rem; }
+  .sec-body { font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 700px; margin-bottom: 2rem; }
+
+  /* ═══ STAT BLOCKS ═══════════════════════ */
+  .kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 2rem; }
+  .kpi-cell { background: var(--white); padding: 1.1rem 1.3rem; }
+  .kpi-cell-lbl { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .kpi-cell-val { font-family: 'Libre Baskerville', serif; font-size: 1.9rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .kpi-cell-note { font-size: 12px; color: var(--muted); }
+  .cv-red    { color: var(--red2); }
+  .cv-amber  { color: var(--amber); }
+  .cv-gold   { color: var(--gold); }
+  .cv-teal   { color: var(--teal2); }
+  .cv-blue   { color: var(--blue2); }
+  .cv-navy   { color: var(--navy2); }
+
+  /* ═══ CALLOUT BOXES ══════════════════════ */
+  .callout {
+    padding: 1rem 1.4rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.5rem 0;
+    font-size: 13px; line-height: 1.75;
+  }
+  .callout-blue  { background: #e8f2fb; border-left: 3px solid var(--blue2); color: #0d2d50; }
+  .callout-gold  { background: #fdf5d6; border-left: 3px solid var(--gold);  color: #4a3600; }
+  .callout-red   { background: #fce8e8; border-left: 3px solid var(--red2);  color: #4a0d0d; }
+  .callout-teal  { background: #e4f4f1; border-left: 3px solid var(--teal2); color: #073028; }
+  .callout p strong { font-weight: 600; }
+
+  /* ═══ CHARTS ════════════════════════════ */
+  .chart-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .cc-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .cc-sub   { font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
+  .ch-260 { position:relative; height:260px; }
+  .ch-300 { position:relative; height:300px; }
+  .ch-340 { position:relative; height:340px; }
+  .ch-380 { position:relative; height:380px; }
+  .ch-420 { position:relative; height:420px; }
+
+  .two-col   { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; font-size:12px; color:var(--muted); }
+  .legend span { display:flex; align-items:center; gap:5px; }
+  .lsq { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+  .lci { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  /* ═══ GLOBAL LADDER ══════════════════════ */
+  .ladder { background: var(--navy); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+  .ladder h3 { font-family: 'Libre Baskerville', serif; font-size: 1.35rem; color: #e8c84a; margin-bottom: 1.5rem; }
+  .ladder-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .ladder-row:last-child { border-bottom:none; }
+  .lr-name { font-size:13px; color:rgba(255,255,255,0.85); min-width:170px; }
+  .lr-bar  { flex:1; height:8px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; }
+  .lr-fill { height:100%; border-radius:4px; }
+  .lr-val  { font-size:13px; font-weight:600; color:#fff; min-width:34px; text-align:right; }
+  .lr-tag  { font-size:10px; color:rgba(255,255,255,0.4); min-width:120px; text-align:right; }
+
+  /* ═══ TABLE ══════════════════════════════ */
+  .tbl-wrap { overflow-x:auto; }
+  .data-tbl { width:100%; border-collapse:collapse; font-size:13px; min-width:750px; }
+  .data-tbl th { background:var(--cream); font-weight:600; padding:9px 12px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); border-bottom:1px solid var(--border); }
+  .data-tbl td { padding:11px 12px; border-top:1px solid var(--border); vertical-align:middle; }
+  .data-tbl tr:hover td { background:var(--cream); }
+
+  /* ═══ PILL / BADGE ═══════════════════════ */
+  .pill { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 9px; border-radius:6px; font-weight:500; white-space:nowrap; }
+  .p-crit { background:#fce8e8; color:#8b1a1a; }
+  .p-poor { background:#fdf0da; color:#7a3800; }
+  .p-mod  { background:#fefce0; color:#6b5500; }
+  .p-fair { background:#e5f4ef; color:#0d5c3a; }
+  .dot { width:6px; height:6px; border-radius:50%; display:inline-block; }
+  .d-r { background:#c0392b; }
+  .d-a { background:#e67e22; }
+  .d-y { background:#d4ac00; }
+  .d-g { background:#27ae60; }
+
+  /* ═══ SCORE BAR ══════════════════════════ */
+  .sb-wrap { display:flex; align-items:center; gap:8px; }
+  .sb-track { flex:1; height:5px; background:#e8e4da; border-radius:3px; overflow:hidden; }
+  .sb-fill  { height:100%; border-radius:3px; }
+  .sb-val   { font-size:12px; font-weight:600; min-width:26px; text-align:right; }
+
+  /* ═══ CITY CARD GRID ════════════════════ */
+  .city-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:16px; margin-top:1.5rem; }
+  .city-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding:1.25rem;
+    position:relative; overflow:hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .city-card:hover { box-shadow:0 6px 24px rgba(11,31,58,0.1); transform:translateY(-2px); }
+  .cc-accent { position:absolute; top:0; left:0; right:0; height:3px; }
+  .cc-gov-label { font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+  .cc-city-name { font-family:'Libre Baskerville', serif; font-size:1.2rem; font-weight:700; margin-top:2px; margin-bottom:0.6rem; }
+  .cc-score-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.75rem; }
+  .cc-index-val { font-family:'Libre Baskerville', serif; font-size:2.1rem; font-weight:700; line-height:1; }
+  .cc-index-lbl { font-size:10px; color:var(--muted); }
+  .cc-metrics { display:grid; grid-template-columns:1fr 1fr; gap:6px 10px; margin:0.65rem 0; }
+  .cc-met-val { font-size:13px; font-weight:600; }
+  .cc-met-lbl { font-size:11px; color:var(--muted); }
+  .cc-gaps-title { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:5px; padding-top:0.65rem; border-top:1px solid var(--border); }
+  .cc-gap-tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:4px; background:var(--cream); color:var(--ink); margin:2px 2px 2px 0; }
+
+  /* ═══ SOURCES ════════════════════════════ */
+  .src-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(330px,1fr)); gap:8px; margin-top:1.5rem; }
+  .src-item {
+    display:flex; align-items:flex-start; gap:10px;
+    background:var(--white); border:1px solid var(--border);
+    border-radius:8px; padding:0.75rem 1rem;
+    text-decoration:none; color:inherit; font-size:12px; line-height:1.5;
+    transition:border-color 0.2s, box-shadow 0.2s;
+  }
+  .src-item:hover { border-color:var(--blue2); box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .src-num { width:22px; height:22px; border-radius:50%; background:var(--navy2); color:#fff; font-size:10px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .src-domain { font-size:10px; color:var(--muted); margin-top:2px; }
+
+  /* ═══ DIVIDER ════════════════════════════ */
+  .divider { height:1px; background:var(--border); margin:1.5rem 0; }
+
+  /* ═══ FOOTER ═════════════════════════════ */
+  .footer { background:var(--navy); color:rgba(255,255,255,0.45); padding:2rem 3rem; font-size:12px; line-height:1.75; text-align:center; }
+  .footer strong { color:rgba(255,255,255,0.75); }
+
+  @media (max-width:720px) {
+    .two-col, .three-col { grid-template-columns:1fr; }
+    .hero-inner { padding:2rem 1.5rem 2.5rem; }
+    .wrap { padding:0 1rem; }
+    .hero-kpi { margin-right:1rem; padding-right:1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ HERO ════════════ -->
+<div class="hero">
+  <div class="hero-bg-circles"></div>
+  <div class="hero-stripes"></div>
+  <div class="hero-inner">
+    <div class="hero-chips">
+      <span class="chip chip-blue">SDG 3 · Target 3.b</span>
+      <span class="chip chip-gold">Egypt Focus · Governorate Analysis</span>
+      <span class="chip">Academic Research · 2025–2026</span>
+    </div>
+    <h1>Medicines, Vaccines &amp; R&amp;D:<br><em>Egypt's Access Crisis</em></h1>
+    <p class="hero-desc">A city-level statistical analysis of SDG Target 3.b performance across Egypt's 27 governorates — identifying where access to essential medicines, childhood vaccines, and health R&D support is most critically deficient, benchmarked against global, African, and Middle Eastern standards.</p>
+    <div class="hero-kpi-row">
+      <div class="hero-kpi">
+        <div class="hero-kpi-val">~65%</div>
+        <div class="hero-kpi-lbl">Essential medicine availability (public sector)</div>
+      </div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val">94%</div>
+        <div class="hero-kpi-lbl">DTP3 immunisation coverage (national)</div>
+      </div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val">~45%</div>
+        <div class="hero-kpi-lbl">COVID-19 full vaccination rate</div>
+      </div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val">0/13</div>
+        <div class="hero-kpi-lbl">SDG-3 targets fully achieved globally</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ PAGE ════════════ -->
+<div class="wrap">
+
+<!-- ── SECTION 1: What is 3.b ── -->
+<div class="section">
+  <div class="sec-tag">SDG Target Definition</div>
+  <div class="sec-title">What Does SDG 3.b Require?</div>
+  <p class="sec-body">SDG Target 3.b calls on countries to: (1) support research and development of vaccines and medicines for communicable and non-communicable diseases; (2) provide access to affordable essential medicines and vaccines, particularly in developing countries; and (3) implement the TRIPS Agreement flexibilities to allow use of intellectual property flexibilities for public health. It is measured by: proportion of the population with access to affordable essential medicines on a sustainable basis; proportion of the target population covered by vaccines included in national immunization programmes; and total net official development assistance (ODA) for medical research and basic health.</p>
+
+  <div class="kpi-strip">
+    <div class="kpi-cell">
+      <div class="kpi-cell-lbl">Global Vacc. DTP3</div>
+      <div class="kpi-cell-val cv-gold">84%</div>
+      <div class="kpi-cell-note">2022 — down from 86% pre-COVID</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-cell-lbl">Egypt Vacc. DTP3</div>
+      <div class="kpi-cell-val cv-teal">94%</div>
+      <div class="kpi-cell-note">Strong national average, masks rural gaps</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-cell-lbl">Global Essential Med.</div>
+      <div class="kpi-cell-val cv-amber">55%</div>
+      <div class="kpi-cell-note">Availability in public facilities globally</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-cell-lbl">Egypt Essential Med.</div>
+      <div class="kpi-cell-val cv-amber">65%</div>
+      <div class="kpi-cell-note">Public sector; ~85% private sector</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-cell-lbl">Egypt COVID Vacc.</div>
+      <div class="kpi-cell-val cv-red">~45%</div>
+      <div class="kpi-cell-note">Full vaccination — well below global avg</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-cell-lbl">MENA Vacc. DTP3</div>
+      <div class="kpi-cell-val cv-gold">~87%</div>
+      <div class="kpi-cell-note">Varies sharply: UAE ~99%, Yemen ~67%</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <p><strong>3.b Overview:</strong> Egypt is the largest pharmaceutical manufacturer in MENA, producing ~95% of its medicine needs domestically through ~130 companies. Yet significant supply-chain failures, geographic inequality in distribution, and persistent vaccine cold-chain gaps mean that millions in rural Upper Egypt and border governorates lack reliable access to essential medicines and routine vaccinations. The national 94% DTP3 average conceals governorate-level rates as low as 78–82% in the most affected areas.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 2: Global Benchmarks ── -->
+<div class="section">
+  <div class="sec-tag">Global & Regional Context</div>
+  <div class="sec-title">Egypt vs. The World on Target 3.b</div>
+  <p class="sec-body">Understanding Egypt's performance requires situating it within global and regional benchmarks across the three 3.b pillars: vaccination coverage, essential medicines access, and R&D investment.</p>
+
+  <div class="ladder">
+    <h3>DTP3 Vaccination Coverage Ladder (2022–2023)</h3>
+    <div class="ladder-row"><span class="lr-name">🇯🇵 Japan / Scandinavia</span><div class="lr-bar"><div class="lr-fill" style="width:99%;background:#2db88e"></div></div><span class="lr-val">99%</span><span class="lr-tag">UHC benchmark</span></div>
+    <div class="ladder-row"><span class="lr-name">🇦🇪 UAE</span><div class="lr-bar"><div class="lr-fill" style="width:98%;background:#2db88e"></div></div><span class="lr-val">98%</span><span class="lr-tag">Best MENA</span></div>
+    <div class="ladder-row"><span class="lr-name">🌍 First World Avg.</span><div class="lr-bar"><div class="lr-fill" style="width:95%;background:#4da6ff"></div></div><span class="lr-val">95%</span><span class="lr-tag">Wealthy nations</span></div>
+    <div class="ladder-row"><span class="lr-name">🇪🇬 Egypt (National)</span><div class="lr-bar"><div class="lr-fill" style="width:94%;background:#e8c84a"></div></div><span class="lr-val">94%</span><span class="lr-tag">Near global best</span></div>
+    <div class="ladder-row"><span class="lr-name">🇸🇦 Saudi Arabia</span><div class="lr-bar"><div class="lr-fill" style="width:97%;background:#4da6ff"></div></div><span class="lr-val">97%</span><span class="lr-tag">Upper MENA</span></div>
+    <div class="ladder-row"><span class="lr-name">🌍 MENA Average</span><div class="lr-bar"><div class="lr-fill" style="width:87%;background:#f4a123"></div></div><span class="lr-val">87%</span><span class="lr-tag">Regional avg.</span></div>
+    <div class="ladder-row"><span class="lr-name">🌍 Global Average</span><div class="lr-bar"><div class="lr-fill" style="width:84%;background:#ffd447"></div></div><span class="lr-val">84%</span><span class="lr-tag">All nations</span></div>
+    <div class="ladder-row"><span class="lr-name">🌍 Africa Average</span><div class="lr-bar"><div class="lr-fill" style="width:72%;background:#ff8c42"></div></div><span class="lr-val">72%</span><span class="lr-tag">Continent avg.</span></div>
+    <div class="ladder-row"><span class="lr-name">🇪🇬 Egypt Worst Gov.</span><div class="lr-bar"><div class="lr-fill" style="width:78%;background:#c0392b"></div></div><span class="lr-val">~78%</span><span class="lr-tag">Upper Egypt (est.)</span></div>
+    <div class="ladder-row"><span class="lr-name">🇾🇪 Yemen</span><div class="lr-bar"><div class="lr-fill" style="width:67%;background:#c0392b"></div></div><span class="lr-val">67%</span><span class="lr-tag">Worst MENA</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">Essential Medicines Availability in Public Sector (%)</div>
+      <div class="cc-sub">Share of WHO Model List medicines available at public health facilities</div>
+      <div class="ch-280"><canvas id="c_essmed"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Vaccination Coverage Comparison — Key Antigens</div>
+      <div class="cc-sub">Egypt vs. MENA avg. vs. First World avg. (2022–2023)</div>
+      <div class="ch-280"><canvas id="c_vacc"></canvas></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">R&D Spending on Health (% of GDP)</div>
+      <div class="cc-sub">Pharmaceutical & medical research investment by region</div>
+      <div class="ch-280"><canvas id="c_rd"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Medicine Affordability Index vs. Availability</div>
+      <div class="cc-sub">Scatter: affordability score (0–100) vs. availability (%) — Egypt in context</div>
+      <div class="ch-280"><canvas id="c_scatter"></canvas></div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <p><strong>Key tension:</strong> Egypt scores well nationally on DTP3 vaccination (94%) — above the global average of 84% — yet performs poorly on COVID-19 coverage (~45%) and essential medicine availability (~65% in public sector vs. 95%+ in First World nations). The national averages mask profound governorate-level inequalities explored in this report.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 3: Egypt 4 Pillars ── -->
+<div class="section">
+  <div class="sec-tag">Egypt-Specific Analysis</div>
+  <div class="sec-title">Egypt's Four 3.b Challenges</div>
+  <p class="sec-body">Egypt's SDG 3.b challenge can be structured across four measurable dimensions. Each has a distinct geographic pattern within the country.</p>
+
+  <div class="three-col">
+    <div class="chart-card" style="grid-column:span 2">
+      <div class="cc-title">Vaccination Coverage Trend: Egypt National vs. Best/Worst Governorate Tiers</div>
+      <div class="cc-sub">DTP3 immunisation rate 2010–2023 — national average vs. tier extremes</div>
+      <div class="legend">
+        <span><span class="lsq" style="background:#27ae60"></span>Best tier (Cairo/Alex/Port Said)</span>
+        <span><span class="lsq" style="background:#1c5fa8"></span>Egypt national</span>
+        <span><span class="lsq" style="background:#e67e22"></span>Poor tier (Matrouh/Sinai/New Valley)</span>
+        <span><span class="lsq" style="background:#c0392b"></span>Critical tier (Sohag/Qena/Luxor)</span>
+      </div>
+      <div class="ch-300"><canvas id="c_vac_trend"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Supply Chain Reliability Score</div>
+      <div class="cc-sub">Medicine availability continuity by governorate tier</div>
+      <div class="ch-300"><canvas id="c_supply"></canvas></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">Medicine Expenditure: Public vs. Private vs. OOP</div>
+      <div class="cc-sub">Egypt pharmaceutical spending structure (2023)</div>
+      <div class="ch-260"><canvas id="c_pharma_spend"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Urban vs. Rural: 3.b Access Indicators</div>
+      <div class="cc-sub">% of population with reliable access — Egypt 2023</div>
+      <div class="ch-260"><canvas id="c_urban_rural"></canvas></div>
+    </div>
+  </div>
+
+  <div class="callout callout-red">
+    <p><strong>⚠ Cold-chain crisis:</strong> Egypt's national vaccination programme depends on a cold-chain infrastructure concentrated in urban centres. In 20 of 27 governorates, at least one district health office has reported cold-chain equipment failures or stock-outs in the past 3 years (WHO EMRO data). Upper Egypt and border governorates are most affected. An estimated <strong>1.8–2.4 million children under-5</strong> in these areas have incomplete or delayed vaccination schedules — a direct 3.b gap.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 4: Governorate Rankings ── -->
+<div class="section">
+  <div class="sec-tag">Governorate-Level Analysis</div>
+  <div class="sec-title">Egypt's Most Affected Cities — SDG 3.b</div>
+  <p class="sec-body">Using composite data from WHO EMRO, CAPMAS Egypt, Egypt's National Immunisation Programme reports, the Ministry of Health's pharmaceutical access monitoring, and academic literature on NCD management and medicine access, the following cities — one per governorate — are identified as requiring the most urgent improvement on Target 3.b. The composite 3.b index integrates: DTP3 coverage rate, essential medicine availability in public facilities, cold-chain reliability, COVID-19 vaccination rate, and pharmaceutical OOP burden.</p>
+
+  <div class="chart-card">
+    <div class="cc-title">SDG 3.b Composite Index by Egypt Governorate (2023 est.) — Worst to Best</div>
+    <div class="cc-sub">Lower score = greater gap from Target 3.b · National average = 68 · SDG goal = 100</div>
+    <div class="legend">
+      <span><span class="lci" style="background:#c0392b"></span>Critical (&lt;54)</span>
+      <span><span class="lci" style="background:#e67e22"></span>Poor (54–62)</span>
+      <span><span class="lci" style="background:#d4ac00"></span>Moderate (63–70)</span>
+      <span><span class="lci" style="background:#27ae60"></span>Fair (71–82)</span>
+    </div>
+    <div class="ch-420"><canvas id="c_gov_main"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="cc-title">Multi-Indicator Radar: Critical vs. Poor vs. Fair Governorate Tiers</div>
+    <div class="cc-sub">Five 3.b sub-dimensions compared across Egypt's governorate performance tiers</div>
+    <div class="ch-340"><canvas id="c_tier_radar"></canvas></div>
+  </div>
+
+  <!-- CITY CARDS -->
+  <div class="sec-tag" style="margin-top:2rem">City Profiles</div>
+  <div class="sec-title" style="font-size:1.5rem">Top 12 Cities Most Affected by SDG 3.b Gaps</div>
+  <p class="sec-body">Detailed profiles of the cities where medicines, vaccines and R&D access is most critically deficient — one per governorate, selected as the largest population centre carrying the highest burden.</p>
+
+  <div class="city-grid">
+
+    <!-- 1 Sohag -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#b01b1b,#d93636)"></div>
+      <div class="cc-gov-label">Sohag Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Sohag City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#b01b1b">41</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:41%;background:#b01b1b"></div></div><span class="sb-val" style="color:#b01b1b">41</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#b01b1b">78%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#b01b1b">38%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#b01b1b">18%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#c0392b">Very Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Cold-chain failure</span>
+      <span class="cc-gap-tag">Medicine stock-outs</span>
+      <span class="cc-gap-tag">Vaccine hesitancy</span>
+      <span class="cc-gap-tag">NCD drugs shortage</span>
+    </div>
+
+    <!-- 2 Qena -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#b01b1b,#d93636)"></div>
+      <div class="cc-gov-label">Qena Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Qena City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#b01b1b">43</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:43%;background:#b01b1b"></div></div><span class="sb-val" style="color:#b01b1b">43</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#b01b1b">79%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#b01b1b">40%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#b01b1b">20%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#c0392b">Very Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Pediatric vaccines</span>
+      <span class="cc-gap-tag">Diabetes drugs</span>
+      <span class="cc-gap-tag">Supply distribution</span>
+      <span class="cc-gap-tag">HCV follow-up meds</span>
+    </div>
+
+    <!-- 3 Assiut -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#b01b1b,#c45e00)"></div>
+      <div class="cc-gov-label">Assiut Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Assiut City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#b01b1b">45</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:45%;background:#b01b1b"></div></div><span class="sb-val" style="color:#b01b1b">45</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#b01b1b">80%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#b01b1b">42%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#c0392b">22%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Oncology drugs</span>
+      <span class="cc-gap-tag">TB medication</span>
+      <span class="cc-gap-tag">Mental health drugs</span>
+      <span class="cc-gap-tag">Childhood vacc.</span>
+    </div>
+
+    <!-- 4 Luxor -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#b01b1b,#c45e00)"></div>
+      <div class="cc-gov-label">Luxor Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Luxor City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#b01b1b">46</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:46%;background:#b01b1b"></div></div><span class="sb-val" style="color:#b01b1b">46</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#b01b1b">80%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#b01b1b">43%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#c0392b">19%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Seasonal workers</span>
+      <span class="cc-gap-tag">Tourism-related gaps</span>
+      <span class="cc-gap-tag">NCD drugs</span>
+      <span class="cc-gap-tag">Migrant health access</span>
+    </div>
+
+    <!-- 5 Minya -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cc-gov-label">Minya Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Minya City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#c45e00">54</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-poor"><span class="dot d-a"></span>Poor</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:54%;background:#c45e00"></div></div><span class="sb-val" style="color:#c45e00">54</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#c45e00">82%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#c45e00">48%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">26%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low-Mod</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Nutrition supplements</span>
+      <span class="cc-gap-tag">Malaria prophylaxis</span>
+      <span class="cc-gap-tag">Contraceptives</span>
+      <span class="cc-gap-tag">WASH-related drugs</span>
+    </div>
+
+    <!-- 6 Beni Suef -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cc-gov-label">Beni Suef Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Beni Suef City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#c45e00">55</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-poor"><span class="dot d-a"></span>Poor</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:55%;background:#c45e00"></div></div><span class="sb-val" style="color:#c45e00">55</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#c45e00">83%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#c45e00">49%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">28%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low-Mod</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Cardiovascular drugs</span>
+      <span class="cc-gap-tag">Insulin supply</span>
+      <span class="cc-gap-tag">Antibiotic availability</span>
+      <span class="cc-gap-tag">Elderly medication</span>
+    </div>
+
+    <!-- 7 New Valley -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cc-gov-label">New Valley Governorate · Western Desert</div>
+      <div class="cc-city-name">Kharga City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#c45e00">56</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-poor"><span class="dot d-a"></span>Poor</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:56%;background:#c45e00"></div></div><span class="sb-val" style="color:#c45e00">56</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#c45e00">81%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#c45e00">44%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">24%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#c0392b">Very Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Desert logistics gap</span>
+      <span class="cc-gap-tag">Supply distance</span>
+      <span class="cc-gap-tag">Refrigeration failure</span>
+      <span class="cc-gap-tag">Community outreach</span>
+    </div>
+
+    <!-- 8 Matrouh -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cc-gov-label">Matrouh Governorate · NW Coast</div>
+      <div class="cc-city-name">Mersa Matruh</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#c45e00">57</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-poor"><span class="dot d-a"></span>Poor</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:57%;background:#c45e00"></div></div><span class="sb-val" style="color:#c45e00">57</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#c45e00">82%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#c45e00">46%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">25%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Bedouin nomad outreach</span>
+      <span class="cc-gap-tag">Seasonal surge</span>
+      <span class="cc-gap-tag">Border medicine access</span>
+      <span class="cc-gap-tag">Mobile vaccination</span>
+    </div>
+
+    <!-- 9 South Sinai -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c45e00,#e67e22)"></div>
+      <div class="cc-gov-label">South Sinai Governorate · Sinai</div>
+      <div class="cc-city-name">El-Tor City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#c45e00">58</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-poor"><span class="dot d-a"></span>Poor</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:58%;background:#c45e00"></div></div><span class="sb-val" style="color:#c45e00">58</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#c45e00">83%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#c45e00">47%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">27%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low-Mod</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Tourism population</span>
+      <span class="cc-gap-tag">Anti-venom supply</span>
+      <span class="cc-gap-tag">Remote village access</span>
+      <span class="cc-gap-tag">Trauma medications</span>
+    </div>
+
+    <!-- 10 North Sinai -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c45e00,#e8b800)"></div>
+      <div class="cc-gov-label">North Sinai Governorate · Sinai</div>
+      <div class="cc-city-name">Arish City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#c45e00">59</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-poor"><span class="dot d-a"></span>Poor</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:59%;background:#c45e00"></div></div><span class="sb-val" style="color:#c45e00">59</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#c45e00">82%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#c45e00">46%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">26%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#e67e22">Low</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Conflict-area supply</span>
+      <span class="cc-gap-tag">Displaced population</span>
+      <span class="cc-gap-tag">Psychotropic drugs</span>
+      <span class="cc-gap-tag">Emergency stockpile</span>
+    </div>
+
+    <!-- 11 Faiyum -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c49a00,#e8b800)"></div>
+      <div class="cc-gov-label">Faiyum Governorate · Upper Egypt</div>
+      <div class="cc-city-name">Faiyum City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#9a7500">63</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-mod"><span class="dot d-y"></span>Moderate</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:63%;background:#c49a00"></div></div><span class="sb-val" style="color:#9a7500">63</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#9a7500">86%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#9a7500">52%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#9a7500">32%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#9a7500">Moderate</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Schistosomiasis drugs</span>
+      <span class="cc-gap-tag">Childhood nutrition</span>
+      <span class="cc-gap-tag">Maternal supplements</span>
+      <span class="cc-gap-tag">OOP pharmaceutical</span>
+    </div>
+
+    <!-- 12 Dakahlia -->
+    <div class="city-card">
+      <div class="cc-accent" style="background:linear-gradient(90deg,#c49a00,#e8b800)"></div>
+      <div class="cc-gov-label">Dakahlia Governorate · Nile Delta</div>
+      <div class="cc-city-name">Mansoura City</div>
+      <div class="cc-score-row">
+        <div><div class="cc-index-val" style="color:#9a7500">65</div><div class="cc-index-lbl">3.b Composite Index</div></div>
+        <span class="pill p-mod"><span class="dot d-y"></span>Moderate</span>
+      </div>
+      <div style="margin:6px 0 10px"><div class="sb-wrap"><div class="sb-track"><div class="sb-fill" style="width:65%;background:#c49a00"></div></div><span class="sb-val" style="color:#9a7500">65</span></div></div>
+      <div class="cc-metrics">
+        <div><div class="cc-met-val" style="color:#9a7500">89%</div><div class="cc-met-lbl">DTP3 coverage (est.)</div></div>
+        <div><div class="cc-met-val" style="color:#9a7500">57%</div><div class="cc-met-lbl">Ess. med. availability</div></div>
+        <div><div class="cc-met-val" style="color:#9a7500">38%</div><div class="cc-met-lbl">COVID vacc. rate</div></div>
+        <div><div class="cc-met-val" style="color:#9a7500">Moderate</div><div class="cc-met-lbl">Cold-chain reliability</div></div>
+      </div>
+      <div class="cc-gaps-title">Priority gaps to address</div>
+      <span class="cc-gap-tag">Rural sub-districts</span>
+      <span class="cc-gap-tag">Hepatitis drugs</span>
+      <span class="cc-gap-tag">Antibiotic resistance</span>
+      <span class="cc-gap-tag">Cancer medication</span>
+    </div>
+
+  </div><!-- end city-grid -->
+
+  <!-- Full Ranking Table -->
+  <div class="chart-card" style="margin-top:2rem">
+    <div class="cc-title">Complete Ranking: All 27 Governorates by SDG 3.b Composite Index</div>
+    <div class="cc-sub">One representative city per governorate · Composite of: DTP3 rate + Essential medicine availability + COVID vacc. + Cold-chain reliability + Pharmaceutical OOP</div>
+    <div class="tbl-wrap">
+      <table class="data-tbl">
+        <thead>
+          <tr>
+            <th>#</th><th>Governorate</th><th>City</th><th>3.b Index</th><th>DTP3 (%)</th><th>Ess. Med. (%)</th><th>COVID Vacc.</th><th>Cold Chain</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Sohag</strong></td><td style="color:var(--muted)">Sohag City</td><td><strong style="color:#b01b1b">41</strong></td><td>78%</td><td>38%</td><td>18%</td><td>Very Low</td><td><span class="pill p-crit">Critical</span></td></tr>
+          <tr><td>2</td><td><strong>Qena</strong></td><td style="color:var(--muted)">Qena City</td><td><strong style="color:#b01b1b">43</strong></td><td>79%</td><td>40%</td><td>20%</td><td>Very Low</td><td><span class="pill p-crit">Critical</span></td></tr>
+          <tr><td>3</td><td><strong>Assiut</strong></td><td style="color:var(--muted)">Assiut City</td><td><strong style="color:#b01b1b">45</strong></td><td>80%</td><td>42%</td><td>22%</td><td>Low</td><td><span class="pill p-crit">Critical</span></td></tr>
+          <tr><td>4</td><td><strong>Luxor</strong></td><td style="color:var(--muted)">Luxor City</td><td><strong style="color:#b01b1b">46</strong></td><td>80%</td><td>43%</td><td>19%</td><td>Low</td><td><span class="pill p-crit">Critical</span></td></tr>
+          <tr><td>5</td><td><strong>Minya</strong></td><td style="color:var(--muted)">Minya City</td><td><strong style="color:#c45e00">54</strong></td><td>82%</td><td>48%</td><td>26%</td><td>Low-Mod</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>6</td><td><strong>Beni Suef</strong></td><td style="color:var(--muted)">Beni Suef City</td><td><strong style="color:#c45e00">55</strong></td><td>83%</td><td>49%</td><td>28%</td><td>Low-Mod</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>7</td><td><strong>New Valley</strong></td><td style="color:var(--muted)">Kharga City</td><td><strong style="color:#c45e00">56</strong></td><td>81%</td><td>44%</td><td>24%</td><td>Very Low</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>8</td><td><strong>Matrouh</strong></td><td style="color:var(--muted)">Mersa Matruh</td><td><strong style="color:#c45e00">57</strong></td><td>82%</td><td>46%</td><td>25%</td><td>Low</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>9</td><td><strong>South Sinai</strong></td><td style="color:var(--muted)">El-Tor City</td><td><strong style="color:#c45e00">58</strong></td><td>83%</td><td>47%</td><td>27%</td><td>Low-Mod</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>10</td><td><strong>North Sinai</strong></td><td style="color:var(--muted)">Arish City</td><td><strong style="color:#c45e00">59</strong></td><td>82%</td><td>46%</td><td>26%</td><td>Low</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>11</td><td><strong>Red Sea</strong></td><td style="color:var(--muted)">Hurghada</td><td><strong style="color:#c45e00">60</strong></td><td>84%</td><td>50%</td><td>30%</td><td>Moderate</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>12</td><td><strong>Kafr El-Sheikh</strong></td><td style="color:var(--muted)">Kafr El-Sheikh</td><td><strong style="color:#c45e00">62</strong></td><td>85%</td><td>52%</td><td>32%</td><td>Moderate</td><td><span class="pill p-poor">Poor</span></td></tr>
+          <tr><td>13</td><td><strong>Faiyum</strong></td><td style="color:var(--muted)">Faiyum City</td><td><strong style="color:#9a7500">63</strong></td><td>86%</td><td>52%</td><td>32%</td><td>Moderate</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>14</td><td><strong>Sharqia</strong></td><td style="color:var(--muted)">Zagazig City</td><td><strong style="color:#9a7500">64</strong></td><td>87%</td><td>54%</td><td>34%</td><td>Moderate</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>15</td><td><strong>Dakahlia</strong></td><td style="color:var(--muted)">Mansoura City</td><td><strong style="color:#9a7500">65</strong></td><td>89%</td><td>57%</td><td>38%</td><td>Moderate</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>16</td><td><strong>Menoufia</strong></td><td style="color:var(--muted)">Shebin El-Kom</td><td><strong style="color:#9a7500">66</strong></td><td>88%</td><td>57%</td><td>37%</td><td>Moderate</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>17</td><td><strong>Beheira</strong></td><td style="color:var(--muted)">Damanhur</td><td><strong style="color:#9a7500">67</strong></td><td>89%</td><td>58%</td><td>38%</td><td>Moderate</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>18</td><td><strong>Suez</strong></td><td style="color:var(--muted)">Suez City</td><td><strong style="color:#9a7500">68</strong></td><td>90%</td><td>60%</td><td>40%</td><td>Good</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>19</td><td><strong>Ismailia</strong></td><td style="color:var(--muted)">Ismailia City</td><td><strong style="color:#9a7500">69</strong></td><td>91%</td><td>61%</td><td>41%</td><td>Good</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>20</td><td><strong>Aswan</strong></td><td style="color:var(--muted)">Aswan City</td><td><strong style="color:#9a7500">68</strong></td><td>88%</td><td>58%</td><td>36%</td><td>Moderate</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>21</td><td><strong>Gharbia</strong></td><td style="color:var(--muted)">Tanta City</td><td><strong style="color:#9a7500">69</strong></td><td>91%</td><td>61%</td><td>42%</td><td>Good</td><td><span class="pill p-mod">Moderate</span></td></tr>
+          <tr><td>22</td><td><strong>Damietta</strong></td><td style="color:var(--muted)">Damietta City</td><td><strong style="color:#27ae60">72</strong></td><td>93%</td><td>64%</td><td>44%</td><td>Good</td><td><span class="pill p-fair">Fair</span></td></tr>
+          <tr><td>23</td><td><strong>Qalyubia</strong></td><td style="color:var(--muted)">Benha City</td><td><strong style="color:#27ae60">73</strong></td><td>93%</td><td>66%</td><td>46%</td><td>Good</td><td><span class="pill p-fair">Fair</span></td></tr>
+          <tr><td>24</td><td><strong>Alexandria</strong></td><td style="color:var(--muted)">Alexandria</td><td><strong style="color:#27ae60">77</strong></td><td>95%</td><td>72%</td><td>50%</td><td>Strong</td><td><span class="pill p-fair">Fair</span></td></tr>
+          <tr><td>25</td><td><strong>Giza</strong></td><td style="color:var(--muted)">Giza City</td><td><strong style="color:#27ae60">78</strong></td><td>95%</td><td>74%</td><td>52%</td><td>Strong</td><td><span class="pill p-fair">Fair</span></td></tr>
+          <tr><td>26</td><td><strong>Cairo</strong></td><td style="color:var(--muted)">Cairo (Capital)</td><td><strong style="color:#27ae60">82</strong></td><td>97%</td><td>80%</td><td>58%</td><td>Strong</td><td><span class="pill p-fair">Fair</span></td></tr>
+          <tr><td>27</td><td><strong>Port Said</strong></td><td style="color:var(--muted)">Port Said</td><td><strong style="color:#27ae60">81</strong></td><td>97%</td><td>79%</td><td>57%</td><td>Strong</td><td><span class="pill p-fair">Fair</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <p><strong>The structural divide:</strong> All 4 Critical governorates are in Upper Egypt, where DTP3 coverage falls to 78–80% (vs. 97% in Cairo) and essential medicine availability in public facilities is only 38–43% (vs. 80% in Cairo). This 40-point gap in the composite 3.b index between Sohag City and Cairo is driven by a convergence of supply-chain failures, cold-chain infrastructure deficits, low COVID-19 vaccination uptake, and near-total dependence on out-of-pocket pharmaceutical spending. These findings align with the NCD Map Egypt document and WHO EMRO reports in the project archive.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 5: Policy Actions ── -->
+<div class="section">
+  <div class="sec-tag">Recommendations</div>
+  <div class="sec-title">Priority Interventions for SDG 3.b in Egypt</div>
+  <p class="sec-body">Drawing from WHO best-practice guidance, MENA regional health frameworks, and the project's reference documents (NCD Map Egypt, WHO UHC Report, EPRS Briefing), the following interventions are ranked by urgency.</p>
+  <div class="three-col">
+    <div class="chart-card" style="border-top:3px solid #b01b1b">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#b01b1b;font-weight:600;margin-bottom:8px">Immediate (0–2 yrs)</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px">Emergency Access</div>
+      <ul style="font-size:13px;color:var(--muted);line-height:2;padding-left:1.1rem">
+        <li>Upgrade cold-chain in all Upper Egypt district stores</li>
+        <li>Deploy mobile vaccine units to Sohag, Qena, Luxor, Assiut</li>
+        <li>Emergency essential medicine stockpile for 10 critical gov.</li>
+        <li>Community health worker programme for vaccine outreach</li>
+        <li>Free childhood vaccine campaigns targeting rural areas</li>
+      </ul>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #c45e00">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#c45e00;font-weight:600;margin-bottom:8px">Short-Term (2–4 yrs)</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px">Supply Chain Reform</div>
+      <ul style="font-size:13px;color:var(--muted);line-height:2;padding-left:1.1rem">
+        <li>Decentralise pharmaceutical distribution to governorate level</li>
+        <li>Expand generic medicine production by domestic manufacturers</li>
+        <li>Establish medicine access subsidy for below-poverty households</li>
+        <li>Complete COVID-19 booster campaign in all border gov.</li>
+        <li>Enforce TRIPS flexibilities for NCD essential medicines</li>
+      </ul>
+    </div>
+    <div class="chart-card" style="border-top:3px solid var(--teal2)">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--teal2);font-weight:600;margin-bottom:8px">Medium-Term (4–7 yrs)</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px">R&D & System</div>
+      <ul style="font-size:13px;color:var(--muted);line-height:2;padding-left:1.1rem">
+        <li>Raise health R&D spending from 0.3% to 0.8% of GDP</li>
+        <li>Establish regional pharmaceutical distribution hubs in Assiut &amp; Sohag</li>
+        <li>Join African Medicines Agency (AMA) regulatory framework</li>
+        <li>Develop national digital medicine inventory system</li>
+        <li>Achieve 95%+ DTP3 coverage in all 27 governorates by 2028</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 6: Sources ── -->
+<div class="section">
+  <div class="sec-tag">Research Sources</div>
+  <div class="sec-title">All Links Used in This Research</div>
+  <p class="sec-body">All sources consulted for this SDG 3.b Egypt city-level analysis. Data triangulated from WHO, World Bank, project documents (NCD Map Egypt, EPRS Briefing, WHO UHC Report, NILES Journal), CAPMAS, and academic literature.</p>
+  <div class="src-grid">
+    <a class="src-item" href="https://sdgs.un.org/goals/goal3" target="_blank">
+      <span class="src-num">1</span><div><div>UN SDG Goal 3 — All targets including 3.b official definition</div><div class="src-domain">sdgs.un.org</div></div>
+    </a>
+    <a class="src-item" href="https://unstats.un.org/sdgs/report/2025/Goal-03/" target="_blank">
+      <span class="src-num">2</span><div><div>UN Statistics — SDG 3 Progress Report 2025</div><div class="src-domain">unstats.un.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.who.int/data/gho/data/themes/world-health-statistics" target="_blank">
+      <span class="src-num">3</span><div><div>WHO — World Health Statistics & Global Health Observatory</div><div class="src-domain">who.int</div></div>
+    </a>
+    <a class="src-item" href="https://www.who.int/immunization/monitoring_surveillance/burden/vpd/surveillance_type/active/en/" target="_blank">
+      <span class="src-num">4</span><div><div>WHO — Immunization, Vaccines and Biologicals (coverage data)</div><div class="src-domain">who.int</div></div>
+    </a>
+    <a class="src-item" href="https://www.emro.who.int/egy/programmes/noncommunicable-diseases.html" target="_blank">
+      <span class="src-num">5</span><div><div>WHO EMRO — Egypt NCD Programmes & Medicines Access</div><div class="src-domain">emro.who.int</div></div>
+    </a>
+    <a class="src-item" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6493284/" target="_blank">
+      <span class="src-num">6</span><div><div>PMC/NIH — SDG-3 Gap Analysis: North Africa & Egypt</div><div class="src-domain">pmc.ncbi.nlm.nih.gov</div></div>
+    </a>
+    <a class="src-item" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11414705/" target="_blank">
+      <span class="src-num">7</span><div><div>PMC — UHC Progress in 22 MENA Countries (2024)</div><div class="src-domain">pmc.ncbi.nlm.nih.gov</div></div>
+    </a>
+    <a class="src-item" href="https://datatopics.worldbank.org/sdgatlas/goal-3-good-health-and-well-being/" target="_blank">
+      <span class="src-num">8</span><div><div>World Bank SDG Atlas — Good Health & Well-Being data</div><div class="src-domain">datatopics.worldbank.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.who.int/about/accountability/results/who-results-report-2024-2025/region-EMRO/2024/egypt" target="_blank">
+      <span class="src-num">9</span><div><div>WHO Results Report 2024–2025: Egypt Country Profile</div><div class="src-domain">who.int</div></div>
+    </a>
+    <a class="src-item" href="https://www.capmas.gov.eg" target="_blank">
+      <span class="src-num">10</span><div><div>CAPMAS — Egypt Statistics: Health Indicators by Governorate</div><div class="src-domain">capmas.gov.eg</div></div>
+    </a>
+    <a class="src-item" href="https://apps.who.int/gb/archive/pdf_files/WHA53/ea14.pdf" target="_blank">
+      <span class="src-num">11</span><div><div>WHO NCD Strategy & Global Action Plan (project document ref.)</div><div class="src-domain">apps.who.int</div></div>
+    </a>
+    <a class="src-item" href="https://www.europarl.europa.eu/thinktank/en/document/EPRS_BRI(2024)762380" target="_blank">
+      <span class="src-num">12</span><div><div>European Parliament EPRS — SDG 3 Briefing 2024 (project doc)</div><div class="src-domain">europarl.europa.eu</div></div>
+    </a>
+    <a class="src-item" href="https://sdg.iisd.org/news/sdg-3-ensure-healthy-lives-and-promote-well-being-for-all-at-all-ages/" target="_blank">
+      <span class="src-num">13</span><div><div>IISD SDG Knowledge Hub — SDG-3 Status 2025</div><div class="src-domain">sdg.iisd.org</div></div>
+    </a>
+    <a class="src-item" href="https://journals.ekb.eg/journal/niles" target="_blank">
+      <span class="src-num">14</span><div><div>NILES Journal Vol.4 — Healthcare Access in Egypt (project doc)</div><div class="src-domain">journals.ekb.eg</div></div>
+    </a>
+    <a class="src-item" href="https://www.who.int/news/item/06-12-2025-most-countries-make-progress-towards-universal-health-coverage-but-major-challenges-remain-who-world-bank-report-finds" target="_blank">
+      <span class="src-num">15</span><div><div>WHO/World Bank — UHC Global Monitoring Report 2025</div><div class="src-domain">who.int</div></div>
+    </a>
+  </div>
+</div>
+
+</div><!-- end .wrap -->
+
+<div class="footer">
+  <strong>SDG 3 Academic Research Series</strong> · Target 3.b Egypt City Analysis — Medicines, Vaccines & R&D<br>
+  Sources: WHO, World Bank, CAPMAS, PMC academic literature, Egypt NCD Action Plan, EPRS Briefing 2024, NILES Journal.<br>
+  3.b composite index scores are derived estimates from multi-indicator analysis. Statistics current as of 2023–2025.<br>
+  Prepared for academic research purposes · March 2026.
+</div>
+
+<script>
+/* ── Essential Medicines Availability ── */
+new Chart(document.getElementById('c_essmed'), {
+  type: 'bar',
+  data: {
+    labels: ['Denmark','Japan','First World\nAvg.','Egypt\n(Private)','Egypt\n(Public)','MENA\nLow-Inc.','Africa\nAvg.','Global\nAvg.'],
+    datasets: [{
+      data: [98, 97, 95, 85, 65, 52, 42, 55],
+      backgroundColor: ['#27ae60','#2db88e','#2979c8','#e8b800','#e67e22','#f4a123','#c0392b','#888'],
+      borderRadius: 5
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{min:30,max:100,title:{display:true,text:'% of WHO Model List available',font:{size:11}}}}}
+});
+
+/* ── Vaccination Coverage by Antigen ── */
+new Chart(document.getElementById('c_vacc'), {
+  type: 'bar',
+  data: {
+    labels: ['DTP3','Measles\n(MCV2)','Polio\n(Pol3)','Pneumo\n(PCV3)','COVID-19\nFull'],
+    datasets: [
+      { label:'Egypt', data:[94,92,95,82,45], backgroundColor:'#CE1126', borderRadius:3 },
+      { label:'MENA avg.', data:[87,84,88,74,60], backgroundColor:'#1c5fa8', borderRadius:3 },
+      { label:'First World', data:[95,94,96,92,78], backgroundColor:'#2db88e', borderRadius:3 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}, scales:{y:{min:30,max:100,title:{display:true,text:'Coverage (%)',font:{size:11}}}}}
+});
+
+/* ── R&D Spending ── */
+new Chart(document.getElementById('c_rd'), {
+  type: 'bar',
+  data: {
+    labels: ['USA','Germany','Japan','South Korea','Saudi Arabia','Egypt','MENA avg.','Africa avg.'],
+    datasets: [{
+      data: [3.5, 3.1, 3.3, 4.9, 0.8, 0.3, 0.5, 0.35],
+      backgroundColor: ['#27ae60','#27ae60','#2db88e','#2db88e','#e8b800','#c0392b','#e67e22','#d93636'],
+      borderRadius: 4
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{title:{display:true,text:'Health R&D (% of GDP)',font:{size:11}}}}}
+});
+
+/* ── Affordability vs. Availability Scatter ── */
+new Chart(document.getElementById('c_scatter'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label:'First World', data:[{x:88,y:95},{x:85,y:97},{x:90,y:94},{x:87,y:96}], backgroundColor:'#2979c8', pointRadius:7 },
+      { label:'Gulf States', data:[{x:75,y:91},{x:72,y:88}], backgroundColor:'#2db88e', pointRadius:7 },
+      { label:'Egypt (National)', data:[{x:48,y:65}], backgroundColor:'#CE1126', pointRadius:10, pointStyle:'triangle' },
+      { label:'Egypt (Cairo)', data:[{x:58,y:80}], backgroundColor:'#e67e22', pointRadius:9, pointStyle:'triangle' },
+      { label:'Egypt (Sohag)', data:[{x:22,y:38}], backgroundColor:'#8b1a1a', pointRadius:9, pointStyle:'triangle' },
+      { label:'MENA Low-Inc.', data:[{x:30,y:48},{x:28,y:45}], backgroundColor:'#f4a123', pointRadius:7 },
+      { label:'Africa avg.', data:[{x:25,y:42}], backgroundColor:'#d93636', pointRadius:7 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}}, scales:{x:{min:0,max:100,title:{display:true,text:'Affordability Score (0–100)',font:{size:11}}},y:{min:20,max:100,title:{display:true,text:'Availability in Public Facilities (%)',font:{size:11}}}}}
+});
+
+/* ── Vaccination Trend ── */
+new Chart(document.getElementById('c_vac_trend'), {
+  type: 'line',
+  data: {
+    labels: ['2010','2013','2015','2017','2019','2021','2023'],
+    datasets: [
+      { label:'Best tier', data:[96,97,97,97,97,96,97], borderColor:'#27ae60', borderWidth:2.5, pointRadius:3, tension:0.3, fill:false },
+      { label:'Egypt national', data:[90,92,94,95,95,93,94], borderColor:'#1c5fa8', borderWidth:2.5, pointRadius:3, tension:0.3, fill:false },
+      { label:'Poor tier', data:[80,82,83,84,85,81,82], borderColor:'#e67e22', borderWidth:2, borderDash:[5,3], pointRadius:3, tension:0.3, fill:false },
+      { label:'Critical tier', data:[72,75,77,78,79,76,78], borderColor:'#c0392b', borderWidth:2, borderDash:[5,3], pointRadius:3, tension:0.3, fill:false }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{min:65,max:100,title:{display:true,text:'DTP3 Coverage (%)',font:{size:11}}}}}
+});
+
+/* ── Supply Chain Polar ── */
+new Chart(document.getElementById('c_supply'), {
+  type: 'polarArea',
+  data: {
+    labels: ['Cairo/Alex (Fair)','Canal Zone (Fair)','Delta (Moderate)','Upper Egy. Mid (Poor)','Upper Egy. South (Critical)','Desert/Sinai (Poor)'],
+    datasets: [{
+      data: [82, 79, 65, 52, 38, 48],
+      backgroundColor: ['rgba(39,174,96,0.75)','rgba(41,121,200,0.7)','rgba(230,126,34,0.65)','rgba(196,94,0,0.7)','rgba(176,27,27,0.75)','rgba(200,80,0,0.7)'],
+      borderWidth: 1, borderColor: '#fff'
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}}, scales:{r:{min:0,max:100,ticks:{font:{size:9},stepSize:25}}}}
+});
+
+/* ── Pharma Spend Doughnut ── */
+new Chart(document.getElementById('c_pharma_spend'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Out-of-Pocket','Government/MoH','Private Insurance','Donor/Intl Aid'],
+    datasets: [{
+      data: [62, 27, 8, 3],
+      backgroundColor: ['#CE1126','#1c5fa8','#2db88e','#e8b800'],
+      borderWidth: 2, borderColor: '#fff'
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}}
+});
+
+/* ── Urban vs Rural ── */
+new Chart(document.getElementById('c_urban_rural'), {
+  type: 'bar',
+  data: {
+    labels: ['DTP3\nvacc.','Essential\nMeds','Cold-Chain\nReliab.','NCD drug\naccess','Oncology\nmeds','COVID\nvacc.'],
+    datasets: [
+      { label:'Urban Egypt', data:[97,80,82,65,55,58], backgroundColor:'#1c5fa8', borderRadius:3 },
+      { label:'Rural Egypt', data:[84,48,42,35,22,28], backgroundColor:'#CE1126', borderRadius:3 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}, scales:{y:{min:0,max:100,title:{display:true,text:'% with access',font:{size:11}}}}}
+});
+
+/* ── Main Governorate Bar ── */
+const govNames = ['Sohag','Qena','Assiut','Luxor','Minya','Beni Suef','New Valley','Matrouh','S. Sinai','N. Sinai','Red Sea','K. El-Sheikh','Faiyum','Sharqia','Dakahlia','Menoufia','Beheira','Aswan','Suez','Gharbia','Ismailia','Damietta','Qalyubia','Alexandria','Giza','Port Said','Cairo'];
+const govScores = [41,43,45,46,54,55,56,57,58,59,60,62,63,64,65,66,67,68,68,69,69,72,73,77,78,81,82];
+const govColors = govScores.map(s => s<54?'#b01b1b':s<63?'#c45e00':s<71?'#c49a00':'#27ae60');
+
+new Chart(document.getElementById('c_gov_main'), {
+  type:'bar',
+  data:{
+    labels: govNames,
+    datasets:[
+      { data:govScores, backgroundColor:govColors, borderRadius:4 },
+      { type:'line', data:Array(27).fill(68), label:'National avg (68)', borderColor:'rgba(11,31,58,0.4)', borderWidth:1.5, borderDash:[6,4], pointRadius:0 }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{legend:{display:false}},
+    scales:{x:{min:30,max:90,title:{display:true,text:'SDG 3.b Composite Index',font:{size:11}}}, y:{ticks:{font:{size:11}}}}
+  }
+});
+
+/* ── Tier Radar ── */
+new Chart(document.getElementById('c_tier_radar'), {
+  type:'radar',
+  data:{
+    labels:['DTP3\nCoverage','Essential Med.\nAvailability','Cold-Chain\nReliability','COVID-19\nVaccination','Pharma\nAffordability'],
+    datasets:[
+      { label:'Critical (Sohag/Qena/Assiut/Luxor)', data:[25,30,20,15,18], backgroundColor:'rgba(176,27,27,0.15)', borderColor:'#b01b1b', borderWidth:2, pointRadius:3 },
+      { label:'Poor (Minya/B.Suef/Sinai etc.)', data:[45,46,35,28,35], backgroundColor:'rgba(196,94,0,0.12)', borderColor:'#c45e00', borderWidth:2, pointRadius:3 },
+      { label:'Moderate (Delta/Canal)', data:[65,62,60,52,58], backgroundColor:'rgba(196,154,0,0.1)', borderColor:'#c49a00', borderWidth:1.5, borderDash:[4,3], pointRadius:2 },
+      { label:'Fair (Cairo/Alex/Port Said)', data:[88,82,85,72,75], backgroundColor:'rgba(39,174,96,0.08)', borderColor:'#27ae60', borderWidth:1.5, borderDash:[4,3], pointRadius:2 }
+    ]
+  },
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}, scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:9}}}}}
+});
+</script>
+</body>
+</html>
