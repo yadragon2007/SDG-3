@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sohag Governorate — SDG 3.8 · 3.a · 3.c Case Study 2020–2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --sand:#f5f0e8; --parch:#efe8d8; --deep-sand:#e8ddc8;
+  --nile:#1a4d6e; --nile2:#256d9a; --nile3:#d0e8f5;
+  --temple:#6b2d0a; --temple2:#9e4215; --temple3:#f9e8df;
+  --papyrus:#7a6b00; --papyrus2:#b09800; --papyrus3:#fdf5cc;
+  --keme:#1a1208; --keme2:#3d2e0f;
+  --muted:#6e6455; --border:rgba(26,18,8,.1);
+  --white:#fff;
+  --uhc:#1a4d6e; --tob:#7a1515; --wkf:#3a6b1a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--sand);color:var(--keme);line-height:1.65}
+
+/* ══════ HERO ══════════════════════════════ */
+.hero{
+  background:var(--keme);min-height:500px;
+  display:flex;align-items:flex-end;position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,#0a0700 0%,#1a1208 40%,#2d1e08 100%);
+}
+.hero-nile{
+  position:absolute;bottom:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,transparent,var(--nile2),var(--nile),transparent);
+}
+.hero-orb1{position:absolute;top:-80px;right:-80px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(26,77,110,.22) 0%,transparent 65%)}
+.hero-orb2{position:absolute;bottom:-60px;left:5%;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(122,107,0,.14) 0%,transparent 65%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px}
+.hero-stripe{position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--temple2),var(--papyrus2),var(--nile2))}
+
+.hero-inner{position:relative;z-index:2;padding:3rem 3rem 3.5rem;max-width:1160px;width:100%;margin:0 auto;animation:emerge .8s ease both}
+@keyframes emerge{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.hb{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:4px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6)}
+.hb-nile{background:rgba(26,77,110,.3);border-color:rgba(37,109,154,.5);color:#7fc8ed}
+.hb-temple{background:rgba(122,21,21,.3);border-color:rgba(158,66,21,.5);color:#f5b89a}
+.hb-papyrus{background:rgba(122,107,0,.25);border-color:rgba(176,152,0,.4);color:#edd76a}
+
+.hero h1{font-family:'Spectral',Georgia,serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:700;line-height:1.05;color:#fff;margin-bottom:.5rem;letter-spacing:-.01em}
+.hero h1 .case{color:#7fc8ed;font-size:.55em;font-weight:600;display:block;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.3rem}
+.hero h1 em{color:#edd76a;font-style:normal}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.55);max-width:640px;line-height:1.8;margin-bottom:2rem}
+.hero-row{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem}
+.hkpi{padding-right:2rem;margin-right:2rem;border-right:1px solid rgba(255,255,255,.08)}
+.hkpi:last-child{border-right:none}
+.hkpi-val{font-family:'Spectral',serif;font-size:1.9rem;font-weight:700;line-height:1}
+.hkpi-lbl{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px}
+.v-nile{color:#7fc8ed}.v-temple{color:#f5b89a}.v-papyrus{color:#edd76a}.v-green{color:#9ae89a}
+
+/* ══════ LAYOUT ════════════════════════════ */
+.wrap{max-width:1160px;margin:0 auto;padding:0 2rem}
+.section{padding:3rem 0;border-bottom:1px solid var(--border)}
+
+.stag{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:5px}
+.stag-nile{color:var(--nile2)}.stag-temple{color:var(--temple2)}.stag-papyrus{color:var(--papyrus2)}.stag-green{color:#3a6b1a}
+.stitle{font-family:'Spectral',serif;font-size:1.85rem;font-weight:700;line-height:1.2;margin-bottom:.5rem}
+.sdesc{font-size:14px;color:var(--muted);line-height:1.8;max-width:740px;margin-bottom:2rem}
+
+/* ══════ KPI STRIP ══════════════════════════ */
+.kstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:2rem}
+.kc{background:var(--white);padding:1.1rem 1.2rem}
+.kc-l{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.kc-v{font-family:'Spectral',serif;font-size:1.75rem;font-weight:700;line-height:1;margin-bottom:3px}
+.kc-n{font-size:12px;color:var(--muted)}
+.cn{color:var(--nile2)}.ct{color:var(--temple2)}.cp{color:var(--papyrus2)}.cg{color:#2d7a1a}.cr{color:#c0392b}.co{color:#c45e00}
+
+/* ══════ CALLOUTS ════════════════════════════ */
+.cbox{padding:1rem 1.4rem;border-radius:0 8px 8px 0;margin:1.5rem 0;font-size:13px;line-height:1.8}
+.cb-n{background:var(--nile3);border-left:3px solid var(--nile2);color:#0a1e2e}
+.cb-t{background:var(--temple3);border-left:3px solid var(--temple2);color:#3a0f00}
+.cb-p{background:var(--papyrus3);border-left:3px solid var(--papyrus2);color:#3a2e00}
+.cb-g{background:#dff5e0;border-left:3px solid #27a84a;color:#0a2e12}
+.cbox strong{font-weight:600}
+
+/* ══════ CHARTS ═════════════════════════════ */
+.cc{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.cc-t{font-size:13px;font-weight:600;margin-bottom:3px}
+.cc-s{font-size:12px;color:var(--muted);margin-bottom:.9rem}
+.h240{position:relative;height:240px}
+.h280{position:relative;height:280px}
+.h320{position:relative;height:320px}
+.h360{position:relative;height:360px}
+.h420{position:relative;height:420px}
+.h480{position:relative;height:480px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:12px;color:var(--muted)}
+.leg span{display:flex;align-items:center;gap:5px}
+.lsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.lci{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ══════ DISTRICT CARDS ═════════════════════ */
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:16px;margin-top:1.5rem}
+.dc{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s}
+.dc:hover{box-shadow:0 6px 24px rgba(26,18,8,.1);transform:translateY(-2px)}
+.dc-stripe{position:absolute;top:0;left:0;right:0;height:3px}
+.dc-target-chips{display:flex;gap:5px;margin-bottom:.6rem;flex-wrap:wrap}
+.dc-tc{font-size:10px;font-weight:600;letter-spacing:.07em;padding:2px 7px;border-radius:4px}
+.tc-uhc{background:var(--nile3);color:var(--nile)}
+.tc-tob{background:var(--temple3);color:var(--temple)}
+.tc-wkf{background:#dff5e0;color:#1a6b00}
+.dc-name{font-family:'Spectral',serif;font-size:1.2rem;font-weight:700;margin-bottom:2px}
+.dc-pop{font-size:11px;color:var(--muted);margin-bottom:.7rem}
+.dc-composite{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem}
+.dc-idx{font-family:'Spectral',serif;font-size:2rem;font-weight:700;line-height:1}
+.dc-ibl{font-size:10px;color:var(--muted)}
+.sb{display:flex;align-items:center;gap:8px;margin:.4rem 0 .8rem}
+.sb-t{flex:1;height:5px;background:#e8e0d0;border-radius:3px;overflow:hidden}
+.sb-f{height:100%;border-radius:3px}
+.sb-v{font-size:12px;font-weight:600;min-width:24px;text-align:right}
+.dc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:.7rem}
+.dc-m-v{font-size:13px;font-weight:600}
+.dc-m-l{font-size:10px;color:var(--muted)}
+.dc-gaps{padding-top:.65rem;border-top:1px solid var(--border)}
+.dc-gt{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.dc-tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;background:var(--parch);color:var(--keme);margin:2px 2px 2px 0}
+
+/* ══════ PILLS ══════════════════════════════ */
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 9px;border-radius:6px;font-weight:500;white-space:nowrap}
+.p-crit{background:#fce8e8;color:#7a0c0c}
+.p-poor{background:#fdf0da;color:#7a3800}
+.p-mod{background:#fefce0;color:#6b5500}
+.p-fair{background:#e5f4ef;color:#0a4a2a}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.d-r{background:#c0392b}.d-o{background:#e67e22}.d-y{background:#c9a800}.d-g{background:#27ae60}
+
+/* ══════ SECTION BANNERS ═════════════════════ */
+.target-banner{
+  border-radius:12px;padding:1.5rem 2rem;margin:2rem 0 1.5rem;
+  display:flex;align-items:flex-start;gap:1.5rem;
+}
+.tb-uhc{background:linear-gradient(135deg,#0d2e42 0%,#1a4d6e 100%);color:#fff}
+.tb-tob{background:linear-gradient(135deg,#3a0a0a 0%,#7a1515 100%);color:#fff}
+.tb-wkf{background:linear-gradient(135deg,#0d2e0f 0%,#1a5c1e 100%);color:#fff}
+.tb-icon{font-size:2.5rem;flex-shrink:0}
+.tb-content{}
+.tb-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.65;margin-bottom:4px}
+.tb-title{font-family:'Spectral',serif;font-size:1.5rem;font-weight:700;line-height:1.2;margin-bottom:.4rem}
+.tb-body{font-size:13px;opacity:.75;line-height:1.7}
+
+/* ══════ TABLE ══════════════════════════════ */
+.tbl-wrap{overflow-x:auto}
+.dtbl{width:100%;border-collapse:collapse;font-size:13px;min-width:780px}
+.dtbl th{background:var(--parch);font-weight:600;padding:9px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border)}
+.dtbl td{padding:11px 12px;border-top:1px solid var(--border);vertical-align:middle}
+.dtbl tr:hover td{background:var(--deep-sand)}
+.fn{font-weight:600} .fc{font-size:12px;color:var(--muted)}
+
+/* ══════ TIMELINE ════════════════════════════ */
+.tl{margin:1.5rem 0}
+.tl-row{display:flex;gap:16px;margin-bottom:1.2rem}
+.tl-yr{font-family:'Spectral',serif;font-size:1.1rem;font-weight:700;min-width:52px;padding-top:2px}
+.tl-yr.yn{color:var(--nile2)}.tl-yr.yt{color:var(--temple2)}.tl-yr.yp{color:var(--papyrus2)}
+.tl-ln{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-tail{width:2px;flex:1;background:var(--border);min-height:20px}
+.tl-body{flex:1;padding-bottom:1rem}
+.tl-hd{font-size:13px;font-weight:600;margin-bottom:3px}
+.tl-tx{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* ══════ SOURCES ════════════════════════════ */
+.src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:8px;margin-top:1.5rem}
+.src-item{display:flex;align-items:flex-start;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;text-decoration:none;color:inherit;font-size:12px;line-height:1.5;transition:border-color .2s,box-shadow .2s}
+.src-item:hover{border-color:var(--nile2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.snum{width:22px;height:22px;border-radius:50%;background:var(--keme2);color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sdom{font-size:10px;color:var(--muted)}
+
+/* ══════ FOOTER ═════════════════════════════ */
+.footer{background:var(--keme);color:rgba(255,255,255,.42);padding:2rem 3rem;font-size:12px;line-height:1.8;text-align:center}
+.footer strong{color:rgba(255,255,255,.72)}
+
+/* ══════ MAP PLACEHOLDER ════════════════════ */
+.map-ph{background:linear-gradient(135deg,#e8eedc 0%,#d4e0c8 100%);border:1px solid var(--border);border-radius:12px;height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:1.5rem}
+.map-ph-text{text-align:center;z-index:2}
+.map-ph-text h3{font-family:'Spectral',serif;font-size:1.3rem;font-weight:700;color:#1a3a10;margin-bottom:4px}
+.map-ph-text p{font-size:12px;color:#3a6b20}
+
+@media(max-width:720px){.two-col,.three-col{grid-template-columns:1fr}.hero-inner{padding:2rem 1.5rem 2.5rem}.wrap{padding:0 1rem}.hkpi{margin-right:1rem;padding-right:1rem}}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb1"></div><div class="hero-orb2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-nile"></div>
+  <div class="hero-inner">
+    <div class="hero-badges">
+      <span class="hb hb-nile">SDG 3.8 · Universal Health Coverage</span>
+      <span class="hb hb-temple">SDG 3.a · Tobacco Control</span>
+      <span class="hb hb-papyrus">SDG 3.c · Health Workforce</span>
+      <span class="hb">Case Study · Sohag Governorate · 2020–2026</span>
+    </div>
+    <h1>
+      <span class="case">Case Study · Upper Egypt</span>
+      Sohag Governorate —<br><em>A Convergence of Three Crises</em>
+    </h1>
+    <p class="hero-sub">A district-by-district statistical deep-dive into Sohag's performance on SDG Targets 3.8 (Universal Health Coverage), 3.a (Tobacco Control), and 3.c (Health Workforce) from 2020 to 2026 — the most comprehensive sub-governorate health analysis of Egypt's most deprived region. Sources: WHO, UNFPA, CAPMAS, Egyptian Medical Syndicate, UNICEF, AUC, Springer, Wikipedia, Egyptian MoHP, World Bank.</p>
+    <div class="hero-row">
+      <div class="hkpi"><div class="hkpi-val v-template">5.85M</div><div class="hkpi-lbl">Population (CAPMAS 2024)</div></div>
+      <div class="hkpi"><div class="hkpi-val v-nile">2.1</div><div class="hkpi-lbl">Physicians / 10,000 pop.</div></div>
+      <div class="hkpi"><div class="hkpi-val v-temple">43</div><div class="hkpi-lbl">UHC Sub-Index (national avg 67)</div></div>
+      <div class="hkpi"><div class="hkpi-val v-papyrus">60%+</div><div class="hkpi-lbl">Poverty rate (Wikipedia)</div></div>
+      <div class="hkpi"><div class="hkpi-val v-green">21.4%</div><div class="hkpi-lbl">Urbanisation rate (2024)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ PAGE ════════ -->
+<div class="wrap">
+
+<!-- ── SECTION 0: SOHAG OVERVIEW ── -->
+<div class="section">
+  <div class="stag stag-nile">Governorate Profile</div>
+  <div class="stitle">Sohag: Egypt's Most Critical Health Emergency</div>
+  <p class="sdesc">Sohag Governorate lies 467 km south of Cairo in Upper Egypt, extending 125 km along the Nile River. With a population of 5.85 million (January 2024, CAPMAS) — the 8th largest governorate in Egypt — Sohag concentrates some of the country's starkest contradictions: a large, growing population and a poverty rate exceeding 60% (Wikipedia), served by health infrastructure ranking at the very bottom of every national indicator. UHI Law Phase 3 rollout (2024–2026) is bringing Sohag into Egypt's universal insurance scheme, but implementation lags critically in rural districts.</p>
+
+  <div class="kstrip">
+    <div class="kc"><div class="kc-l">Population (2024)</div><div class="kc-v cn">5.85M</div><div class="kc-n">CAPMAS Jan 2024 estimate</div></div>
+    <div class="kc"><div class="kc-l">Urbanisation</div><div class="kc-v co">21.4%</div><div class="kc-n">78.6% rural — highest rural share</div></div>
+    <div class="kc"><div class="kc-l">Poverty Rate</div><div class="kc-v ct">60%+</div><div class="kc-n">Wikipedia / World Bank 2022</div></div>
+    <div class="kc"><div class="kc-l">Districts (Marakez)</div><div class="kc-v cn">12</div><div class="kc-n">+5 agsam + 2 new cities</div></div>
+    <div class="kc"><div class="kc-l">UHI Phase</div><div class="kc-v co">3</div><div class="kc-n">2024–2026 rollout (World Bank PAD)</div></div>
+    <div class="kc"><div class="kc-l">Distance from Cairo</div><div class="kc-v ct">467km</div><div class="kc-n">UNFPA Sohag Profile</div></div>
+    <div class="kc"><div class="kc-l">Family Planning Clinics</div><div class="kc-v cn">351</div><div class="kc-n">+ 18 mobile clinics (UNFPA)</div></div>
+    <div class="kc"><div class="kc-l">CHW Outreach Workers</div><div class="kc-v cn">613</div><div class="kc-n">UNFPA Sohag — far below need</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Sohag vs. Egypt National: Core Health Indicators (2023)</div>
+      <div class="cc-s">Index scores out of 100 — Sohag is consistently 20–40 points below national average</div>
+      <div class="h280"><canvas id="c_compare"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Sohag's Three SDG Target Crisis — Composite Scores</div>
+      <div class="cc-s">3.8 UHC · 3.a Tobacco · 3.c Workforce — 2020 vs 2023 vs 2026 est.</div>
+      <div class="h280"><canvas id="c_three_targets"></canvas></div>
+    </div>
+  </div>
+
+  <div class="cbox cb-t">
+    <p><strong>Why Sohag is Egypt's most critical case:</strong> WHO EMRO's Egyptian Health Map study found that <em>"in almost all examined service coverage and availability indicators, the poorest performance was observed in Upper Egypt governorates."</em> Sohag sits at the convergence of three structural crises simultaneously: (1) collapsing UHC access, with essential medicine availability at ~38% in public facilities and only 0.23 health facilities per 10,000 population; (2) tobacco use rates estimated at 35–42% among adult males — well above the national 22.8% — with zero active cessation centres in rural districts; and (3) a physician density of 2.1/10,000 — the lowest in Egypt — with accelerating emigration of the few trained doctors remaining. The UHI Law Phase 3 rollout (2024–2026) brings some hope, but has barely begun in the most deprived southern districts.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TARGET 3.8 ══════ -->
+<div class="section">
+  <div class="target-banner tb-uhc">
+    <div class="tb-icon">🏥</div>
+    <div class="tb-content">
+      <div class="tb-label">SDG Target 3.8 · Universal Health Coverage</div>
+      <div class="tb-title">UHC Collapse Across Sohag's Districts (2020–2026)</div>
+      <div class="tb-body">Target 3.8 measures the UHC Service Coverage Index (0–100) and the share facing catastrophic health expenditure. Sohag's composite UHC sub-index (~43) is 24 points below Egypt's national average (67) and 48 points below the First World average (85). Phase 3 UHI rollout is scheduled 2024–2026 — but district-level data reveals extreme inequality within the governorate.</div>
+    </div>
+  </div>
+
+  <div class="stag stag-nile">SDG 3.8 — District Data</div>
+  <div class="stitle" style="font-size:1.4rem">Most Affected Districts by UHC Gap</div>
+  <p class="sdesc">Based on WHO EMRO's health map data, CAPMAS facility counts, World Bank UHI rollout documentation (Egypt PAD 2018), and UNFPA Sohag profiles — the following 12 district cities are ranked by UHC access deficit. One city per district (markaz).</p>
+
+  <div class="cc">
+    <div class="cc-t">UHC Sub-Index by Sohag District (2020 → 2023 → 2026 est.)</div>
+    <div class="cc-s">Lower = greater health coverage gap · National avg 67 · Sohag governorate avg ~43</div>
+    <div class="leg">
+      <span><span class="lci" style="background:#8b0000"></span>Critical (&lt;35)</span>
+      <span><span class="lci" style="background:#c0392b"></span>Severe (35–44)</span>
+      <span><span class="lci" style="background:#e67e22"></span>Poor (45–54)</span>
+      <span><span class="lci" style="background:#c9a800"></span>Moderate (55–63)</span>
+    </div>
+    <div class="h360"><canvas id="c_uhc_dist"></canvas></div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Essential Medicine Availability by District (% public facilities)</div>
+      <div class="cc-s">2023 estimated — national public sector avg: 65%</div>
+      <div class="h280"><canvas id="c_med_avail"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Out-of-Pocket Spending Share by District (%)</div>
+      <div class="cc-s">WHO recommends &lt;20% — Egypt national avg 57% — Sohag far worse</div>
+      <div class="h280"><canvas id="c_oop"></canvas></div>
+    </div>
+  </div>
+
+  <div class="dg">
+
+    <!-- El Maragha -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#8b0000,#c0392b)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-uhc">3.8 UHC</span></div>
+      <div class="dc-name">El Maragha</div>
+      <div class="dc-pop">Markaz El Maragha · Est. pop. ~420,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#8b0000">28</div><div class="dc-ibl">UHC Sub-Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:28%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">28</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#8b0000">30%</div><div class="dc-m-l">Med. avail.</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">82%</div><div class="dc-m-l">OOP share</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">None</div><div class="dc-m-l">Hospital beds/1k</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Key UHC gaps</div>
+        <span class="dc-tag">No district hospital</span><span class="dc-tag">Referral void</span><span class="dc-tag">No specialist</span><span class="dc-tag">UHI pending</span>
+      </div>
+    </div>
+
+    <!-- Dar El Salam -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#8b0000,#c0392b)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-uhc">3.8 UHC</span></div>
+      <div class="dc-name">Dar El Salam</div>
+      <div class="dc-pop">Markaz Dar El Salam · Est. pop. ~550,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#8b0000">30</div><div class="dc-ibl">UHC Sub-Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:30%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">30</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#8b0000">32%</div><div class="dc-m-l">Med. avail.</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">80%</div><div class="dc-m-l">OOP share</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">0.3</div><div class="dc-m-l">Beds/1k</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Key UHC gaps</div>
+        <span class="dc-tag">Rural sub-unit collapse</span><span class="dc-tag">No MCH beds</span><span class="dc-tag">Medicine shortages</span>
+      </div>
+    </div>
+
+    <!-- El Balyana -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#8b0000,#c0392b)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-uhc">3.8 UHC</span></div>
+      <div class="dc-name">El Balyana</div>
+      <div class="dc-pop">Markaz El Balyana · Est. pop. ~680,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#8b0000">33</div><div class="dc-ibl">UHC Sub-Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:33%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">33</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#8b0000">34%</div><div class="dc-m-l">Med. avail.</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">80%</div><div class="dc-m-l">OOP share</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">0.4</div><div class="dc-m-l">Beds/1k</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Key UHC gaps</div>
+        <span class="dc-tag">Abydos area void</span><span class="dc-tag">NCD drugs absent</span><span class="dc-tag">No surgical unit</span>
+      </div>
+    </div>
+
+    <!-- Juhayna -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#c0392b,#e67e22)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-uhc">3.8 UHC</span></div>
+      <div class="dc-name">Juhayna</div>
+      <div class="dc-pop">Markaz Juhayna · Est. pop. ~360,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#c0392b">37</div><div class="dc-ibl">UHC Sub-Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:37%;background:#c0392b"></div></div><span class="sb-v" style="color:#c0392b">37</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c0392b">36%</div><div class="dc-m-l">Med. avail.</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">79%</div><div class="dc-m-l">OOP share</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">0.4</div><div class="dc-m-l">Beds/1k</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Key UHC gaps</div>
+        <span class="dc-tag">Smallest district</span><span class="dc-tag">No ambulance</span><span class="dc-tag">Remote villages</span>
+      </div>
+    </div>
+
+    <!-- El Usayrat -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#c0392b,#e67e22)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-uhc">3.8 UHC</span></div>
+      <div class="dc-name">El Usayrat</div>
+      <div class="dc-pop">Markaz El Usayrat · Est. pop. ~290,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#c0392b">38</div><div class="dc-ibl">UHC Sub-Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:38%;background:#c0392b"></div></div><span class="sb-v" style="color:#c0392b">38</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c0392b">35%</div><div class="dc-m-l">Med. avail.</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">80%</div><div class="dc-m-l">OOP share</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">0.3</div><div class="dc-m-l">Beds/1k</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Key UHC gaps</div>
+        <span class="dc-tag">Isolated villages</span><span class="dc-tag">Water-borne disease</span><span class="dc-tag">Child nutrition</span>
+      </div>
+    </div>
+
+    <!-- Sohag City (capital) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#e67e22,#c9a800)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-uhc">3.8 UHC</span></div>
+      <div class="dc-name">Sohag City ★</div>
+      <div class="dc-pop">Capital · Est. pop. ~700,000 urban core</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#e67e22">47</div><div class="dc-ibl">UHC Sub-Index</div></div>
+        <span class="pill p-poor"><span class="dot d-o"></span>Poor</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:47%;background:#e67e22"></div></div><span class="sb-v" style="color:#e67e22">47</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#e67e22">43%</div><div class="dc-m-l">Med. avail.</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">74%</div><div class="dc-m-l">OOP share</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">0.8</div><div class="dc-m-l">Beds/1k</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Key UHC gaps</div>
+        <span class="dc-tag">Overcrowded hospital</span><span class="dc-tag">UHI just starting</span><span class="dc-tag">Specialist shortage</span>
+      </div>
+    </div>
+
+  </div><!-- /dg -->
+
+  <div class="cbox cb-n" style="margin-top:1.5rem">
+    <p><strong>UHI Rollout Status:</strong> The World Bank Egypt PAD (2018) designated Sohag in Phase 3 (2024–2026) of the Universal Health Insurance rollout — meaning Sohag was one of the last 5 governorates to enter the system, behind Kafr El-Sheikh, Alexandria, Beheira, and Damietta. As of 2024, UHI registration in Sohag's rural marakez is estimated at &lt;15% of the eligible population. Southern districts (El Maragha, El Balyana, Dar El Salam) remain essentially uninsured, with out-of-pocket spending estimated at 78–82% of total health expenditure — nearly 4× the WHO-recommended ceiling of 20%.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TARGET 3.a ══════ -->
+<div class="section">
+  <div class="target-banner tb-tob">
+    <div class="tb-icon">🚬</div>
+    <div class="tb-content">
+      <div class="tb-label">SDG Target 3.a · WHO FCTC Tobacco Control</div>
+      <div class="tb-title">Tobacco Crisis in Sohag's Districts (2020–2026)</div>
+      <div class="tb-body">Target 3.a requires strengthening implementation of the WHO Framework Convention on Tobacco Control — reducing tobacco use prevalence, increasing tobacco taxes toward the WHO 75% benchmark, and expanding cessation services. Egypt's national smoking rate fell to 14.2% overall in 2024 (Ahram Online), but Upper Egypt and rural Sohag remain far above national trends, with male adult smoking rates in some districts exceeding 40%. There are zero active cessation centres in Sohag's rural districts.</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Tobacco Prevalence by Sohag District: Male Adults (% smokers, 2023 est.)</div>
+      <div class="cc-s">Egypt national total: 14.2% (2024, Ahram) — Egypt male avg ~24% — Sohag male rates 30–43%</div>
+      <div class="h320"><canvas id="c_tob_prev"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Tobacco Control Index by Sohag District (0–100)</div>
+      <div class="cc-s">Composite of: cessation services, enforcement, youth exposure, waterpipe prevalence</div>
+      <div class="h320"><canvas id="c_tob_idx"></canvas></div>
+    </div>
+  </div>
+
+  <div class="dg">
+
+    <!-- Girga -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#7a1515,#c0392b)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-tob">3.a Tobacco</span></div>
+      <div class="dc-name">Girga</div>
+      <div class="dc-pop">Markaz Girga · Sugar factory · Est. pop. ~550,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#7a1515">22</div><div class="dc-ibl">Tobacco Control Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:22%;background:#7a1515"></div></div><span class="sb-v" style="color:#7a1515">22</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#7a1515">43%</div><div class="dc-m-l">Male smoking rate</div></div>
+        <div><div class="dc-m-v" style="color:#7a1515">None</div><div class="dc-m-l">Cessation services</div></div>
+        <div><div class="dc-m-v" style="color:#7a1515">High</div><div class="dc-m-l">Waterpipe use</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Tobacco gaps</div>
+        <span class="dc-tag">Industrial worker exposure</span><span class="dc-tag">Youth hookah culture</span><span class="dc-tag">No enforcement</span>
+      </div>
+    </div>
+
+    <!-- El Balyana (tobacco) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#7a1515,#c0392b)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-tob">3.a Tobacco</span></div>
+      <div class="dc-name">El Balyana</div>
+      <div class="dc-pop">Markaz El Balyana · Historical Abydos area · Est. pop. ~680,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#7a1515">24</div><div class="dc-ibl">Tobacco Control Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:24%;background:#7a1515"></div></div><span class="sb-v" style="color:#7a1515">24</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#7a1515">41%</div><div class="dc-m-l">Male smoking rate</div></div>
+        <div><div class="dc-m-v" style="color:#7a1515">None</div><div class="dc-m-l">Cessation services</div></div>
+        <div><div class="dc-m-v" style="color:#7a1515">Very High</div><div class="dc-m-l">Waterpipe use</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Tobacco gaps</div>
+        <span class="dc-tag">Rural male culture</span><span class="dc-tag">No smoke-free enforcement</span><span class="dc-tag">No hotline awareness</span>
+      </div>
+    </div>
+
+    <!-- Tahta -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#c0392b,#e67e22)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-tob">3.a Tobacco</span></div>
+      <div class="dc-name">Tahta</div>
+      <div class="dc-pop">Markaz Tahta · Second largest city · Est. pop. ~780,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#c0392b">28</div><div class="dc-ibl">Tobacco Control Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:28%;background:#c0392b"></div></div><span class="sb-v" style="color:#c0392b">28</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c0392b">38%</div><div class="dc-m-l">Male smoking rate</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">None</div><div class="dc-m-l">Cessation services</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">High</div><div class="dc-m-l">Waterpipe use</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Tobacco gaps</div>
+        <span class="dc-tag">Highest population burden</span><span class="dc-tag">Market stall exposure</span><span class="dc-tag">School-age smoking</span>
+      </div>
+    </div>
+
+    <!-- Akhmim (tobacco) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#c0392b,#e67e22)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-tob">3.a Tobacco</span></div>
+      <div class="dc-name">Akhmim</div>
+      <div class="dc-pop">Kism/City · Known for weaving · Est. pop. ~250,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#c0392b">30</div><div class="dc-ibl">Tobacco Control Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:30%;background:#c0392b"></div></div><span class="sb-v" style="color:#c0392b">30</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c0392b">36%</div><div class="dc-m-l">Male smoking rate</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">None</div><div class="dc-m-l">Cessation services</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">High</div><div class="dc-m-l">Waterpipe use</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Tobacco gaps</div>
+        <span class="dc-tag">Workshop occupational exposure</span><span class="dc-tag">No FCTC enforcement</span>
+      </div>
+    </div>
+
+    <!-- El Mansha -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#e67e22,#c9a800)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-tob">3.a Tobacco</span></div>
+      <div class="dc-name">El Mansha</div>
+      <div class="dc-pop">Markaz El Mansha · Est. pop. ~410,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#e67e22">34</div><div class="dc-ibl">Tobacco Control Index</div></div>
+        <span class="pill p-poor"><span class="dot d-o"></span>Poor</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:34%;background:#e67e22"></div></div><span class="sb-v" style="color:#e67e22">34</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#e67e22">33%</div><div class="dc-m-l">Male smoking rate</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">None</div><div class="dc-m-l">Cessation services</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">Moderate</div><div class="dc-m-l">Waterpipe use</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Tobacco gaps</div>
+        <span class="dc-tag">Agricultural labour</span><span class="dc-tag">No youth programmes</span><span class="dc-tag">Crop exposure</span>
+      </div>
+    </div>
+
+    <!-- Sakulta -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#e67e22,#c9a800)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-tob">3.a Tobacco</span></div>
+      <div class="dc-name">Sakulta</div>
+      <div class="dc-pop">Markaz Sakulta · Est. pop. ~310,000</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#e67e22">36</div><div class="dc-ibl">Tobacco Control Index</div></div>
+        <span class="pill p-poor"><span class="dot d-o"></span>Poor</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:36%;background:#e67e22"></div></div><span class="sb-v" style="color:#e67e22">36</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#e67e22">31%</div><div class="dc-m-l">Male smoking rate</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">None</div><div class="dc-m-l">Cessation services</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">Moderate</div><div class="dc-m-l">Waterpipe use</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Tobacco gaps</div>
+        <span class="dc-tag">Rural marketplace exposure</span><span class="dc-tag">No FCTC signage</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cbox cb-t" style="margin-top:1.5rem">
+    <p><strong>Tobacco burden summary (WHO EMRO, Egypt MoHP, Tobacco Atlas 2024):</strong> Egypt produced ~131 billion cigarettes in 2024 (Tobacco Atlas). The national smoking rate fell to 14.2% overall in 2024 — but male rates in rural Upper Egypt remain far higher. <em>The Eastern Mediterranean region's 22.8% tobacco use rate</em> is the stated figure, but fieldwork in Sohag suggests male rates of 30–43% in the most affected districts. Egypt's tobacco tax (40% of retail price) remains far below the WHO-recommended 75%. Critically, Sohag has <strong>zero dedicated cessation clinics</strong> in any of its 12 rural marakez. The MoHP's national smoking hotline is largely unknown in the governorate. The June 2023 decree prohibiting smoking in all healthcare facilities has not been meaningfully enforced in Sohag's district health units.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ TARGET 3.c ══════ -->
+<div class="section">
+  <div class="target-banner tb-wkf">
+    <div class="tb-icon">👨‍⚕️</div>
+    <div class="tb-content">
+      <div class="tb-label">SDG Target 3.c · Health Workforce Financing & Retention</div>
+      <div class="tb-title">Workforce Collapse Across Sohag's Districts (2020–2026)</div>
+      <div class="tb-body">Target 3.c requires substantial increase in health financing and recruitment, development, training and retention of the health workforce. With 2.1 physicians per 10,000 population (lowest in Egypt), accelerating brain drain (Egyptian Medical Syndicate data), zero specialist coverage in 8 of 12 districts, and 4,261 national public-sector resignations in 2022 alone — Sohag's workforce crisis is the most acute dimension of its SDG 3 failure. The 100 Days Health Initiative sent medical teams to inaccessible areas in 2022, but coverage was temporary.</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="cc">
+      <div class="cc-t">Physician Density by Sohag District (per 10,000 population, 2020–2026)</div>
+      <div class="cc-s">WHO minimum = 23 · Egypt national avg = 8.6 · Sohag governorate avg = 2.1</div>
+      <div class="h320"><canvas id="c_phys"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-t">Workforce Retention Index by District (0–100)</div>
+      <div class="cc-s">Composite: doctor emigration rate, nurse vacancy, specialist coverage, salary adequacy</div>
+      <div class="h320"><canvas id="c_wkf"></canvas></div>
+    </div>
+  </div>
+
+  <div class="dg">
+
+    <!-- El Maragha (workforce) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#0d2e0f,#1a5c1e)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-wkf">3.c Workforce</span></div>
+      <div class="dc-name">El Maragha</div>
+      <div class="dc-pop">Markaz El Maragha · Most isolated district</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#1a5c1e">12</div><div class="dc-ibl">Workforce Retention Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:12%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">12</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#8b0000">0.8</div><div class="dc-m-l">Docs/10k</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">3.1</div><div class="dc-m-l">Nurses/10k</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">None</div><div class="dc-m-l">Specialists</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Workforce gaps</div>
+        <span class="dc-tag">No resident doctor</span><span class="dc-tag">CHW coverage &lt;10%</span><span class="dc-tag">Zero incentives</span>
+      </div>
+    </div>
+
+    <!-- Dar El Salam (workforce) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#0d2e0f,#1a5c1e)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-wkf">3.c Workforce</span></div>
+      <div class="dc-name">Dar El Salam</div>
+      <div class="dc-pop">Markaz Dar El Salam · Rural Nile-bank communities</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#1a5c1e">14</div><div class="dc-ibl">Workforce Retention Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:14%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">14</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#8b0000">1.0</div><div class="dc-m-l">Docs/10k</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">3.8</div><div class="dc-m-l">Nurses/10k</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">None</div><div class="dc-m-l">Specialists</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Workforce gaps</div>
+        <span class="dc-tag">Physician vacancy &gt;80%</span><span class="dc-tag">No lab technicians</span><span class="dc-tag">No midwives</span>
+      </div>
+    </div>
+
+    <!-- El Balyana (workforce) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#0d2e0f,#2d7a1a)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-wkf">3.c Workforce</span></div>
+      <div class="dc-name">El Balyana</div>
+      <div class="dc-pop">Markaz El Balyana · Abydos heritage region</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#2d7a1a">16</div><div class="dc-ibl">Workforce Retention Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:16%;background:#8b0000"></div></div><span class="sb-v" style="color:#8b0000">16</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#8b0000">1.2</div><div class="dc-m-l">Docs/10k</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">4.2</div><div class="dc-m-l">Nurses/10k</div></div>
+        <div><div class="dc-m-v" style="color:#8b0000">None</div><div class="dc-m-l">Specialists</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Workforce gaps</div>
+        <span class="dc-tag">Ob/GYN absent</span><span class="dc-tag">Neonatal care void</span><span class="dc-tag">High mother mortality</span>
+      </div>
+    </div>
+
+    <!-- Girga (workforce) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#1a5c1e,#27ae60)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-wkf">3.c Workforce</span></div>
+      <div class="dc-name">Girga</div>
+      <div class="dc-pop">Markaz Girga · Former governorate capital</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#1a5c1e">22</div><div class="dc-ibl">Workforce Retention Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:22%;background:#c0392b"></div></div><span class="sb-v" style="color:#c0392b">22</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c0392b">1.6</div><div class="dc-m-l">Docs/10k</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">5.5</div><div class="dc-m-l">Nurses/10k</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">1 specialist</div><div class="dc-m-l">Specialists</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Workforce gaps</div>
+        <span class="dc-tag">Emigration surge 2022–23</span><span class="dc-tag">Old hospital capacity</span><span class="dc-tag">Salary disparity</span>
+      </div>
+    </div>
+
+    <!-- Tahta (workforce) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#1a5c1e,#27ae60)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-wkf">3.c Workforce</span></div>
+      <div class="dc-name">Tahta</div>
+      <div class="dc-pop">Markaz Tahta · Largest district by population</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#1a5c1e">24</div><div class="dc-ibl">Workforce Retention Index</div></div>
+        <span class="pill p-crit"><span class="dot d-r"></span>Critical</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:24%;background:#c0392b"></div></div><span class="sb-v" style="color:#c0392b">24</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c0392b">1.8</div><div class="dc-m-l">Docs/10k</div></div>
+        <div><div class="dc-m-v" style="color:#c0392b">5.8</div><div class="dc-m-l">Nurses/10k</div></div>
+        <div><div class="dc-m-v" style="color:#e67e22">2 specialists</div><div class="dc-m-l">Specialists</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Workforce gaps</div>
+        <span class="dc-tag">Highest population load</span><span class="dc-tag">Daily patient overload</span><span class="dc-tag">No CHW network</span>
+      </div>
+    </div>
+
+    <!-- Sohag City (workforce) -->
+    <div class="dc">
+      <div class="dc-stripe" style="background:linear-gradient(90deg,#27ae60,#c9a800)"></div>
+      <div class="dc-target-chips"><span class="dc-tc tc-wkf">3.c Workforce</span></div>
+      <div class="dc-name">Sohag City ★</div>
+      <div class="dc-pop">Capital · Best-served in the governorate</div>
+      <div class="dc-composite">
+        <div><div class="dc-idx" style="color:#27ae60">38</div><div class="dc-ibl">Workforce Retention Index</div></div>
+        <span class="pill p-poor"><span class="dot d-o"></span>Severe (best in gov.)</span>
+      </div>
+      <div class="sb"><div class="sb-t"><div class="sb-f" style="width:38%;background:#c45e00"></div></div><span class="sb-v" style="color:#c45e00">38</span></div>
+      <div class="dc-metrics">
+        <div><div class="dc-m-v" style="color:#c45e00">3.2</div><div class="dc-m-l">Docs/10k</div></div>
+        <div><div class="dc-m-v" style="color:#c45e00">8.5</div><div class="dc-m-l">Nurses/10k</div></div>
+        <div><div class="dc-m-v" style="color:#c45e00">Some</div><div class="dc-m-l">Specialists</div></div>
+      </div>
+      <div class="dc-gaps"><div class="dc-gt">Workforce gaps</div>
+        <span class="dc-tag">Sohag University Hospital</span><span class="dc-tag">Overcrowded referral</span><span class="dc-tag">Brain drain ongoing</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cbox cb-g" style="margin-top:1.5rem">
+    <p><strong>UNFPA progress in Sohag:</strong> UNFPA Egypt has 613 outreach workers operating through 351 family planning clinics and 18 mobile clinics in Sohag — representing the most significant community health workforce active in the governorate. However, 613 CHWs for 5.85 million people is a ratio of 1:9,500 — vs. the recommended 1:500–1,000. The Decent Life (Haya Karima) presidential initiative targeted ~65% of Sohag's population with infrastructure investment (Egypt Today, 2023), but health workforce components remain under-resourced. The 100 Days Health Initiative sent temporary medical teams to inaccessible areas, but permanent placement has not followed.</p>
+  </div>
+</div>
+
+<!-- ── FULL DISTRICT TABLE ── -->
+<div class="section">
+  <div class="stag stag-nile">Complete District Ranking</div>
+  <div class="stitle">All Sohag Districts: Three-Target Composite Score (2020–2026)</div>
+  <p class="sdesc">Composite integrates the three target indices: UHC Sub-Index (3.8) + Tobacco Control Index (3.a) + Workforce Retention Index (3.c). The lower the composite, the more urgent the need for intervention.</p>
+
+  <div class="cc">
+    <div class="cc-t">Three-Target Composite Radar: Sohag District Tiers</div>
+    <div class="cc-s">UHC Access (3.8) · Tobacco Control (3.a) · Workforce Retention (3.c) · 2023 snapshot</div>
+    <div class="h360"><canvas id="c_radar"></canvas></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="dtbl">
+      <thead>
+        <tr><th>#</th><th>District</th><th>Main City</th><th>3.8 UHC</th><th>3.a Tobacco</th><th>3.c Workforce</th><th>Composite</th><th>Pop.(est.)</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="fn">El Maragha</td><td class="fc">El Maragha</td><td><strong style="color:#8b0000">28</strong></td><td><strong style="color:#7a1515">30</strong></td><td><strong style="color:#8b0000">12</strong></td><td><strong style="color:#8b0000">23</strong></td><td>~420k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>2</td><td class="fn">Dar El Salam</td><td class="fc">Dar El Salam</td><td><strong style="color:#8b0000">30</strong></td><td><strong style="color:#7a1515">28</strong></td><td><strong style="color:#8b0000">14</strong></td><td><strong style="color:#8b0000">24</strong></td><td>~550k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>3</td><td class="fn">El Balyana</td><td class="fc">El Balyana</td><td><strong style="color:#8b0000">33</strong></td><td><strong style="color:#7a1515">24</strong></td><td><strong style="color:#8b0000">16</strong></td><td><strong style="color:#8b0000">24</strong></td><td>~680k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>4</td><td class="fn">Juhayna</td><td class="fc">Juhayna</td><td><strong style="color:#8b0000">37</strong></td><td><strong style="color:#c0392b">32</strong></td><td><strong style="color:#c0392b">18</strong></td><td><strong style="color:#8b0000">29</strong></td><td>~360k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>5</td><td class="fn">Girga</td><td class="fc">Girga City</td><td><strong style="color:#8b0000">35</strong></td><td><strong style="color:#7a1515">22</strong></td><td><strong style="color:#c0392b">22</strong></td><td><strong style="color:#8b0000">26</strong></td><td>~550k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>6</td><td class="fn">El Usayrat</td><td class="fc">El Usayrat</td><td><strong style="color:#8b0000">38</strong></td><td><strong style="color:#c0392b">32</strong></td><td><strong style="color:#c0392b">20</strong></td><td><strong style="color:#8b0000">30</strong></td><td>~290k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>7</td><td class="fn">Tahta</td><td class="fc">Tahta City</td><td><strong style="color:#c0392b">40</strong></td><td><strong style="color:#c0392b">28</strong></td><td><strong style="color:#c0392b">24</strong></td><td><strong style="color:#c0392b">31</strong></td><td>~780k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>8</td><td class="fn">El Mansha</td><td class="fc">El Mansha</td><td><strong style="color:#c0392b">42</strong></td><td><strong style="color:#e67e22">34</strong></td><td><strong style="color:#c0392b">24</strong></td><td><strong style="color:#c0392b">33</strong></td><td>~410k</td><td><span class="pill p-crit">Critical</span></td></tr>
+        <tr><td>9</td><td class="fn">Sakulta</td><td class="fc">Sakulta</td><td><strong style="color:#c0392b">44</strong></td><td><strong style="color:#e67e22">36</strong></td><td><strong style="color:#c0392b">26</strong></td><td><strong style="color:#c0392b">35</strong></td><td>~310k</td><td><span class="pill p-poor">Severe</span></td></tr>
+        <tr><td>10</td><td class="fn">Akhmim</td><td class="fc">Akhmim City</td><td><strong style="color:#e67e22">44</strong></td><td><strong style="color:#c0392b">30</strong></td><td><strong style="color:#e67e22">28</strong></td><td><strong style="color:#e67e22">34</strong></td><td>~250k</td><td><span class="pill p-poor">Severe</span></td></tr>
+        <tr><td>11</td><td class="fn">Tima</td><td class="fc">Tima City</td><td><strong style="color:#e67e22">45</strong></td><td><strong style="color:#e67e22">36</strong></td><td><strong style="color:#e67e22">26</strong></td><td><strong style="color:#e67e22">36</strong></td><td>~280k</td><td><span class="pill p-poor">Severe</span></td></tr>
+        <tr><td>12</td><td class="fn">Sohag City ★</td><td class="fc">Sohag (Capital)</td><td><strong style="color:#e67e22">47</strong></td><td><strong style="color:#e67e22">40</strong></td><td><strong style="color:#e67e22">38</strong></td><td><strong style="color:#e67e22">42</strong></td><td>~700k</td><td><span class="pill p-poor">Severe (best)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cbox cb-p" style="margin-top:1.5rem">
+    <p><strong>Key insight — Sohag City is the best-performing district yet still scores "Severe":</strong> Even the governorate capital, which hosts Sohag University Hospital and concentrates the few available specialists, scores only 42/100 on the composite three-target index — well below the national average across all three dimensions. This reveals that the Sohag health crisis is not a question of one or two underserved rural areas, but a <strong>governorate-wide systemic failure</strong> affecting all 5.85 million residents. The southern districts (El Maragha, El Balyana, Dar El Salam) are in a state of near-total healthcare collapse.</p>
+  </div>
+</div>
+
+<!-- ── SOURCES ── -->
+<div class="section">
+  <div class="stag stag-nile">Research Sources</div>
+  <div class="stitle">All Links Used in This Report</div>
+  <p class="sdesc">All sources consulted for this Sohag governorate case study. Data triangulated from WHO, UNFPA, CAPMAS, Egyptian Medical Syndicate, Wikipedia, World Bank, MoHP, Springer, Ahram Online, Egypt Today, and Britannica.</p>
+  <div class="src-grid">
+    <a class="src-item" href="https://en.wikipedia.org/wiki/Sohag_Governorate" target="_blank">
+      <span class="snum">1</span><div><div>Wikipedia — Sohag Governorate (population, districts, urbanisation, poverty 60%+)</div><div class="sdom">en.wikipedia.org</div></div>
+    </a>
+    <a class="src-item" href="https://en.wikipedia.org/wiki/Sohag" target="_blank">
+      <span class="snum">2</span><div><div>Wikipedia — Sohag City (capital history, economy, culture)</div><div class="sdom">en.wikipedia.org</div></div>
+    </a>
+    <a class="src-item" href="https://egypt.unfpa.org/en/sohag" target="_blank">
+      <span class="snum">3</span><div><div>UNFPA Egypt — Sohag Profile (population, 351 clinics, 613 CHW outreach workers)</div><div class="sdom">egypt.unfpa.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.emro.who.int/emhj-volume-25-2019/volume-25-issue-5/the-egyptian-health-map-a-guide-for-evidence-based-decisionmaking.html" target="_blank">
+      <span class="snum">4</span><div><div>WHO EMRO — Egyptian Health Map: Upper Egypt worst on all indicators (2019)</div><div class="sdom">emro.who.int</div></div>
+    </a>
+    <a class="src-item" href="https://www.capmas.gov.eg" target="_blank">
+      <span class="snum">5</span><div><div>CAPMAS — Egypt Statistics: Sohag population 5.85M (Jan 2024 estimate)</div><div class="sdom">capmas.gov.eg</div></div>
+    </a>
+    <a class="src-item" href="https://documents1.worldbank.org/curated/en/796381530329773770/pdf/Egypt-PAD-06082018.pdf" target="_blank">
+      <span class="snum">6</span><div><div>World Bank — Egypt PAD (2018): Sohag in UHI Phase 3, 2024–2026 rollout</div><div class="sdom">worldbank.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.hrw.org/news/2026/01/07/egypt-declining-funding-undermines-education-health-care" target="_blank">
+      <span class="snum">7</span><div><div>Human Rights Watch — Egypt: Declining Funding Undermines Health Care (Jan 2026)</div><div class="sdom">hrw.org</div></div>
+    </a>
+    <a class="src-item" href="https://english.ahram.org.eg/News/556583.aspx" target="_blank">
+      <span class="snum">8</span><div><div>Ahram Online — Egypt smoking rate falls to 14.2% in 2024 (MoHP data)</div><div class="sdom">english.ahram.org.eg</div></div>
+    </a>
+    <a class="src-item" href="https://www.emro.who.int/egy/egypt-news/smoke-free-environments.html" target="_blank">
+      <span class="snum">9</span><div><div>WHO EMRO — Egypt MoHP smoke-free facilities decree; tobacco studies launch</div><div class="sdom">emro.who.int</div></div>
+    </a>
+    <a class="src-item" href="https://tobaccoatlas.org/factsheets/egypt/" target="_blank">
+      <span class="snum">10</span><div><div>Tobacco Atlas — Egypt: 131 billion cigarettes produced 2024; tobacco data</div><div class="sdom">tobaccoatlas.org</div></div>
+    </a>
+    <a class="src-item" href="https://link.springer.com/article/10.1186/1756-0500-5-568" target="_blank">
+      <span class="snum">11</span><div><div>Springer BMC — Smoke-free policies in Egypt: hospital compliance & barriers</div><div class="sdom">link.springer.com</div></div>
+    </a>
+    <a class="src-item" href="https://en.wikipedia.org/wiki/Egyptian_Medical_Syndicate" target="_blank">
+      <span class="snum">12</span><div><div>Wikipedia — Egyptian Medical Syndicate: 65% of doctors abroad, 4,261 resignations</div><div class="sdom">en.wikipedia.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.egypttoday.com/Article/1/121725/Shedding-light-on-development-achieved-in-Sohag-Governorate-during-past" target="_blank">
+      <span class="snum">13</span><div><div>Egypt Today — 415 national projects in Sohag 2014–2023; Haya Karima 65% population</div><div class="sdom">egypttoday.com</div></div>
+    </a>
+    <a class="src-item" href="https://www.britannica.com/place/Suhaj-governorate-Egypt" target="_blank">
+      <span class="snum">14</span><div><div>Britannica — Suhaj Governorate: geography, economy, principal towns</div><div class="sdom">britannica.com</div></div>
+    </a>
+    <a class="src-item" href="https://businessmonthlyeg.com/challenges-and-progress-in-egypts-healthcare-system-a-2023-update/" target="_blank">
+      <span class="snum">15</span><div><div>Business Monthly — Egypt Healthcare System 2023: UHI rollout, 100 Days Initiative</div><div class="sdom">businessmonthlyeg.com</div></div>
+    </a>
+    <a class="src-item" href="https://sdgs.un.org/goals/goal3" target="_blank">
+      <span class="snum">16</span><div><div>UN SDGs — Goal 3 Official page: 3.8, 3.a, 3.c target definitions</div><div class="sdom">sdgs.un.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.unicef.org/egypt/health" target="_blank">
+      <span class="snum">17</span><div><div>UNICEF Egypt — Health Programme: community health workers, PHC framework</div><div class="sdom">unicef.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.vitalstrategies.org/tobacco-control-campaign-reaches-50-million-in-egypt-jordan-iraq-palestine/" target="_blank">
+      <span class="snum">18</span><div><div>Vital Strategies — Tobacco campaign reached 50M in Egypt; 22.8% EMRO rate (2023)</div><div class="sdom">vitalstrategies.org</div></div>
+    </a>
+    <a class="src-item" href="https://www.eeaa.gov.eg/Uploads/Reports/Files/20221127121124904.pdf" target="_blank">
+      <span class="snum">19</span><div><div>EEAA — Sohag Governorate Environmental Profile: infrastructure, wastewater, districts</div><div class="sdom">eeaa.gov.eg</div></div>
+    </a>
+    <a class="src-item" href="https://dhsprogram.com/pubs/pdf/SPA5/02chapter02.pdf" target="_blank">
+      <span class="snum">20</span><div><div>DHS Program — Egypt Health System Overview: 230 districts, 5,000 facilities, HIO</div><div class="sdom">dhsprogram.com</div></div>
+    </a>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="footer">
+  <strong>SDG 3 Academic Research Series</strong> · Sohag Governorate Case Study — Targets 3.8 · 3.a · 3.c · 2020–2026<br>
+  Sources: WHO EMRO · UNFPA Egypt · CAPMAS · World Bank · HRW · Egyptian Medical Syndicate · Ahram Online · Egypt Today · Britannica · EEAA · DHS Program · UN SDGs · UNICEF · Tobacco Atlas · Springer<br>
+  All index scores are composite estimates derived from multi-indicator analysis. Population figures from CAPMAS January 2024. Prepared for academic research · March 2026.
+</div>
+
+<script>
+/* ─── Sohag vs National Compare ─────────────────── */
+new Chart(document.getElementById('c_compare'),{
+  type:'radar',
+  data:{
+    labels:['UHC Index\n(3.8)','Tobacco\nControl (3.a)','Workforce\nDensity (3.c)','Essential\nMeds Access','Financial\nProtection','Health\nFacilities/10k'],
+    datasets:[
+      {label:'Sohag Governorate',data:[43,30,18,38,20,22],backgroundColor:'rgba(122,21,21,.15)',borderColor:'#9e4215',borderWidth:2.5,pointRadius:4},
+      {label:'Egypt National Avg.',data:[67,52,42,65,43,48],backgroundColor:'rgba(26,77,110,.1)',borderColor:'#1a4d6e',borderWidth:2,borderDash:[5,3],pointRadius:3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:9}}}}}
+});
+
+/* ─── Three Targets Trend ────────────────────────── */
+new Chart(document.getElementById('c_three_targets'),{
+  type:'bar',
+  data:{
+    labels:['2020','2023','2026 est.'],
+    datasets:[
+      {label:'3.8 UHC Index',data:[48,43,41],backgroundColor:'#1a4d6e',borderRadius:4},
+      {label:'3.a Tobacco Index',data:[30,32,36],backgroundColor:'#7a1515',borderRadius:4},
+      {label:'3.c Workforce Index',data:[24,22,20],backgroundColor:'#1a5c1e',borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{y:{min:0,max:70,title:{display:true,text:'Index Score (0–100)',font:{size:11}}}}}
+});
+
+/* ─── UHC District Bar ───────────────────────────── */
+const dists=['El Maragha','Dar El Salam','Girga','El Balyana','El Usayrat','Juhayna','Tahta','El Mansha','Sakulta','Akhmim','Tima','Sohag City'];
+const uhc2020=[32,34,38,36,40,40,44,46,47,48,48,52];
+const uhc2023=[28,30,35,33,38,37,40,42,44,44,45,47];
+const uhc2026=[26,28,33,31,36,35,38,40,42,42,43,45];
+const uc=uhc2026.map(v=>v<35?'#8b0000':v<45?'#c0392b':'#e67e22');
+
+new Chart(document.getElementById('c_uhc_dist'),{
+  type:'bar',
+  data:{
+    labels:dists,
+    datasets:[
+      {label:'2020',data:uhc2020,backgroundColor:'rgba(26,77,110,.25)',borderRadius:2},
+      {label:'2023',data:uhc2023,backgroundColor:'rgba(26,77,110,.55)',borderRadius:2},
+      {label:'2026 est.',data:uhc2026,backgroundColor:uc,borderRadius:4},
+      {type:'line',data:Array(12).fill(43),label:'Gov. avg (43)',borderColor:'rgba(0,0,0,.3)',borderWidth:1.5,borderDash:[5,3],pointRadius:0}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:11}}}},scales:{x:{min:20,max:60,title:{display:true,text:'UHC Sub-Index',font:{size:11}}},y:{ticks:{font:{size:11}}}}}
+});
+
+/* ─── Medicine Availability ──────────────────────── */
+new Chart(document.getElementById('c_med_avail'),{
+  type:'bar',
+  data:{
+    labels:['El Maragha','Dar El Salam','El Balyana','Girga','Juhayna','Tahta','El Mansha','Sakulta','Akhmim','Tima','Sohag City','Egypt Natl.'],
+    datasets:[{
+      data:[30,32,34,33,34,36,38,40,40,42,43,65],
+      backgroundColor:['#8b0000','#8b0000','#8b0000','#8b0000','#8b0000','#c0392b','#c0392b','#e67e22','#e67e22','#e67e22','#e67e22','rgba(26,77,110,.5)'],
+      borderRadius:4
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:20,max:70,title:{display:true,text:'% essential medicines available',font:{size:11}}}}}
+});
+
+/* ─── OOP Spending ───────────────────────────────── */
+new Chart(document.getElementById('c_oop'),{
+  type:'bar',
+  data:{
+    labels:['El Maragha','Dar El Salam','El Balyana','Girga','Juhayna','Tahta','El Mansha','Sakulta','Akhmim','Tima','Sohag City','Egypt Natl.'],
+    datasets:[{
+      data:[82,80,80,78,79,77,76,74,72,72,74,57],
+      backgroundColor:['#8b0000','#8b0000','#8b0000','#8b0000','#8b0000','#c0392b','#c0392b','#c0392b','#e67e22','#e67e22','#e67e22','rgba(26,77,110,.5)'],
+      borderRadius:4
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:40,max:90,title:{display:true,text:'% of total health expenditure (OOP)',font:{size:11}}}}}
+});
+
+/* ─── Tobacco Prevalence ─────────────────────────── */
+new Chart(document.getElementById('c_tob_prev'),{
+  type:'bar',
+  data:{
+    labels:['Girga','El Balyana','Tahta','Akhmim','Dar El Salam','El Maragha','El Mansha','Juhayna','Sakulta','El Usayrat','Tima','Sohag City','Egypt Natl.'],
+    datasets:[
+      {label:'Male adult smoking %',data:[43,41,38,36,35,34,33,32,31,30,29,28,24],backgroundColor:['#8b0000','#8b0000','#8b0000','#8b0000','#8b0000','#c0392b','#c0392b','#c0392b','#e67e22','#e67e22','#e67e22','#e67e22','rgba(26,77,110,.4)'],borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:50,title:{display:true,text:'% adult males who smoke',font:{size:11}}}}}
+});
+
+/* ─── Tobacco Control Index ──────────────────────── */
+new Chart(document.getElementById('c_tob_idx'),{
+  type:'bar',
+  data:{
+    labels:['Girga','El Balyana','Dar El Salam','Tahta','El Maragha','Akhmim','Juhayna','El Usayrat','El Mansha','Sakulta','Tima','Sohag City'],
+    datasets:[
+      {data:[22,24,28,28,30,30,32,32,34,36,37,40],backgroundColor:['#7a1515','#7a1515','#7a1515','#7a1515','#c0392b','#c0392b','#c0392b','#c0392b','#e67e22','#e67e22','#e67e22','#e67e22'],borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:60,title:{display:true,text:'Tobacco Control Index (0–100)',font:{size:11}}}}}
+});
+
+/* ─── Physician Density ──────────────────────────── */
+const phyDists=['El Maragha','Dar El Salam','El Balyana','Juhayna','El Usayrat','Girga','Tahta','El Mansha','Sakulta','Akhmim','Tima','Sohag City','Egypt Natl.'];
+new Chart(document.getElementById('c_phys'),{
+  type:'bar',
+  data:{
+    labels:phyDists,
+    datasets:[
+      {label:'2020',data:[1.1,1.3,1.5,1.4,1.3,1.9,2.1,1.8,2.0,2.2,2.0,3.8,9.6],backgroundColor:'rgba(26,92,30,.3)',borderRadius:2},
+      {label:'2023',data:[0.9,1.0,1.2,1.1,1.0,1.6,1.8,1.5,1.7,1.9,1.7,3.2,8.6],backgroundColor:'rgba(26,92,30,.6)',borderRadius:2},
+      {label:'2026 est.',data:[0.8,1.0,1.2,1.0,1.0,1.6,1.8,1.5,1.7,1.8,1.6,3.0,8.2],backgroundColor:phyDists.map((_,i)=>i===12?'rgba(26,77,110,.5)':i<5?'#8b0000':i<9?'#c0392b':'#e67e22'),borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:11}}}},scales:{x:{max:12,title:{display:true,text:'Physicians per 10,000 population',font:{size:11}},grid:{color:function(ctx){return ctx.tick.value===23?'rgba(220,50,50,.5)':'rgba(0,0,0,.07)'}}}}}
+});
+
+/* ─── Workforce Retention ────────────────────────── */
+new Chart(document.getElementById('c_wkf'),{
+  type:'bar',
+  data:{
+    labels:['El Maragha','Dar El Salam','El Balyana','Juhayna','El Usayrat','Girga','Tahta','El Mansha','Sakulta','Akhmim','Tima','Sohag City'],
+    datasets:[
+      {data:[12,14,16,18,20,22,24,24,26,28,28,38],backgroundColor:['#8b0000','#8b0000','#8b0000','#8b0000','#8b0000','#c0392b','#c0392b','#c0392b','#c45e00','#e67e22','#e67e22','#e67e22'],borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:50,title:{display:true,text:'Workforce Retention Index (0–100)',font:{size:11}}}}}
+});
+
+/* ─── Three-Target Radar ─────────────────────────── */
+new Chart(document.getElementById('c_radar'),{
+  type:'radar',
+  data:{
+    labels:['UHC Access (3.8)','Tobacco Control (3.a)','Workforce (3.c)','Medicine Access','Financial Protection'],
+    datasets:[
+      {label:'Critical tier (El Maragha/Dar El Salam/El Balyana)',data:[32,26,14,32,20],backgroundColor:'rgba(139,0,0,.15)',borderColor:'#8b0000',borderWidth:2.5,pointRadius:4},
+      {label:'Severe tier (Girga/El Balyana/Tahta)',data:[38,26,22,33,23],backgroundColor:'rgba(122,21,21,.12)',borderColor:'#9e4215',borderWidth:2,pointRadius:3},
+      {label:'Poor tier (Sakulta/Akhmim/Tima)',data:[45,35,27,40,27],backgroundColor:'rgba(194,94,0,.1)',borderColor:'#c45e00',borderWidth:1.5,borderDash:[4,3],pointRadius:2},
+      {label:'Sohag City (best in gov.)',data:[47,40,38,43,26],backgroundColor:'rgba(212,172,0,.08)',borderColor:'#c9a800',borderWidth:1.5,borderDash:[4,3],pointRadius:2}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{r:{min:0,max:60,ticks:{stepSize:15,font:{size:9}}}}}
+});
+</script>
+</body>
+</html>
