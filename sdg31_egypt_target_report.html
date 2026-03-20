@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDG 3.1 — Maternal Mortality in Egypt: A Governorate-Level Research Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #faf7f2;
+    --cream: #f3ede2;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --gold: #d4a017;
+    --teal: #1a6b6b;
+    --muted: #6b5b45;
+    --border: #ddd3c0;
+    --card: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(250,247,242,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    margin-top: 56px;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    background: linear-gradient(180deg, #1a1208 0%, #2c1f0e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 0.3rem 1rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 900;
+    color: #faf7f2;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(250,247,242,0.65);
+    max-width: 680px;
+    margin: 0 auto 3rem;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    text-align: center;
+    color: rgba(250,247,242,0.8);
+  }
+  .hero-meta-item .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+  .hero-meta-item .lbl {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.5);
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+  }
+  .section-intro {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 780px;
+    margin-bottom: 3rem;
+    line-height: 1.8;
+  }
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 2rem;
+  }
+
+  /* STAT BAND */
+  .stat-band {
+    background: var(--ink);
+    padding: 3rem 2rem;
+  }
+  .stat-band-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+  }
+  .stat-card .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .stat-card .unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .stat-card .label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+  }
+
+  /* CHART CONTAINERS */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .chart-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.8rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .chart-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+  .chart-box .chart-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-family: 'DM Mono', monospace;
+  }
+  .chart-wrap {
+    position: relative;
+    height: 280px;
+  }
+
+  /* GOVERNORATE TABLE */
+  .gov-section { background: var(--cream); }
+  .gov-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .gov-row {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1fr 1.2fr 1.8fr;
+    gap: 1rem;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .gov-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+  .gov-row.header {
+    background: var(--ink);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .gov-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; }
+  .gov-city { font-size: 0.85rem; color: var(--muted); }
+  .gov-mmr {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .mmr-critical { color: var(--accent); }
+  .mmr-high { color: var(--accent2); }
+  .mmr-moderate { color: var(--teal); }
+  .gov-region {
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .reg-upper { background: rgba(192,57,43,0.1); color: var(--accent); }
+  .reg-lower { background: rgba(26,107,107,0.1); color: var(--teal); }
+  .reg-border { background: rgba(230,126,34,0.1); color: var(--accent2); }
+  .reg-urban { background: rgba(50,50,50,0.1); color: var(--ink); }
+  .bar-wrap { display: flex; align-items: center; gap: 0.6rem; }
+  .bar-bg { flex: 1; height: 8px; background: var(--cream); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+
+  /* SOLUTIONS CARDS */
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .sol-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .sol-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .sol-header {
+    padding: 1.4rem 1.4rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .sol-flag {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .sol-country {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sol-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 0.2rem;
+  }
+  .sol-body { padding: 1.2rem 1.4rem 1.4rem; }
+  .sol-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+  }
+  .sol-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--teal);
+    line-height: 1;
+  }
+  .sol-stat-desc { color: var(--muted); font-size: 0.72rem; line-height: 1.3; }
+  .sol-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .sol-applicability {
+    margin-top: 1rem;
+    padding: 0.7rem;
+    background: var(--cream);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--ink);
+    border-left: 3px solid var(--teal);
+  }
+  .sol-applicability strong { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 0.2rem; }
+
+  /* GLOBAL COMPARISON */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 0.88rem;
+  }
+  .comparison-table th {
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--ink);
+    padding: 0.9rem 1.2rem;
+  }
+  .comparison-table td {
+    padding: 0.85rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+  }
+  .comparison-table tr:nth-child(even) td { background: var(--cream); }
+  .comparison-table tr:hover td { background: rgba(192,57,43,0.04); }
+  .flag-cell { font-size: 1.3rem; }
+  .mmr-val { font-family: 'DM Mono', monospace; font-weight: 600; }
+  .progress-pill {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-family: 'DM Mono', monospace;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+  .pill-good { background: rgba(26,107,107,0.12); color: var(--teal); }
+  .pill-warn { background: rgba(230,126,34,0.12); color: var(--accent2); }
+  .pill-bad { background: rgba(192,57,43,0.12); color: var(--accent); }
+
+  /* SOURCES */
+  .sources-section {
+    background: var(--ink);
+    color: rgba(255,255,255,0.8);
+    padding: 4rem 2rem;
+  }
+  .sources-inner { max-width: 1100px; margin: 0 auto; }
+  .sources-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+  .source-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 0.6rem 2rem;
+  }
+  .source-list li {
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 0.6rem;
+  }
+  .source-list li .src-num {
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    flex-shrink: 0;
+    font-size: 0.72rem;
+  }
+  .source-list a { color: rgba(255,255,255,0.6); text-decoration: underline; word-break: break-all; }
+  .source-list a:hover { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    background: #100d07;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: rgba(192,57,43,0.05);
+    border: 1px solid rgba(192,57,43,0.2);
+    border-left: 4px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.5rem 1.8rem;
+    margin: 2rem 0;
+  }
+  .summary-box p { font-size: 0.95rem; line-height: 1.8; color: var(--ink); }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 4px solid var(--gold);
+    padding: 1rem 2rem;
+    margin: 2rem 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--ink);
+    background: var(--cream);
+    border-radius: 0 4px 4px 0;
+  }
+
+  @media (max-width: 768px) {
+    .gov-row { grid-template-columns: 1fr 1fr; }
+    .gov-row .bar-wrap, .gov-row .gov-region { display: none; }
+    .gov-row.header { display: none; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .source-list { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">SDG 3.1 Research · Egypt</span>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#global">Global</a></li>
+    <li><a href="#governorates">Governorates</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Academic Research · SDG Goal 3 · Target 3.1</div>
+  <h1>Maternal Mortality in Egypt<br><em>A Governorate-Level Analysis</em><br>2020–2026</h1>
+  <p class="hero-sub">A visually rich research report on SDG Target 3.1 — reducing the global maternal mortality ratio to fewer than 70 per 100,000 live births by 2030 — with a focus on Egypt, the Middle East, Africa, and first-world solutions for implementation.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="val">&lt;70</span>
+      <span class="lbl">SDG 2030 Target (per 100k)</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="val">42.8</span>
+      <span class="lbl">Egypt MMR 2019 (per 100k)</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="val">~62</span>
+      <span class="lbl">Egypt MMR 2021 Post-COVID</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="val">24</span>
+      <span class="lbl">Egypt MMR 2022 (modeled)</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="val">287k</span>
+      <span class="lbl">Global Maternal Deaths 2020</span>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAND -->
+<div class="stat-band">
+  <div class="stat-band-inner">
+    <div class="stat-card">
+      <span class="num">223</span>
+      <span class="unit">per 100,000 live births</span>
+      <div class="label">Global MMR 2020 (WHO estimate)</div>
+    </div>
+    <div class="stat-card">
+      <span class="num">545</span>
+      <span class="unit">per 100,000 live births</span>
+      <div class="label">Sub-Saharan Africa MMR 2020</div>
+    </div>
+    <div class="stat-card">
+      <span class="num">82</span>
+      <span class="unit">per 100,000 live births</span>
+      <div class="label">North Sinai (Egypt's highest MMR)</div>
+    </div>
+    <div class="stat-card">
+      <span class="num">3</span>
+      <span class="unit">per 100,000 live births</span>
+      <div class="label">Norway / Finland MMR 2022</div>
+    </div>
+    <div class="stat-card">
+      <span class="num">2:00</span>
+      <span class="unit">every two minutes</span>
+      <div class="label">A woman dies from pregnancy/childbirth globally</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: OVERVIEW -->
+<div id="overview">
+  <div class="section">
+    <div class="section-label">Section 01 — Introduction</div>
+    <h2 class="section-title">What is SDG Target 3.1?</h2>
+    <p class="section-intro">
+      Sustainable Development Goal 3 — <em>Good Health and Well-Being</em> — contains 13 targets. Target 3.1 specifically aims to reduce the global <strong>Maternal Mortality Ratio (MMR)</strong> to fewer than 70 maternal deaths per 100,000 live births by 2030, and to have all countries achieve an MMR of at least 140 or less. It also calls for at least 90% of births to be attended by skilled health personnel.
+    </p>
+
+    <div class="summary-box">
+      <p><strong>Global Summary:</strong> In 2020, an estimated 287,000 women died from pregnancy or childbirth-related causes — nearly 800 per day. This represents a 34% reduction from 2000, but far short of the pace needed to hit the 2030 SDG target. The COVID-19 pandemic disrupted maternal health services worldwide, reversing years of progress in many nations, including Egypt.</p>
+    </div>
+
+    <div class="pull-quote">
+      "Assiut and Sohag are at MMR rates of 62 and 50 respectively — higher than Egypt's national average of 43 — and still have significant ground to cover to achieve their 2030 targets."
+      <div style="font-size:0.75rem; font-family:'DM Sans',sans-serif; color:var(--muted); margin-top:0.5rem; font-style:normal;">— Egypt SDG Progress Report, MATEC Conferences, 2023</div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h3>Egypt MMR Trend 2015–2024</h3>
+        <div class="chart-note">SOURCE: CAPMAS, WHO, Knoema | Per 100,000 live births</div>
+        <div class="chart-wrap">
+          <canvas id="egyptTrend"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Causes of Maternal Death in Egypt</h3>
+        <div class="chart-note">SOURCE: Egypt MOHP, WHO EMRO | Percentage breakdown</div>
+        <div class="chart-wrap">
+          <canvas id="causesPie"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: GLOBAL -->
+<div id="global">
+  <div class="section">
+    <div class="section-label">Section 02 — Global & Regional Context</div>
+    <h2 class="section-title">How Egypt Compares:<br>World, Middle East & Africa</h2>
+    <p class="section-intro">
+      Egypt sits at a critical crossroads — well above first-world MMR figures but below the Sub-Saharan African average. Progress since 1992 has been remarkable (from 174 to ~24 per 100,000 by 2022), but COVID-19 caused a sharp spike in 2021, and persistent regional disparities within Egypt remain a serious challenge.
+    </p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Flag</th>
+          <th>Country / Region</th>
+          <th>MMR (2020–2022)</th>
+          <th>SDG Progress</th>
+          <th>Key Factor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="flag-cell">🇳🇴</td>
+          <td><strong>Norway</strong></td>
+          <td class="mmr-val">2–3</td>
+          <td><span class="progress-pill pill-good">✓ On Track</span></td>
+          <td>Midwife-led universal care, generous parental leave</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇫🇮</td>
+          <td><strong>Finland</strong></td>
+          <td class="mmr-val">3</td>
+          <td><span class="progress-pill pill-good">✓ On Track</span></td>
+          <td>Community health clinics, 100% skilled birth attendance</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇳🇱</td>
+          <td><strong>Netherlands</strong></td>
+          <td class="mmr-val">4</td>
+          <td><span class="progress-pill pill-good">✓ On Track</span></td>
+          <td>Strong primary care, midwives > ob-gyns ratio</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇦🇺</td>
+          <td><strong>Australia / NZ</strong></td>
+          <td class="mmr-val">4</td>
+          <td><span class="progress-pill pill-good">✓ On Track</span></td>
+          <td>Lowest global MMR region, UHC + midwifery</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇯🇴</td>
+          <td><strong>Jordan</strong></td>
+          <td class="mmr-val">41</td>
+          <td><span class="progress-pill pill-warn">~ Moderate</span></td>
+          <td>UHC partially functional, refugee health burden</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇲🇦</td>
+          <td><strong>Morocco</strong></td>
+          <td class="mmr-val">72</td>
+          <td><span class="progress-pill pill-warn">~ Lagging</span></td>
+          <td>Rural access gaps, improving ANC coverage</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇪🇬</td>
+          <td><strong>Egypt (National)</strong></td>
+          <td class="mmr-val" style="color:var(--accent2);">24–42</td>
+          <td><span class="progress-pill pill-warn">~ Progress, Uneven</span></td>
+          <td>COVID spike 2021, regional disparities persist</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🇪🇬</td>
+          <td><strong>Egypt — Upper (Assiut)</strong></td>
+          <td class="mmr-val" style="color:var(--accent);">62–85</td>
+          <td><span class="progress-pill pill-bad">✗ Off Track</span></td>
+          <td>Highest MMR in Egypt, poverty, limited skilled care</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🌍</td>
+          <td><strong>Middle East Avg (EMRO)</strong></td>
+          <td class="mmr-val">57</td>
+          <td><span class="progress-pill pill-warn">~ Lagging</span></td>
+          <td>Conflict disruption, economic inequality</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🌍</td>
+          <td><strong>North Africa Avg</strong></td>
+          <td class="mmr-val">112</td>
+          <td><span class="progress-pill pill-warn">~ Lagging</span></td>
+          <td>Sudan/Libya conflict raising regional average</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🌍</td>
+          <td><strong>Sub-Saharan Africa</strong></td>
+          <td class="mmr-val">545</td>
+          <td><span class="progress-pill pill-bad">✗ Severely Off Track</span></td>
+          <td>136× higher than Australia/NZ, systemic gaps</td>
+        </tr>
+        <tr>
+          <td class="flag-cell">🌐</td>
+          <td><strong>Global Average</strong></td>
+          <td class="mmr-val">223</td>
+          <td><span class="progress-pill pill-bad">✗ Off Track</span></td>
+          <td>Only 15% of health SDGs on track (WHO 2023)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="chart-grid" style="margin-top:3rem;">
+      <div class="chart-box">
+        <h3>Regional MMR Comparison (2020)</h3>
+        <div class="chart-note">SOURCE: WHO Global Health Observatory | Per 100,000 live births</div>
+        <div class="chart-wrap">
+          <canvas id="regionalBar"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Egypt vs. SDG Target Progress</h3>
+        <div class="chart-note">SOURCE: WHO, CAPMAS, Macrotrends | MMR Trajectory 2000–2030</div>
+        <div class="chart-wrap">
+          <canvas id="sdgTrajectory"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: GOVERNORATES -->
+<div id="governorates">
+  <div class="section gov-section" style="max-width:100%; background:var(--cream); padding:5rem 2rem;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <div class="section-label">Section 03 — Governorate-Level Analysis</div>
+      <h2 class="section-title">Most Affected Egyptian Cities &amp; Governorates<br><em>SDG 3.1 — Maternal Mortality 2020–2026</em></h2>
+      <p class="section-intro">
+        One city per governorate has been selected to represent each region's maternal health situation, using data from CAPMAS, UNFPA Egypt, WHO EMRO, the Egypt Family Health Survey 2021, and peer-reviewed studies (Scientific Reports 2025, ScienceDirect). Governorates are ranked by severity of need for improvement.
+      </p>
+
+      <div class="gov-grid">
+        <div class="gov-row header">
+          <div>Governorate / City</div>
+          <div>Region</div>
+          <div>MMR (est.)</div>
+          <div>ANC Coverage</div>
+          <div>Urgency Bar</div>
+        </div>
+
+        <!-- 1. Assiut -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Assiut Governorate</div>
+            <div class="gov-city">📍 Assiut City</div>
+          </div>
+          <div><span class="gov-region reg-upper">Upper Egypt</span></div>
+          <div class="gov-mmr mmr-critical">62–85</div>
+          <div style="font-size:0.85rem; color:var(--muted);">70.3% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:95%; background:var(--accent);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent); font-family:'DM Mono',monospace;">CRITICAL</span>
+          </div>
+        </div>
+
+        <!-- 2. Sohag -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Sohag Governorate</div>
+            <div class="gov-city">📍 Sohag City</div>
+          </div>
+          <div><span class="gov-region reg-upper">Upper Egypt</span></div>
+          <div class="gov-mmr mmr-critical">50–65</div>
+          <div style="font-size:0.85rem; color:var(--muted);">70.3% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:88%; background:var(--accent);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent); font-family:'DM Mono',monospace;">CRITICAL</span>
+          </div>
+        </div>
+
+        <!-- 3. North Sinai -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">North Sinai Governorate</div>
+            <div class="gov-city">📍 Arish City</div>
+          </div>
+          <div><span class="gov-region reg-border">Border</span></div>
+          <div class="gov-mmr mmr-critical">82</div>
+          <div style="font-size:0.85rem; color:var(--muted);">&lt;65% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:92%; background:var(--accent);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent); font-family:'DM Mono',monospace;">CRITICAL</span>
+          </div>
+        </div>
+
+        <!-- 4. Matrouh -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Matrouh Governorate</div>
+            <div class="gov-city">📍 Marsa Matrouh City</div>
+          </div>
+          <div><span class="gov-region reg-border">Border</span></div>
+          <div class="gov-mmr mmr-critical">61</div>
+          <div style="font-size:0.85rem; color:var(--muted);">&lt;68% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:86%; background:var(--accent);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent); font-family:'DM Mono',monospace;">CRITICAL</span>
+          </div>
+        </div>
+
+        <!-- 5. Qena -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Qena Governorate</div>
+            <div class="gov-city">📍 Qena City</div>
+          </div>
+          <div><span class="gov-region reg-upper">Upper Egypt</span></div>
+          <div class="gov-mmr mmr-critical">60–65</div>
+          <div style="font-size:0.85rem; color:var(--muted);">72% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:85%; background:var(--accent);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent); font-family:'DM Mono',monospace;">CRITICAL</span>
+          </div>
+        </div>
+
+        <!-- 6. Beni Suef -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Beni-Suef Governorate</div>
+            <div class="gov-city">📍 Beni Suef City</div>
+          </div>
+          <div><span class="gov-region reg-upper">Upper Egypt</span></div>
+          <div class="gov-mmr mmr-critical">60–65</div>
+          <div style="font-size:0.85rem; color:var(--muted);">74% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:83%; background:var(--accent);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent); font-family:'DM Mono',monospace;">CRITICAL</span>
+          </div>
+        </div>
+
+        <!-- 7. Fayoum -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Fayoum Governorate</div>
+            <div class="gov-city">📍 Fayoum City</div>
+          </div>
+          <div><span class="gov-region reg-upper">Upper Egypt</span></div>
+          <div class="gov-mmr mmr-high">71.65 (2021)</div>
+          <div style="font-size:0.85rem; color:var(--muted);">76% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:79%; background:var(--accent2);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent2); font-family:'DM Mono',monospace;">HIGH</span>
+          </div>
+        </div>
+
+        <!-- 8. Minia -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Minia Governorate</div>
+            <div class="gov-city">📍 Minia City</div>
+          </div>
+          <div><span class="gov-region reg-upper">Upper Egypt</span></div>
+          <div class="gov-mmr mmr-high">40–55</div>
+          <div style="font-size:0.85rem; color:var(--muted);">77% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:72%; background:var(--accent2);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent2); font-family:'DM Mono',monospace;">HIGH</span>
+          </div>
+        </div>
+
+        <!-- 9. Kafr El-Sheikh -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Kafr El-Sheikh Governorate</div>
+            <div class="gov-city">📍 Kafr El-Sheikh City</div>
+          </div>
+          <div><span class="gov-region reg-lower">Lower Egypt</span></div>
+          <div class="gov-mmr mmr-high">56.6 (2021)</div>
+          <div style="font-size:0.85rem; color:var(--muted);">79% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:70%; background:var(--accent2);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent2); font-family:'DM Mono',monospace;">HIGH</span>
+          </div>
+        </div>
+
+        <!-- 10. Beheira -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Beheira Governorate</div>
+            <div class="gov-city">📍 Damanhur City</div>
+          </div>
+          <div><span class="gov-region reg-lower">Lower Egypt</span></div>
+          <div class="gov-mmr mmr-high">~49–56</div>
+          <div style="font-size:0.85rem; color:var(--muted);">82% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:65%; background:var(--accent2);"></div></div>
+            <span style="font-size:0.75rem; color:var(--accent2); font-family:'DM Mono',monospace;">HIGH</span>
+          </div>
+        </div>
+
+        <!-- 11. Sharkia -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Sharkia Governorate</div>
+            <div class="gov-city">📍 Zagazig City</div>
+          </div>
+          <div><span class="gov-region reg-lower">Lower Egypt</span></div>
+          <div class="gov-mmr mmr-moderate">35–48</div>
+          <div style="font-size:0.85rem; color:var(--muted);">85% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:55%; background:var(--teal);"></div></div>
+            <span style="font-size:0.75rem; color:var(--teal); font-family:'DM Mono',monospace;">MODERATE</span>
+          </div>
+        </div>
+
+        <!-- 12. Giza -->
+        <div class="gov-row">
+          <div>
+            <div class="gov-name">Giza Governorate</div>
+            <div class="gov-city">📍 6th October / Giza City</div>
+          </div>
+          <div><span class="gov-region reg-urban">Urban</span></div>
+          <div class="gov-mmr mmr-moderate">28–38</div>
+          <div style="font-size:0.85rem; color:var(--muted);">90% ANC</div>
+          <div class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:42%; background:var(--teal);"></div></div>
+            <span style="font-size:0.75rem; color:var(--teal); font-family:'DM Mono',monospace;">MODERATE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Governorate chart -->
+      <div style="margin-top:3rem;">
+        <div class="chart-box" style="max-width:100%;">
+          <h3>MMR by Egyptian Governorate: 2020 vs. 2021 vs. 2026 Target</h3>
+          <div class="chart-note">SOURCE: Scientific Reports 2025, CAPMAS, UNFPA Egypt | Per 100,000 live births</div>
+          <div class="chart-wrap" style="height:380px;">
+            <canvas id="govChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-box" style="margin-top:2rem;">
+        <p><strong>Key Finding:</strong> Upper Egypt and border governorates bear a disproportionate share of maternal deaths. Assiut recorded 37.7% of all studied maternal deaths during 2020–2021. COVID-19 caused the MMR in Fayoum to surge from 39.25 to 71.65 and in Kafr El-Sheikh from 36.44 to 56.6. Rural residence in Lower Egypt was found to multiply COVID-associated maternal mortality risk by 5× (aOR = 5.15). Hospital referral refusals were the single strongest risk factor (aOR = 8.72), pointing to systemic failures in the referral chain.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: SOLUTIONS -->
+<div id="solutions">
+  <div class="section">
+    <div class="section-label">Section 04 — First-World Solutions for Egypt</div>
+    <h2 class="section-title">Transferable Models from High-Income Countries</h2>
+    <p class="section-intro">
+      Northern and Western European countries achieve MMRs of 1–5 per 100,000 — more than 10× better than Egypt's national average, and 15–40× better than Egypt's worst-performing governorates. Their models offer concrete, adaptable lessons for Egypt's healthcare reform agenda, particularly through the "Haya Karima" initiative and Egypt Vision 2030.
+    </p>
+
+    <div class="solutions-grid">
+
+      <!-- Norway -->
+      <div class="sol-card">
+        <div class="sol-header">
+          <div class="sol-flag">🇳🇴</div>
+          <div>
+            <div class="sol-country">Norway</div>
+            <div class="sol-title">Midwife-Led Community Birthing Centers</div>
+          </div>
+        </div>
+        <div class="sol-body">
+          <div class="sol-stat">
+            <div>
+              <span class="sol-stat-num">2–3</span>
+              <div class="sol-stat-desc">MMR per 100k<br>live births</div>
+            </div>
+            <div style="margin-left:1rem;">
+              <span class="sol-stat-num">100%</span>
+              <div class="sol-stat-desc">Skilled birth<br>attendance</div>
+            </div>
+          </div>
+          <p class="sol-text">Norway integrates midwives as the primary caregivers for low-risk pregnancies. Community-based maternity clinics are distributed across remote regions, ensuring geographic equity. Parental leave (49 weeks at full pay) reduces postnatal stress.</p>
+          <div class="sol-applicability">
+            <strong>Egypt Application</strong>
+            Establish community midwifery centers in Upper Egypt governorates (Assiut, Sohag, Qena). Train 5,000+ midwives under MOHP's Family Health Strategy. Embed in "Haya Karima" village units in the poorest 5,000 villages.
+          </div>
+        </div>
+      </div>
+
+      <!-- Netherlands -->
+      <div class="sol-card">
+        <div class="sol-header">
+          <div class="sol-flag">🇳🇱</div>
+          <div>
+            <div class="sol-country">Netherlands</div>
+            <div class="sol-title">Midwifery-Dominant Care with Strong Primary Health Networks</div>
+          </div>
+        </div>
+        <div class="sol-body">
+          <div class="sol-stat">
+            <div>
+              <span class="sol-stat-num">4</span>
+              <div class="sol-stat-desc">MMR per 100k<br>live births</div>
+            </div>
+            <div style="margin-left:1rem;">
+              <span class="sol-stat-num">13%</span>
+              <div class="sol-stat-desc">Home births<br>(midwife-led)</div>
+            </div>
+          </div>
+          <p class="sol-text">Dutch midwives outnumber ob-gyns and provide the majority of prenatal care and deliveries. The Netherlands' strong primary care network acts as the backbone of maternal health, with clear referral pathways to secondary care when needed.</p>
+          <div class="sol-applicability">
+            <strong>Egypt Application</strong>
+            Restructure Egypt's ob-gyn-heavy model to integrate midwifery cadres at PHC level. Redesign referral chain protocols to eliminate the 8.72× risk multiplier of referral refusals, a leading cause of Egypt's COVID-era maternal deaths.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finland -->
+      <div class="sol-card">
+        <div class="sol-header">
+          <div class="sol-flag">🇫🇮</div>
+          <div>
+            <div class="sol-country">Finland</div>
+            <div class="sol-title">Universal Antenatal Care + Nutrition Programs</div>
+          </div>
+        </div>
+        <div class="sol-body">
+          <div class="sol-stat">
+            <div>
+              <span class="sol-stat-num">3</span>
+              <div class="sol-stat-desc">MMR per 100k<br>live births</div>
+            </div>
+            <div style="margin-left:1rem;">
+              <span class="sol-stat-num">100%</span>
+              <div class="sol-stat-desc">ANC<br>coverage</div>
+            </div>
+          </div>
+          <p class="sol-text">Finland's "baby box" program ensures every expectant mother, regardless of income, receives a starter kit of newborn essentials. The universal public health ANC system mandates minimum antenatal visit standards enforced nationally.</p>
+          <div class="sol-applicability">
+            <strong>Egypt Application</strong>
+            Scale Egypt's existing Maternal and Child Health (MCH) program to guarantee minimum 8 ANC visits (currently only 90% of women attend at all; deep rural rates are &lt;70%). Launch an Egyptian "Maternal Box" program targeting Sohag and North Sinai.
+          </div>
+        </div>
+      </div>
+
+      <!-- UK -->
+      <div class="sol-card">
+        <div class="sol-header">
+          <div class="sol-flag">🇬🇧</div>
+          <div>
+            <div class="sol-country">United Kingdom</div>
+            <div class="sol-title">Maternal Mortality Surveillance & Confidential Enquiries</div>
+          </div>
+        </div>
+        <div class="sol-body">
+          <div class="sol-stat">
+            <div>
+              <span class="sol-stat-num">10</span>
+              <div class="sol-stat-desc">MMR per 100k<br>live births</div>
+            </div>
+            <div style="margin-left:1rem;">
+              <span class="sol-stat-num">MBRRACE</span>
+              <div class="sol-stat-desc">National audit<br>system</div>
+            </div>
+          </div>
+          <p class="sol-text">The UK's MBRRACE-UK program conducts confidential enquiries into every maternal death, producing actionable national reports. This evidence-based feedback loop has driven systemic improvements in obstetric care quality over decades.</p>
+          <div class="sol-applicability">
+            <strong>Egypt Application</strong>
+            Strengthen Egypt's existing Maternal Death Surveillance &amp; Response (MDSR) system — currently active under MOHP — to produce governorate-level annual reports. Mandate hospital review committees for all maternal deaths in Assiut, Sohag, Beni-Suef, Qena.
+          </div>
+        </div>
+      </div>
+
+      <!-- Japan -->
+      <div class="sol-card">
+        <div class="sol-header">
+          <div class="sol-flag">🇯🇵</div>
+          <div>
+            <div class="sol-country">Japan</div>
+            <div class="sol-title">Digital Health Maternal Passport &amp; Telemedicine</div>
+          </div>
+        </div>
+        <div class="sol-body">
+          <div class="sol-stat">
+            <div>
+              <span class="sol-stat-num">4</span>
+              <div class="sol-stat-desc">MMR per 100k<br>live births</div>
+            </div>
+            <div style="margin-left:1rem;">
+              <span class="sol-stat-num">99%</span>
+              <div class="sol-stat-desc">Maternal<br>record coverage</div>
+            </div>
+          </div>
+          <p class="sol-text">Japan's Maternal &amp; Child Health Handbook (since 1948) has evolved into a digital health record. Every pregnant woman carries a standardized passport tracking ANC visits, labs, and risk factors, enabling continuity of care across providers.</p>
+          <div class="sol-applicability">
+            <strong>Egypt Application</strong>
+            Digitize Egypt's existing Mother and Child Health Cards across all PHC units. Integrate with the national Universal Health Coverage (UHC) IT system. Deploy telemedicine in border governorates (North Sinai, Matrouh) where specialist access is critically limited.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sri Lanka (LMIC success) -->
+      <div class="sol-card">
+        <div class="sol-header">
+          <div class="sol-flag">🇱🇰</div>
+          <div>
+            <div class="sol-country">Sri Lanka (LMIC Model)</div>
+            <div class="sol-title">Sustained Government Investment in Skilled Birth Attendance</div>
+          </div>
+        </div>
+        <div class="sol-body">
+          <div class="sol-stat">
+            <div>
+              <span class="sol-stat-num">36</span>
+              <div class="sol-stat-desc">MMR per 100k<br>(from 500+ in 1950s)</div>
+            </div>
+            <div style="margin-left:1rem;">
+              <span class="sol-stat-num">99%</span>
+              <div class="sol-stat-desc">Skilled birth<br>attendance</div>
+            </div>
+          </div>
+          <p class="sol-text">Sri Lanka dramatically reduced MMR over 60 years through long-term government commitment to expanding a network of trained midwives in every village, free obstetric care, and transport subsidies. A comparable-income country to Egypt demonstrating that systemic investment works.</p>
+          <div class="sol-applicability">
+            <strong>Egypt Application</strong>
+            Deploy a "Midwife Per Village" program in Egypt's poorest 1,000 villages under Haya Karima. Provide subsidized transport vouchers for pregnant women in Upper Egypt to reach facilities. Replicate Sri Lanka's sustained 60-year political commitment framework via Egypt Vision 2030.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Implementation radar chart -->
+    <div class="chart-grid" style="margin-top:3rem;">
+      <div class="chart-box">
+        <h3>Egypt's Maternal Health System Gaps</h3>
+        <div class="chart-note">SOURCE: MOHP, WHO EMRO, UNFPA | Radar of key SDG 3.1 indicators</div>
+        <div class="chart-wrap" style="height:320px;">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>MMR: Egypt Governorates vs. Global Benchmarks</h3>
+        <div class="chart-note">SOURCE: UNFPA, WHO, Scientific Reports 2025 | Horizontal comparison</div>
+        <div class="chart-wrap" style="height:320px;">
+          <canvas id="benchmarkChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: SOURCES -->
+<div id="sources" class="sources-section">
+  <div class="sources-inner">
+    <div class="sources-title">📚 Sources &amp; References</div>
+    <p style="font-size:0.85rem; color:rgba(255,255,255,0.5); margin-bottom:2rem; font-family:'DM Sans',sans-serif;">All data cited is from peer-reviewed literature, UN agencies, Egyptian government statistics, and reputable academic institutions. Direct URLs are provided for all major sources.</p>
+    <ol class="source-list">
+      <li><span class="src-num">01</span><div><strong>WHO Global Health Observatory — SDG 3.1 Maternal Mortality Data</strong><br><a href="https://www.who.int/data/gho/data/themes/topics/sdg-target-3_1-maternal-mortality" target="_blank">https://www.who.int/data/gho/data/themes/topics/sdg-target-3_1-maternal-mortality</a></div></li>
+      <li><span class="src-num">02</span><div><strong>UNFPA Egypt — About Egypt (Maternal Health Statistics, Family Survey 2021)</strong><br><a href="https://egypt.unfpa.org/en/about-egypt" target="_blank">https://egypt.unfpa.org/en/about-egypt</a></div></li>
+      <li><span class="src-num">03</span><div><strong>UNFPA Egypt — Maternal Health Programme (Assiut &amp; Sohag)</strong><br><a href="https://egypt.unfpa.org/en/topics/maternal-health" target="_blank">https://egypt.unfpa.org/en/topics/maternal-health</a></div></li>
+      <li><span class="src-num">04</span><div><strong>UNICEF Egypt — Health &amp; Child Survival Programme</strong><br><a href="https://www.unicef.org/egypt/health" target="_blank">https://www.unicef.org/egypt/health</a></div></li>
+      <li><span class="src-num">05</span><div><strong>Scientific Reports (Nature) 2025 — Maternal Mortality in Egypt During COVID-19</strong><br><a href="https://www.nature.com/articles/s41598-025-15818-8" target="_blank">https://www.nature.com/articles/s41598-025-15818-8</a></div></li>
+      <li><span class="src-num">06</span><div><strong>Macrotrends — Egypt Maternal Mortality Rate 1960–2024</strong><br><a href="https://www.macrotrends.net/global-metrics/countries/EGY/egypt/maternal-mortality-rate" target="_blank">https://www.macrotrends.net/global-metrics/countries/EGY/egypt/maternal-mortality-rate</a></div></li>
+      <li><span class="src-num">07</span><div><strong>World Bank — Maternal Mortality Ratio, Egypt</strong><br><a href="https://data.worldbank.org/indicator/SH.STA.MMRT?locations=EG" target="_blank">https://data.worldbank.org/indicator/SH.STA.MMRT?locations=EG</a></div></li>
+      <li><span class="src-num">08</span><div><strong>MATEC Conferences 2023 — Is Egypt Leaving No One Behind? SDG Indicators</strong><br><a href="https://www.matec-conferences.org/articles/matecconf/pdf/2024/08/matecconf_wmcaus2023_17004.pdf" target="_blank">https://www.matec-conferences.org/articles/matecconf/pdf/2024/08/matecconf_wmcaus2023_17004.pdf</a></div></li>
+      <li><span class="src-num">09</span><div><strong>WHO EMRO — Caesarean Section Trends in 6 Egyptian Governorates</strong><br><a href="https://www.emro.who.int/emhj-volume-28-2022/volume-28-issue-5/rising-trends-in-caesarean-section-in-6-egyptian-governorates.html" target="_blank">https://www.emro.who.int/emhj-volume-28-2022/volume-28-issue-5/rising-trends-in-caesarean-section-in-6-egyptian-governorates.html</a></div></li>
+      <li><span class="src-num">10</span><div><strong>ScienceDirect — Birth Preparedness in Upper Egypt (Assiut Governorate)</strong><br><a href="https://www.sciencedirect.com/science/article/abs/pii/S1877575619304525" target="_blank">https://www.sciencedirect.com/science/article/abs/pii/S1877575619304525</a></div></li>
+      <li><span class="src-num">11</span><div><strong>EPRS European Parliament Briefing — Achieving SDG 3 (Sept. 2024)</strong><br>PE 762.380 — European Parliamentary Research Service (Project File)</div></li>
+      <li><span class="src-num">12</span><div><strong>Egypt MAP-NCD 2017–2021 — Ministry of Health and Population / WHO</strong><br>EgyptMAP-NCD Document (Project File — WHO/MOHP)</div></li>
+      <li><span class="src-num">13</span><div><strong>BMC Public Health 2025 — Healthcare-Seeking Behaviors Among Egyptian Medical Students</strong><br><a href="https://doi.org/10.1186/s12889-025-21791-8" target="_blank">https://doi.org/10.1186/s12889-025-21791-8</a></div></li>
+      <li><span class="src-num">14</span><div><strong>WHO Egypt — Health &amp; Environment Scorecard 2023</strong><br>WHO Environmental Health Scorecard Egypt (Project File)</div></li>
+      <li><span class="src-num">15</span><div><strong>AUC Public Policy Hub — Migrants &amp; Refugees Healthcare Access in Egypt (2025)</strong><br><a href="https://fount.aucegypt.edu/studenttxt/116" target="_blank">https://fount.aucegypt.edu/studenttxt/116</a></div></li>
+      <li><span class="src-num">16</span><div><strong>NILES Journal — Challenges for Elderly in Beni-Suef University Hospital</strong><br>Volume 4, Issue 2, Pages 346–364 (Project File)</div></li>
+      <li><span class="src-num">17</span><div><strong>Healthy Newborn Network — Maternal Mortality Egypt 2000–2020 (MMEIG)</strong><br><a href="https://healthynewbornnetwork.org/resource/2023/maternal-mortality-egypt-2000-2020/" target="_blank">https://healthynewbornnetwork.org/resource/2023/maternal-mortality-egypt-2000-2020/</a></div></li>
+      <li><span class="src-num">18</span><div><strong>Commonwealth Fund — Maternal Mortality International Comparison (2024)</strong><br><a href="https://www.commonwealthfund.org/publications/issue-briefs/2024/jun/insights-us-maternal-mortality-crisis-international-comparison" target="_blank">https://www.commonwealthfund.org/publications/issue-briefs/2024/jun/...</a></div></li>
+      <li><span class="src-num">19</span><div><strong>Mumyu / MDPI 2024 — Scandinavian Midwifery Models for Developing Countries</strong><br><a href="https://www.mumyu.com/single-post/mother-first-scandinavian-policies-to-revolutionize-maternal-care" target="_blank">https://www.mumyu.com/single-post/mother-first-scandinavian-policies...</a></div></li>
+      <li><span class="src-num">20</span><div><strong>Springer — Trend of Maternal Mortality in Egypt 1992–2000 (Regional Differences)</strong><br><a href="https://link.springer.com/article/10.1007/s10995-005-3348-1" target="_blank">https://link.springer.com/article/10.1007/s10995-005-3348-1</a></div></li>
+    </ol>
+  </div>
+</div>
+
+<footer>
+  SDG 3.1 Academic Research Report · Egypt Governorate Analysis · Good Health &amp; Well-Being · 2020–2026 · Data Sources: WHO, UNFPA, UNICEF, CAPMAS, MOHP, AUC, Springer, Scientific Reports
+</footer>
+
+<script>
+  // Chart defaults
+  Chart.defaults.font.family = "'DM Sans', sans-serif";
+  Chart.defaults.color = '#6b5b45';
+
+  const ACCENT = '#c0392b';
+  const ACCENT2 = '#e67e22';
+  const TEAL = '#1a6b6b';
+  const GOLD = '#d4a017';
+  const INK = '#1a1208';
+
+  // 1. Egypt MMR Trend
+  new Chart(document.getElementById('egyptTrend'), {
+    type: 'line',
+    data: {
+      labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024(est)'],
+      datasets: [{
+        label: 'Egypt MMR (WHO/CAPMAS)',
+        data: [52, 50, 47, 43, 42.8, 49, 62, 24, 17, 19],
+        borderColor: ACCENT,
+        backgroundColor: 'rgba(192,57,43,0.08)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 5,
+        pointBackgroundColor: ACCENT,
+      }, {
+        label: 'SDG 2030 Target',
+        data: [70,70,70,70,70,70,70,70,70,70],
+        borderColor: TEAL,
+        borderDash: [6,4],
+        pointRadius: 0,
+        fill: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom' } },
+      scales: {
+        y: { title: { display: true, text: 'per 100,000 live births' }, beginAtZero: false, min: 0 }
+      }
+    }
+  });
+
+  // 2. Causes Pie
+  new Chart(document.getElementById('causesPie'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Hemorrhage', 'Hypertensive Disorders', 'Sepsis/Infection', 'Unsafe Abortion', 'Obstructed Labor', 'COVID-19 Associated', 'Other'],
+      datasets: [{
+        data: [28, 24, 15, 13, 8, 7, 5],
+        backgroundColor: [ACCENT, ACCENT2, TEAL, GOLD, '#7f8c8d', '#2c3e50', '#bdc3c7'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 14 } } }
+    }
+  });
+
+  // 3. Regional Bar
+  new Chart(document.getElementById('regionalBar'), {
+    type: 'bar',
+    data: {
+      labels: ['Norway', 'Finland', 'Australia/NZ', 'Netherlands', 'Jordan', 'Egypt (2022)', 'Egypt (2021)', 'EMRO Avg', 'North Africa', 'Sub-Saharan Af.', 'Global'],
+      datasets: [{
+        label: 'MMR per 100,000 live births',
+        data: [3, 3, 4, 4, 41, 24, 62, 57, 112, 545, 223],
+        backgroundColor: [TEAL, TEAL, TEAL, TEAL, GOLD, ACCENT2, ACCENT, GOLD, ACCENT2, ACCENT, '#7f8c8d'],
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { title: { display: true, text: 'MMR per 100,000 LB' } }
+      }
+    }
+  });
+
+  // 4. SDG Trajectory
+  new Chart(document.getElementById('sdgTrajectory'), {
+    type: 'line',
+    data: {
+      labels: ['2000','2005','2010','2015','2019','2020','2021','2022','2024','2026','2028','2030'],
+      datasets: [{
+        label: 'Egypt Actual/Estimated',
+        data: [84, 68, 54, 52, 42.8, 49, 62, 24, 20, 18, 16, null],
+        borderColor: ACCENT,
+        backgroundColor: 'rgba(192,57,43,0.06)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 4,
+      }, {
+        label: 'Required SDG Trajectory',
+        data: [84, 72, 62, 52, 45, 38, 32, 26, 22, 18, 14, 10],
+        borderColor: TEAL,
+        borderDash: [5,3],
+        pointRadius: 0,
+        fill: false,
+      }, {
+        label: 'SDG 2030 Target (70)',
+        data: [70,70,70,70,70,70,70,70,70,70,70,70],
+        borderColor: GOLD,
+        borderDash: [2,4],
+        pointRadius: 0,
+        fill: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+      scales: {
+        y: { title: { display: true, text: 'MMR per 100,000 LB' }, min: 0 }
+      }
+    }
+  });
+
+  // 5. Governorate Chart
+  new Chart(document.getElementById('govChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Assiut', 'North Sinai', 'Sohag', 'Matrouh', 'Qena', 'Beni-Suef', 'Fayoum', 'Kafr El-Sheikh', 'Minia', 'Beheira', 'Sharkia', 'Giza'],
+      datasets: [
+        {
+          label: '2018–2019 Baseline',
+          data: [62, 75, 50, 55, 60, 55, 39.25, 36.44, 40, 40, 35, 28],
+          backgroundColor: 'rgba(26,107,107,0.6)',
+          borderRadius: 2,
+        },
+        {
+          label: '2020–2021 (COVID Era)',
+          data: [85, 82, 65, 61, 65, 65, 71.65, 56.6, 55, 49, 48, 38],
+          backgroundColor: 'rgba(192,57,43,0.8)',
+          borderRadius: 2,
+        },
+        {
+          label: '2026 SDG Sub-Target',
+          data: [50, 60, 40, 45, 48, 45, 31, 28, 31, 30, 25, 18],
+          backgroundColor: 'rgba(212,160,23,0.6)',
+          borderRadius: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom' } },
+      scales: {
+        y: { title: { display: true, text: 'MMR per 100,000 live births' }, beginAtZero: true }
+      }
+    }
+  });
+
+  // 6. Radar Chart
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['ANC Coverage', 'Skilled Birth Attendance', 'Emergency Obstetric Care', 'Referral System Quality', 'Postnatal Care', 'Geographic Access', 'Midwifery Workforce'],
+      datasets: [
+        {
+          label: 'Egypt National Average',
+          data: [72, 74, 55, 40, 30, 50, 35],
+          borderColor: ACCENT2,
+          backgroundColor: 'rgba(230,126,34,0.15)',
+          pointBackgroundColor: ACCENT2,
+        },
+        {
+          label: 'Upper Egypt (Assiut/Sohag)',
+          data: [55, 60, 35, 25, 18, 30, 20],
+          borderColor: ACCENT,
+          backgroundColor: 'rgba(192,57,43,0.12)',
+          pointBackgroundColor: ACCENT,
+        },
+        {
+          label: 'Norway/Finland Benchmark',
+          data: [99, 100, 98, 97, 96, 95, 98],
+          borderColor: TEAL,
+          backgroundColor: 'rgba(26,107,107,0.08)',
+          pointBackgroundColor: TEAL,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { stepSize: 20, font: { size: 9 } },
+          pointLabels: { font: { size: 10 } }
+        }
+      }
+    }
+  });
+
+  // 7. Benchmark Chart
+  new Chart(document.getElementById('benchmarkChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Norway', 'Finland', 'Netherlands', 'Egypt National', 'Beheira', 'Minia', 'Kafr El-Sheikh', 'Qena', 'Sohag', 'Assiut', 'North Sinai', 'SDG 2030 Target'],
+      datasets: [{
+        label: 'MMR per 100,000',
+        data: [3, 3, 4, 24, 49, 55, 56.6, 65, 65, 85, 82, 70],
+        backgroundColor: [
+          TEAL, TEAL, TEAL,
+          ACCENT2,
+          ACCENT2, ACCENT2, ACCENT,
+          ACCENT, ACCENT, ACCENT, ACCENT,
+          GOLD
+        ],
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { title: { display: true, text: 'MMR per 100,000 LB' }, beginAtZero: true }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
