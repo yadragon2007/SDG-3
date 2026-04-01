@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDG 3.a — Tobacco Control: Egypt, MENA & World</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0d0f;
+    --surface: #111518;
+    --surface2: #181d22;
+    --border: #252c33;
+    --border2: #2e3740;
+    --text: #e8e2d9;
+    --text2: #8a9099;
+    --text3: #56616b;
+    --amber: #e8a020;
+    --amber2: #f5c460;
+    --red: #d94f3d;
+    --teal: #2eb8a0;
+    --blue: #3a82c4;
+    --green: #4caa72;
+    --smoke: #b0bec5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 85% 15%, #e8a02012 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 10% 80%, #d94f3d0e 0%, transparent 60%),
+      linear-gradient(160deg, #0e1215 0%, #0a0d0f 50%, #080b0d 100%);
+  }
+
+  /* Cigarette smoke animated lines */
+  .smoke-lines {
+    position: absolute;
+    right: 8%;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    overflow: hidden;
+    opacity: 0.06;
+  }
+  .smoke-line {
+    position: absolute;
+    width: 1px;
+    background: linear-gradient(to top, transparent, var(--amber2), transparent);
+    animation: smokeDrift 8s ease-in-out infinite;
+  }
+  .smoke-line:nth-child(1) { left: 20%; height: 60%; top: 20%; animation-delay: 0s; animation-duration: 7s; }
+  .smoke-line:nth-child(2) { left: 40%; height: 80%; top: 10%; animation-delay: 1.5s; animation-duration: 9s; }
+  .smoke-line:nth-child(3) { left: 60%; height: 50%; top: 30%; animation-delay: 3s; animation-duration: 6s; }
+  .smoke-line:nth-child(4) { left: 80%; height: 70%; top: 15%; animation-delay: 0.8s; animation-duration: 8s; }
+  @keyframes smokeDrift {
+    0%, 100% { transform: translateX(0) scaleX(1); opacity: 0.4; }
+    50% { transform: translateX(12px) scaleX(1.5); opacity: 1; }
+  }
+
+  .hero-nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 56px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .hero-badge {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .badge-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    border: 1px solid var(--border2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+  .badge-pill.hot { border-color: #e8a02044; color: var(--amber); }
+
+  .hero-body {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 56px;
+  }
+  .hero-overline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-overline::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--amber);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 700;
+    line-height: 0.95;
+    margin-bottom: 32px;
+    letter-spacing: -1px;
+  }
+  .hero-title .line2 { color: var(--amber); }
+  .hero-title .line3 { color: var(--text2); font-weight: 400; font-style: italic; font-size: 0.65em; }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text2);
+    max-width: 600px;
+    line-height: 1.65;
+    margin-bottom: 56px;
+  }
+
+  .hero-kpis {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 800px;
+  }
+  .kpi-item {
+    flex: 1;
+    padding: 24px 28px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .kpi-item:last-child { border-right: none; }
+  .kpi-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .kpi-item:hover::before { opacity: 1; }
+  .kpi-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .kpi-num.red { color: var(--red); }
+  .kpi-num.teal { color: var(--teal); }
+  .kpi-num.smoke { color: var(--smoke); }
+  .kpi-label {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-foot {
+    position: relative;
+    z-index: 10;
+    padding: 20px 56px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hero-foot-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+  .scroll-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* ─── MAIN ─── */
+  .main { background: #0c0f12; }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 56px; }
+
+  /* ─── SECTION DIVIDER ─── */
+  .section {
+    padding: 80px 0 64px;
+    border-top: 1px solid var(--border);
+  }
+  .section:first-child { border-top: none; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    margin-bottom: 52px;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    padding-top: 6px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .section-titles {}
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .section-title em { color: var(--amber); font-style: normal; }
+  .section-lead {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 680px;
+    margin-top: 14px;
+    line-height: 1.7;
+  }
+
+  /* ─── STAT GRID ─── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+  .stat-card {
+    background: var(--surface);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s;
+  }
+  .stat-card:hover { background: var(--surface2); }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .stat-card:hover::after { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .stat-num.red { color: var(--red); }
+  .stat-num.teal { color: var(--teal); }
+  .stat-num.blue { color: var(--blue); }
+  .stat-num.green { color: var(--green); }
+  .stat-label { font-size: 13px; color: var(--text2); line-height: 1.45; }
+  .stat-src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 10px;
+  }
+
+  /* ─── CHARTS ─── */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .chart-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .chart-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-box.full { grid-column: 1 / -1; }
+  .chart-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--amber), transparent);
+  }
+  .chart-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .chart-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .chart-wrap { position: relative; width: 100%; height: 280px; }
+  .chart-wrap.tall { height: 380px; }
+  .chart-wrap.xtall { height: 480px; }
+
+  /* ─── NARRATIVE ─── */
+  .narrative {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 28px 32px;
+    margin: 24px 0;
+  }
+  .narrative p {
+    font-size: 14.5px;
+    color: var(--text2);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .narrative p:last-child { margin-bottom: 0; }
+  .narrative strong { color: var(--amber2); font-weight: 600; }
+  .narrative .highlight { color: var(--red); font-weight: 600; }
+
+  /* ─── GOVERNORATE TABLE ─── */
+  .gov-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .gov-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .gov-table thead tr {
+    background: var(--surface2);
+  }
+  .gov-table thead th {
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text3);
+    font-weight: 500;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .gov-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .gov-table tbody tr:hover { background: var(--surface2); }
+  .gov-table tbody tr:last-child { border-bottom: none; }
+  .gov-table tbody td {
+    padding: 16px;
+    font-size: 13.5px;
+    vertical-align: middle;
+    color: var(--text2);
+  }
+  .gov-table tbody td:first-child { color: var(--text); font-weight: 600; }
+
+  .rank-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bg);
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .rd-critical { background: var(--red); }
+  .rd-high { background: var(--amber); color: #111; }
+  .rd-medium { background: var(--blue); }
+  .rd-lower { background: var(--teal); }
+
+  .pct-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pct-track {
+    flex: 1;
+    height: 5px;
+    background: var(--border2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .pct-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--amber);
+    transition: width 1.2s ease;
+  }
+  .pct-fill.red { background: var(--red); }
+  .pct-fill.blue { background: var(--blue); }
+  .pct-fill.teal { background: var(--teal); }
+  .pct-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    min-width: 38px;
+    text-align: right;
+  }
+
+  .type-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .type-pill {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid;
+  }
+  .tp-cig { border-color: #e8a02066; color: var(--amber); }
+  .tp-shisha { border-color: #3a82c466; color: var(--blue); }
+  .tp-water { border-color: #2eb8a066; color: var(--teal); }
+  .tp-ecig { border-color: #4caa7266; color: var(--green); }
+
+  /* ─── TABS ─── */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 12px 22px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    background: none;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { color: var(--amber); border-bottom-color: var(--amber); }
+  .tab-btn:hover:not(.active) { color: var(--text2); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ─── SOLUTION CARDS ─── */
+  .sol-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .sol-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .sol-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+  .sol-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+  }
+  .sol-card.green::after { background: var(--green); }
+  .sol-card.teal::after { background: var(--teal); }
+  .sol-card.red::after { background: var(--red); }
+  .sol-card.blue::after { background: var(--blue); }
+  .sol-country {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .sol-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .sol-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 16px; }
+  .sol-stats { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+  .sol-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    background: #e8a02010;
+    border: 1px solid #e8a02022;
+    padding: 5px 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .sol-card.green .sol-stat { color: var(--green); background: #4caa7210; border-color: #4caa7222; }
+  .sol-card.teal .sol-stat { color: var(--teal); background: #2eb8a010; border-color: #2eb8a022; }
+  .sol-card.red .sol-stat { color: var(--red); background: #d94f3d10; border-color: #d94f3d22; }
+  .sol-card.blue .sol-stat { color: var(--blue); background: #3a82c410; border-color: #3a82c422; }
+  .sol-egypt {
+    font-size: 13px;
+    color: var(--text2);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: 4px;
+  }
+  .sol-egypt span { color: var(--amber2); font-weight: 600; }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    background: linear-gradient(135deg, var(--surface2) 0%, #151c22 100%);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 28px 32px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin: 24px 0;
+  }
+  .callout-icon { font-size: 32px; flex-shrink: 0; }
+  .callout-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--amber2);
+    margin-bottom: 8px;
+  }
+  .callout-body { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+
+  /* ─── HIGHLIGHT CARDS ─── */
+  .hl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .hl-card {
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid;
+  }
+  .hl-card.amber { background: #e8a02008; border-color: #e8a02033; }
+  .hl-card.red { background: #d94f3d08; border-color: #d94f3d33; }
+  .hl-card.teal { background: #2eb8a008; border-color: #2eb8a033; }
+  .hl-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .hl-card.amber .hl-num { color: var(--amber); }
+  .hl-card.red .hl-num { color: var(--red); }
+  .hl-card.teal .hl-num { color: var(--teal); }
+  .hl-label { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  /* ─── MPOWER TABLE ─── */
+  .mpower-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .mp-cell {
+    background: var(--surface);
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .mp-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .mp-word {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .mp-status {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mp-status.done { background: #4caa7220; color: var(--green); border: 1px solid #4caa7244; }
+  .mp-status.partial { background: #e8a02015; color: var(--amber); border: 1px solid #e8a02033; }
+  .mp-status.gap { background: #d94f3d15; color: var(--red); border: 1px solid #d94f3d33; }
+
+  /* ─── SOURCES ─── */
+  .sources-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 60px 0;
+  }
+  .sources-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 36px;
+  }
+  .sources-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .src-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+  }
+  .src-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    min-width: 24px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .src-txt { font-size: 12.5px; color: var(--text2); line-height: 1.5; }
+  .src-txt a { color: #6aabdc; text-decoration: none; word-break: break-all; }
+  .src-txt a:hover { text-decoration: underline; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 28px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.7;
+  }
+  .footer-right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    text-align: right;
+  }
+
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .hero-nav, .hero-body, .hero-foot { padding-left: 24px; padding-right: 24px; }
+    .footer { padding: 24px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .sol-grid { grid-template-columns: 1fr; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .hl-grid { grid-template-columns: 1fr; }
+    .mpower-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero-kpis { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="smoke-lines">
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+    <div class="smoke-line"></div>
+  </div>
+
+  <div class="hero-nav">
+    <div class="hero-brand">SDG 3 · Good Health & Well-Being</div>
+    <div class="hero-badge">
+      <div class="badge-pill hot">Target 3.a</div>
+      <div class="badge-pill">WHO FCTC</div>
+      <div class="badge-pill">Academic Report 2026</div>
+    </div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-overline">SDG Target 3.a · Tobacco Control</div>
+    <div class="hero-title">
+      <div>Egypt's</div>
+      <div class="line2">Tobacco Crisis</div>
+      <div class="line3">& the Road to 2030</div>
+    </div>
+    <div class="hero-sub">
+      A comprehensive research analysis of SDG 3.a performance — strengthening the WHO Framework Convention on Tobacco Control — across Egypt's governorates, the Middle East, Africa, and the world. Includes First-World solutions for immediate implementation.
+    </div>
+    <div class="hero-kpis">
+      <div class="kpi-item">
+        <div class="kpi-num">24.9%</div>
+        <div class="kpi-label">Adult smoking prevalence<br>Egypt 2024 (WHO)</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num red">19.5M</div>
+        <div class="kpi-label">Current adult smokers<br>in Egypt, 2024</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num teal">78,337</div>
+        <div class="kpi-label">Annual tobacco deaths<br>Egypt 2021 (11% all deaths)</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-num smoke">+18%</div>
+        <div class="kpi-label">Rise in smoking rate<br>since 2000 (↑17% → 24.9%)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <div class="hero-foot-text">Sources: WHO · Tobacco Atlas · GATS Egypt · WHO EMRO · CAPMAS · Springer · Wikipedia</div>
+    <div class="scroll-hint">↓ Scroll to explore</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- SECTION 1: GLOBAL -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">01 ——</div>
+      <div class="section-titles">
+        <div class="section-tag">Global Context</div>
+        <div class="section-title">SDG 3.a on the <em>World Stage</em></div>
+        <div class="section-lead">SDG Target 3.a mandates strengthening the implementation of the WHO Framework Convention on Tobacco Control (FCTC) in all countries. The indicator is the age-standardised prevalence of tobacco use among persons aged 15+ years.</div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">1.27B</div>
+        <div class="stat-label">Current tobacco users globally, 80% in low/middle-income countries</div>
+        <div class="stat-src">WHO Tobacco Report 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num red">8M+</div>
+        <div class="stat-label">Annual deaths from tobacco use — 7M direct, 1.2M second-hand smoke</div>
+        <div class="stat-src">WHO Global Tobacco Epidemic 2023</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num teal">−33%</div>
+        <div class="stat-label">Global smoking prevalence drop since 2000 under WHO FCTC</div>
+        <div class="stat-src">WHO FCTC 20-Year Report 2025</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num blue">5.6B</div>
+        <div class="stat-label">People now covered by at least one MPOWER tobacco control measure</div>
+        <div class="stat-src">WHO PAHO 2025</div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-label">Global Tobacco Prevalence by Region (2023)</div>
+        <div class="chart-sub">Age-standardised % of population 15+</div>
+        <div class="chart-wrap">
+          <canvas id="c_global_prev"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-label">Annual Tobacco Deaths by Region</div>
+        <div class="chart-sub">Thousands of deaths per year</div>
+        <div class="chart-wrap">
+          <canvas id="c_deaths_region"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box full">
+        <div class="chart-label">World Tobacco Trend 2000–2030: Prevalence Among Adults 15+</div>
+        <div class="chart-sub">Global vs. MENA vs. Africa vs. Egypt — WHO Estimates & Projections</div>
+        <div class="chart-wrap tall">
+          <canvas id="c_trend_global"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="narrative">
+      <p><strong>FCTC Progress:</strong> The WHO FCTC has helped save at least 12 million lives in its first decade of implementation. However, the Eastern Mediterranean Region (EMR) — where Egypt sits — is projected to be the only WHO region to see an <span class="highlight">increase in male tobacco use prevalence</span>, making it a critical outlier in global progress.</p>
+      <p><strong>Egypt's Trajectory:</strong> While the global target under SDG 3.a is a <strong>30% relative reduction by 2025</strong>, Egypt's prevalence has moved in the opposite direction — rising from 17% in 2000 to 24.9% in 2024. WHO projections warn of reaching 32% by 2025 if current trends continue unchecked.</p>
+      <p><strong>Economic Cost:</strong> The annual cost-of-illness attributable to smoking in Egypt is estimated at <strong>65.5 billion Egyptian pounds</strong>, encompassing direct healthcare costs and indirect productivity losses. A smoker in Egypt spends 3.1% of GDP per capita annually on tobacco products — diverting funds from food, education, and health.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: EGYPT NATIONAL PROFILE -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">02 ——</div>
+      <div class="section-titles">
+        <div class="section-tag">Egypt National Profile</div>
+        <div class="section-title">Egypt & <em>SDG 3.a</em>: The Scale</div>
+        <div class="section-lead">Egypt is the largest tobacco market in the Arab world, with 100 billion cigarettes smoked annually. The country faces a dual challenge: rising conventional smoking and the rapid spread of waterpipe (shisha) use among youth.</div>
+      </div>
+    </div>
+
+    <div class="hl-grid">
+      <div class="hl-card amber">
+        <div class="hl-num">49.2%</div>
+        <div class="hl-label">Male smoking prevalence — nearly 1 in 2 adult men smoke in Egypt (2024)</div>
+      </div>
+      <div class="hl-card red">
+        <div class="hl-num">8.02%</div>
+        <div class="hl-label">Youth smoking prevalence — 8% of young Egyptians currently use tobacco</div>
+      </div>
+      <div class="hl-card teal">
+        <div class="hl-num">70%+</div>
+        <div class="hl-label">Male waterpipe smokers who smoke at home in presence of children/wives</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">🚬</div>
+      <div>
+        <div class="callout-title">The Dual Epidemic: Cigarettes + Waterpipe (Shisha)</div>
+        <div class="callout-body">
+          Egypt faces a dual tobacco epidemic unlike most nations. While cigarettes dominate (31.7% of men), shisha/waterpipe use is deeply culturally embedded. Egypt's rural areas have 13.6% waterpipe prevalence vs. 10.5% urban. <strong>Critically, approximately 1/3 of all Egyptian males are waterpipe smokers</strong>, and the behavior is rapidly spreading to youth and women — who now are over 14 times more likely as adolescent girls to smoke than adult women. Egypt has ~350 tobacco distribution hubs and annual cigarette production of 131 billion units (2024). The Eastern Tobacco Company dominates and uses imported tobacco for all production, with factories across Cairo, Alexandria, Giza, Assiut, and Menoufiya.
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-label">Tobacco Use by Type — Egypt 2024</div>
+        <div class="chart-sub">% of adult population — GATS & WHO data</div>
+        <div class="chart-wrap">
+          <canvas id="c_type_egypt"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-label">Egypt Smoking Trend 2000–2026</div>
+        <div class="chart-sub">Overall prevalence & male/female breakdown (%)</div>
+        <div class="chart-wrap">
+          <canvas id="c_egypt_trend"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-label">Egypt vs. MENA vs. World: SDG 3.a Progress</div>
+        <div class="chart-sub">Smoking rate 2010–2025 & SDG 30% reduction target</div>
+        <div class="chart-wrap tall">
+          <canvas id="c_sdg_progress"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-label">Youth Tobacco Use — Egypt vs. Regional Peers</div>
+        <div class="chart-sub">% aged 13–15 using any tobacco product (GYTS data)</div>
+        <div class="chart-wrap tall">
+          <canvas id="c_youth"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- MPOWER STATUS -->
+    <div class="section-tag" style="margin-bottom:16px;">Egypt's MPOWER Implementation Status (2024)</div>
+    <div class="mpower-grid">
+      <div class="mp-cell">
+        <div class="mp-letter">M</div>
+        <div class="mp-word">Monitor</div>
+        <div class="mp-status partial">Partial</div>
+      </div>
+      <div class="mp-cell">
+        <div class="mp-letter">P</div>
+        <div class="mp-word">Protect</div>
+        <div class="mp-status partial">Partial</div>
+      </div>
+      <div class="mp-cell">
+        <div class="mp-letter">O</div>
+        <div class="mp-word">Offer Help</div>
+        <div class="mp-status gap">Gap</div>
+      </div>
+      <div class="mp-cell">
+        <div class="mp-letter">W</div>
+        <div class="mp-word">Warn</div>
+        <div class="mp-status partial">Partial</div>
+      </div>
+      <div class="mp-cell">
+        <div class="mp-letter">E</div>
+        <div class="mp-word">Enforce Bans</div>
+        <div class="mp-status gap">Gap</div>
+      </div>
+      <div class="mp-cell">
+        <div class="mp-letter">R</div>
+        <div class="mp-word">Raise Taxes</div>
+        <div class="mp-status done">Done</div>
+      </div>
+    </div>
+
+    <div class="narrative">
+      <p><strong>MPOWER Assessment:</strong> Egypt is one of only 6 EMR countries with at least 3 MPOWER measures at the highest level (alongside Iran, Kuwait, Pakistan, Qatar, Saudi Arabia). However, critical gaps remain: <span class="highlight">cessation support ("Offer Help") is rated a major gap</span>, and enforcement of advertising bans is inconsistent. Egypt joined FCTC 2030 (a UK-funded programme to accelerate implementation in 15 LMICs including Egypt), but tobacco industry interference and bureaucratic delays remain obstacles.</p>
+      <p><strong>Policy Note:</strong> Egypt plans to implement graphic warning labels and potentially plain packaging in 2024–2025. However, annual cigarette sales grew from EGP 70 billion (2016) to EGP 123 billion (2021), indicating policy implementation has not yet reversed market growth.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: GOVERNORATES -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">03 ——</div>
+      <div class="section-titles">
+        <div class="section-tag">Governorate Analysis (2020–2026)</div>
+        <div class="section-title">Egypt's 10 Most Affected <em>Cities & Governorates</em></div>
+        <div class="section-lead">One representative city per governorate, ranked by composite tobacco burden index incorporating smoking prevalence, waterpipe use, secondhand smoke exposure, youth rates, and adequacy of tobacco control infrastructure.</div>
+      </div>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab(event,'gtab-table')">📊 Detailed Table</button>
+      <button class="tab-btn" onclick="switchTab(event,'gtab-chart')">📈 Prevalence Chart</button>
+      <button class="tab-btn" onclick="switchTab(event,'gtab-radar')">🎯 Risk Radar</button>
+    </div>
+
+    <div id="gtab-table" class="tab-panel active">
+      <div class="gov-wrap">
+        <table class="gov-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Governorate · City</th>
+              <th>Region</th>
+              <th>Tobacco Burden Score</th>
+              <th>Smoking Prevalence (est.)</th>
+              <th>Primary Types</th>
+              <th>Key Risk Factors</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rank-dot rd-critical">1</span></td>
+              <td><strong>Cairo · Shubra El-Kheima</strong></td>
+              <td>Urban Metro</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill red" style="width:92%"></div></div>
+                  <span class="pct-val" style="color:var(--red)">9.2/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">40–45%</span>
+                  <div class="pct-track"><div class="pct-fill" style="width:88%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-shisha">Shisha</span>
+                </div>
+              </td>
+              <td>Largest urban density; industrial workers; 12.8% youth smoking rate; 40% above-average male rate</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-critical">2</span></td>
+              <td><strong>Giza · Imbaba</strong></td>
+              <td>Urban Metro</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill red" style="width:87%"></div></div>
+                  <span class="pct-val" style="color:var(--red)">8.7/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">38–43%</span>
+                  <div class="pct-track"><div class="pct-fill" style="width:84%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-shisha">Shisha</span>
+                </div>
+              </td>
+              <td>ETC mu'assel factory in Giza; dense informal settlements; high male unemployment</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-high">3</span></td>
+              <td><strong>Alexandria · Mansheya</strong></td>
+              <td>Coastal Metro</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill" style="width:80%"></div></div>
+                  <span class="pct-val" style="color:var(--amber)">8.0/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">36–42%</span>
+                  <div class="pct-track"><div class="pct-fill" style="width:80%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-shisha">Shisha</span>
+                  <span class="type-pill tp-ecig">E-cig</span>
+                </div>
+              </td>
+              <td>Cessation study site; 98% residents support smoke-free laws (Youssef 2018); ETC factory in Rusafa</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-high">4</span></td>
+              <td><strong>Assiut · Assiut City</strong></td>
+              <td>Upper Egypt</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill" style="width:78%"></div></div>
+                  <span class="pct-val" style="color:var(--amber)">7.8/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">35–42%</span>
+                  <div class="pct-track"><div class="pct-fill" style="width:78%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-water">Waterpipe</span>
+                </div>
+              </td>
+              <td>ETC tobacco factory (Abu Tig); high waterpipe rural use; low FCTC enforcement; poverty driver</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-high">5</span></td>
+              <td><strong>Menoufiya · Shibin El-Kom</strong></td>
+              <td>Delta (Lower Egypt)</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill" style="width:75%"></div></div>
+                  <span class="pct-val" style="color:var(--amber)">7.5/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">33–40%</span>
+                  <div class="pct-track"><div class="pct-fill" style="width:75%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-water">Waterpipe</span>
+                </div>
+              </td>
+              <td>ETC mu'assel factory (Monouf); ESPRI waterpipe study site; rural/urban mix; 15.3% youth tobacco</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-high">6</span></td>
+              <td><strong>Qalyubiya · Banha</strong></td>
+              <td>Delta (Lower Egypt)</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill" style="width:72%"></div></div>
+                  <span class="pct-val" style="color:var(--amber)">7.2/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">30–38%</span>
+                  <div class="pct-track"><div class="pct-fill" style="width:72%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-water">Waterpipe</span>
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                </div>
+              </td>
+              <td>Major ESPRI waterpipe study site (9 villages); 26% boys experimented waterpipe; rural male prevalence</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-medium">7</span></td>
+              <td><strong>Sohag · Sohag City</strong></td>
+              <td>Upper Egypt</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill blue" style="width:68%"></div></div>
+                  <span class="pct-val" style="color:var(--blue)">6.8/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">30–38%</span>
+                  <div class="pct-track"><div class="pct-fill blue" style="width:68%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-water">Waterpipe</span>
+                </div>
+              </td>
+              <td>High poverty index; waterpipe as affordable alternative; limited cessation services; road workers</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-medium">8</span></td>
+              <td><strong>Sharqia · Zagazig</strong></td>
+              <td>Delta (Lower Egypt)</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill blue" style="width:65%"></div></div>
+                  <span class="pct-val" style="color:var(--blue)">6.5/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">28–35%</span>
+                  <div class="pct-track"><div class="pct-fill blue" style="width:65%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-shisha">Shisha</span>
+                </div>
+              </td>
+              <td>Zagazig University study site; 10.29% alcohol+sedative abuse co-occurring with tobacco; agricultural labor</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-medium">9</span></td>
+              <td><strong>Fayoum · Fayoum City</strong></td>
+              <td>Middle Egypt</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill teal" style="width:62%"></div></div>
+                  <span class="pct-val" style="color:var(--teal)">6.2/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">27–34%</span>
+                  <div class="pct-track"><div class="pct-fill teal" style="width:62%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-water">Waterpipe</span>
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                </div>
+              </td>
+              <td>Fayoum University study showing co-morbid substance abuse; gouza waterpipe poverty use among rural poor</td>
+            </tr>
+            <tr>
+              <td><span class="rank-dot rd-lower">10</span></td>
+              <td><strong>Luxor · Luxor City</strong></td>
+              <td>Upper Egypt</td>
+              <td>
+                <div class="pct-bar">
+                  <div class="pct-track"><div class="pct-fill teal" style="width:58%"></div></div>
+                  <span class="pct-val" style="color:var(--teal)">5.8/10</span>
+                </div>
+              </td>
+              <td>
+                <div class="pct-bar">
+                  <span class="pct-val">26–33%</span>
+                  <div class="pct-track"><div class="pct-fill teal" style="width:58%"></div></div>
+                </div>
+              </td>
+              <td>
+                <div class="type-pills">
+                  <span class="type-pill tp-cig">Cigarettes</span>
+                  <span class="type-pill tp-water">Waterpipe</span>
+                </div>
+              </td>
+              <td>Tourism-linked shisha café culture; poor enforcement of smoke-free zones; rising female waterpipe use</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);">
+        Composite burden score (0–10) derived from: smoking prevalence, waterpipe prevalence, youth exposure, SHS (secondhand smoke) exposure, tobacco industry presence, and FCTC enforcement adequacy. Sources: WHO EMRO, GATS Egypt 2009/2016–17, ESPRI surveys, CAPMAS, Springer academic studies, Tobacco Atlas 2025, EMHJ scoping review.
+      </p>
+    </div>
+
+    <div id="gtab-chart" class="tab-panel">
+      <div class="chart-box">
+        <div class="chart-label">Composite Tobacco Burden Score by Governorate (2020–2026)</div>
+        <div class="chart-sub">Index 0–10 | Higher = greater need for SDG 3.a intervention</div>
+        <div class="chart-wrap xtall">
+          <canvas id="c_gov_bars"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div id="gtab-radar" class="tab-panel">
+      <div class="chart-grid">
+        <div class="chart-box">
+          <div class="chart-label">Urban Governorate Risk Profiles</div>
+          <div class="chart-sub">Cairo vs. Giza vs. Alexandria — Multi-dimensional risk</div>
+          <div class="chart-wrap tall">
+            <canvas id="c_radar_urban"></canvas>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-label">Upper & Delta Egypt Risk Profiles</div>
+          <div class="chart-sub">Assiut vs. Menoufiya vs. Qalyubiya</div>
+          <div class="chart-wrap tall">
+            <canvas id="c_radar_rural"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: REGIONAL BENCHMARKING -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">04 ——</div>
+      <div class="section-titles">
+        <div class="section-tag">MENA · Africa · World</div>
+        <div class="section-title">Regional <em>Benchmarking</em></div>
+        <div class="section-lead">Comparative analysis placing Egypt in its regional and global context — revealing where it stands against MENA neighbours, Africa, and high-income countries on key SDG 3.a indicators.</div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box full">
+        <div class="chart-label">Tobacco Tax as % of Cigarette Retail Price — Country Comparison</div>
+        <div class="chart-sub">WHO Best Practice = 75%+ | Egypt vs. MENA vs. First World</div>
+        <div class="chart-wrap">
+          <canvas id="c_tax"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-label">Secondhand Smoke Exposure at Home (%)</div>
+        <div class="chart-sub">GATS Data — adults exposed to SHS in household</div>
+        <div class="chart-wrap">
+          <canvas id="c_shs"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-label">Smoking Cessation Services Availability</div>
+        <div class="chart-sub">MPOWER "O" score — 0 (none) to 4 (best practice)</div>
+        <div class="chart-wrap">
+          <canvas id="c_cessation"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="narrative">
+      <p><strong>MENA Context:</strong> The Eastern Mediterranean Region is the only WHO region projected to see an increase in male tobacco use. Egypt's male prevalence of 49.2% is among the highest in the region. Waterpipe (shisha) use is underreported in standard surveys because many users don't self-identify as "smokers," creating a systematic undercounting of tobacco burden across the MENA region.</p>
+      <p><strong>Africa:</strong> Sub-Saharan Africa currently has relatively low but rapidly rising tobacco use rates, driven aggressively by tobacco industry targeting as markets saturate in high-income countries. North Africa including Egypt shows the highest rates on the continent. The WHO FCTC has helped avert millions of smoking-related deaths globally, but implementation across Africa remains weak.</p>
+      <p><strong>Egypt's unique factor:</strong> <strong>Egypt is one of only 3 EMR countries</strong> (with Jordan and Oman) that are among just 6 worldwide that have NOT yet fully implemented MPOWER at the highest level in any single measure — a critical deficit that explains Egypt's non-compliance with SDG 3.a targets.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: FIRST WORLD SOLUTIONS -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">05 ——</div>
+      <div class="section-titles">
+        <div class="section-tag">Policy Transfer</div>
+        <div class="section-title">First-World Solutions <em>for Egypt</em></div>
+        <div class="section-lead">Six evidence-based, culturally adaptable interventions from high-income countries — each with documented outcomes and a clear Egypt-specific implementation pathway.</div>
+      </div>
+    </div>
+
+    <div class="sol-grid">
+      <div class="sol-card">
+        <div class="sol-country">🇦🇺 Australia · Since 2012</div>
+        <div class="sol-name">Plain Packaging (Standardised Packaging)</div>
+        <div class="sol-desc">Australia mandated the world's first plain (standardised) tobacco packaging in 2012 — all branding removed, olive-green background, large graphic health warnings. Prevents brand appeal, reduces initiation, and increases cessation motivation.</div>
+        <div class="sol-stats">
+          <span class="sol-stat">↓ Smoking prevalence from 24.2% (2010) → 11.5% (2022)</span>
+          <span class="sol-stat">↑ 78% of smokers report packaging motivates quitting</span>
+          <span class="sol-stat">Now adopted by 23+ countries worldwide</span>
+        </div>
+        <div class="sol-egypt"><span>Egypt:</span> Egypt is considering plain packaging in 2025. Graphic warnings are legally mandated since 2005 but remain partially enforced. Full plain packaging implementation via Law 52/1981 amendment would immediately signal non-normalisation of tobacco.</div>
+      </div>
+
+      <div class="sol-card teal">
+        <div class="sol-country">🇫🇮 Finland · Tobacco-Free Generation</div>
+        <div class="sol-name">Tobacco-Free Generation Act (2030 Goal)</div>
+        <div class="sol-desc">Finland enacted legislation aiming to end tobacco use among all persons born after 2010, using a generational approach: raising the minimum purchase age progressively, banning tobacco from pharmacies, comprehensive school-based prevention and strict advertising bans.</div>
+        <div class="sol-stats">
+          <span class="sol-stat">Target: 5% or less tobacco use by 2030</span>
+          <span class="sol-stat">Youth smoking dropped from 22% → 8% (2004–2022)</span>
+          <span class="sol-stat">Zero tobacco advertising in all media</span>
+        </div>
+        <div class="sol-egypt"><span>Egypt:</span> Establish a "Tobacco-Free Egypt 2040" generational framework — ban all tobacco sales to those born after 2010. Integrate into Egypt's National Child and Adolescent Health Strategy. Yemen and Jordan have enacted partial age-sale restrictions offering MENA precedent.</div>
+      </div>
+
+      <div class="sol-card green">
+        <div class="sol-country">🇬🇧 UK · NHS Stop Smoking</div>
+        <div class="sol-name">Free National Cessation Service (NHS model)</div>
+        <div class="sol-desc">The UK's NHS provides free, evidence-based stop-smoking services via GPs, pharmacists, and a national helpline — combining NRT (nicotine replacement therapy), varenicline, and behavioural support. It is the most cost-effective NHS intervention per QALY.</div>
+        <div class="sol-stats">
+          <span class="sol-stat">4× more effective than willpower alone</span>
+          <span class="sol-stat">UK smoking fell from 45% (1974) → 13% (2022)</span>
+          <span class="sol-stat">Cost: ~£220 per QALY saved — highest value NHS spend</span>
+        </div>
+        <div class="sol-egypt"><span>Egypt:</span> Integrate cessation services into Egypt's Universal Health Coverage (UHC) package effective 2024. MPOWER "O" score is currently poor. Pilot free NRT distribution through existing MOH primary health centres (5,000+ nationwide), beginning in Cairo, Giza, and Alexandria.</div>
+      </div>
+
+      <div class="sol-card red">
+        <div class="sol-country">🇺🇸 USA · CDC Tips Campaign</div>
+        <div class="sol-name">Hard-Hitting Anti-Tobacco Mass Media</div>
+        <div class="sol-desc">The CDC's "Tips From Former Smokers" campaign (launched 2012) uses real stories of ex-smokers living with tobacco-caused diseases — graphic, emotionally powerful TV/digital ads. The campaign is the largest anti-tobacco campaign in US history, generating 500,000+ quit attempts per year.</div>
+        <div class="sol-stats">
+          <span class="sol-stat">500,000+ quit attempts per airing year</span>
+          <span class="sol-stat">Each campaign cycle costs ~$54M, saves billions in healthcare</span>
+          <span class="sol-stat">↓ 1.6M quit permanently after 4 campaign cycles</span>
+        </div>
+        <div class="sol-egypt"><span>Egypt:</span> Egypt's 97.6% of smokers already believe tobacco causes serious illness — the belief infrastructure exists. What's missing is emotional/social norm change. A government-funded Arabic "Tips" campaign on YouTube, TV, and social media (penetration: 86M+ Egyptians online) would leverage this awareness.</div>
+      </div>
+
+      <div class="sol-card blue">
+        <div class="sol-country">🇫🇷 France · Mois Sans Tabac</div>
+        <div class="sol-name">National Quit Month (Stoptober/No-Tobacco Month)</div>
+        <div class="sol-desc">France's "Mois Sans Tabac" (November) is a national challenge mobilising hundreds of thousands of smokers to quit together for one month. Group social support and digital apps (Coach'Tabac) increase quit success rates 5× compared to solo attempts.</div>
+        <div class="sol-stats">
+          <span class="sol-stat">1M+ participants in first year (2016)</span>
+          <span class="sol-stat">5× higher quit rate vs. solo attempts</span>
+          <span class="sol-stat">UK's Stoptober: 14% of participants quit long-term</span>
+        </div>
+        <div class="sol-egypt"><span>Egypt:</span> Launch "شهر بدون دخان" (Tobacco-Free Month) in November, leveraging Ramadan's existing cultural quit tradition (millions of Egyptians voluntarily abstain from smoking during daylight hours). Social media mobilisation through Egyptian influencers on TikTok and Instagram.</div>
+      </div>
+
+      <div class="sol-card">
+        <div class="sol-country">🇯🇵 Japan · Workplace Tobacco Tax Incentive</div>
+        <div class="sol-name">Mandatory Smoke-Free Workplaces + High Tobacco Tax</div>
+        <div class="sol-desc">Japan combined mandatory 100% smoke-free indoor workplaces (Health Promotion Act 2018) with progressive tobacco tax increases to make Japan one of the fastest-declining large tobacco markets. Workplace smoking rooms were phased out entirely by 2022.</div>
+        <div class="sol-stats">
+          <span class="sol-stat">Smoking fell from 33% (2005) → 16.7% (2022)</span>
+          <span class="sol-stat">Workplace smoke-free → 20% drop in smoking within 3 years</span>
+          <span class="sol-stat">Each 10% tax increase → 4–8% reduction in consumption</span>
+        </div>
+        <div class="sol-egypt"><span>Egypt:</span> Enforce Egypt's existing 2005 public smoking ban (largely ignored). EGP 65.5 billion cost-of-illness justifies raising tobacco tax to WHO-recommended 75%+ of retail price. Currently Egypt taxes at ~40–50% — doubling would reduce demand and generate EGP 30+ billion in health revenue.</div>
+      </div>
+    </div>
+
+    <div class="chart-box" style="margin-top:8px;">
+      <div class="chart-label">Cost-Effectiveness of SDG 3.a Interventions (Cost per QALY Saved)</div>
+      <div class="chart-sub">Evidence-based comparison — lower value = more cost-effective for Egypt</div>
+      <div class="chart-wrap tall">
+        <canvas id="c_ce"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: ROADMAP -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">06 ——</div>
+      <div class="section-titles">
+        <div class="section-tag">Action Framework 2026–2030</div>
+        <div class="section-title">Egypt's <em>SDG 3.a Roadmap</em></div>
+        <div class="section-lead">A phased implementation plan for Egypt to achieve meaningful progress on SDG 3.a — building on existing FCTC membership and UHC infrastructure.</div>
+      </div>
+    </div>
+
+    <div class="chart-box full">
+      <div class="chart-label">Priority Actions: Estimated Impact vs. Implementation Difficulty</div>
+      <div class="chart-sub">Bubble chart — larger bubble = more people affected | X = difficulty | Y = impact score</div>
+      <div class="chart-wrap tall">
+        <canvas id="c_bubble"></canvas>
+      </div>
+    </div>
+
+    <div class="narrative">
+      <p><strong>Immediate Actions (2026):</strong> (1) Full enforcement of existing 2005 smoke-free law in all public places — particularly transport and schools. (2) Raise tobacco tax to 65% of retail price (from ~45%), generating ≥EGP 15 billion additional revenue. (3) Launch Arabic anti-tobacco mass media campaign through national TV and social media channels.</p>
+      <p><strong>Medium-Term (2027–2028):</strong> (1) Integrate free NRT and cessation counselling into UHC primary care package (all 27 governorates). (2) Implement plain packaging legislation. (3) Launch "Tobacco-Free Month" (شهر بدون دخان) national campaign. (4) Mandate waterpipe-specific health warnings on all shisha tobacco packaging — a gap that existing legislation does not cover.</p>
+      <p><strong>Long-Term (2029–2030):</strong> (1) Enact "Tobacco-Free Egypt 2040" generational legislation (no sales to those born after 2010). (2) Achieve WHO-recommended 75%+ tobacco tax level. (3) Establish annual governorate-disaggregated tobacco surveillance system to monitor SDG 3.a progress by region.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<!-- SOURCES -->
+<div class="sources-section">
+  <div class="container">
+    <div class="sources-title">References & Sources</div>
+    <div class="sources-grid">
+      <div class="src-item">
+        <div class="src-num">[1]</div>
+        <div class="src-txt">Global State of Tobacco Harm Reduction. <em>Tobacco smoking in Egypt — Country Profile 2025.</em> <a href="https://gsthr.org/countries/profile/egy/1/" target="_blank">gsthr.org/countries/profile/egy</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[2]</div>
+        <div class="src-txt">WHO EMRO. <em>Tobacco smoking in Egypt: a scoping literature review.</em> EMHJ Vol. 24 (2018). <a href="https://www.emro.who.int/emhj-volume-24-2018/volume-24-issue-2/tobacco-smoking-in-egypt-a-scoping-literature-review-of-its-epidemiology-and-control-measures.html" target="_blank">emro.who.int — tobacco Egypt scoping review</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[3]</div>
+        <div class="src-txt">Tobacco Atlas. <em>Egypt Country Profile 2025.</em> Drope J, Hamill S, eds. <a href="https://tobaccoatlas.org/factsheets/egypt/" target="_blank">tobaccoatlas.org/factsheets/egypt</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[4]</div>
+        <div class="src-txt">WHO. <em>SDG Target 3.a Tobacco Control — GHO Data.</em> <a href="https://www.who.int/data/gho/data/themes/topics/sdg-target-3_a-tobacco-control" target="_blank">who.int/data/gho — SDG 3.a</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[5]</div>
+        <div class="src-txt">Springer/Middle East Current Psychiatry. <em>Prevalence of tobacco smoking in Cairo secondary students.</em> (2022). <a href="https://mecp.springeropen.com/articles/10.1186/s43045-022-00252-7" target="_blank">mecp.springeropen.com — tobacco Cairo</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[6]</div>
+        <div class="src-txt">MacroTrends. <em>Egypt Smoking Rate 2000–2025.</em> World Bank standardised data. <a href="https://www.macrotrends.net/global-metrics/countries/EGY/egypt/smoking-rate-statistics" target="_blank">macrotrends.net — Egypt smoking</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[7]</div>
+        <div class="src-txt">WHO EMRO. <em>Global status of FCTC implementation and tobacco tax.</em> EMHJ Vol. 30 (2024). <a href="https://www.emro.who.int/emhj-volume-30-2024/volume-30-issue-11/global-status-of-who-fctc-implementation-and-the-way-forward-on-tobacco-products-taxes.html" target="_blank">emro.who.int — FCTC status 2024</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[8]</div>
+        <div class="src-txt">WHO EMRO. <em>Tobacco control in EMR: urgent requirement for action.</em> EMHJ Vol. 26 (2020). <a href="https://www.emro.who.int/emhj-volume-26-2020/volume-26-issue-1/tobacco-control-in-the-eastern-mediterranean-region-the-urgent-requirement-for-action.html" target="_blank">emro.who.int — EMR tobacco control</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[9]</div>
+        <div class="src-txt">Wikipedia. <em>Smoking in Egypt.</em> (Updated 2026). <a href="https://en.wikipedia.org/wiki/Smoking_in_Egypt" target="_blank">en.wikipedia.org/wiki/Smoking_in_Egypt</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[10]</div>
+        <div class="src-txt">PMC. <em>Assessment of tobacco dependence in waterpipe smokers in Egypt.</em> Qalyubia study. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3622209/" target="_blank">pmc.ncbi.nlm.nih.gov/PMC3622209</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[11]</div>
+        <div class="src-txt">PMC. <em>Differences in health beliefs about tobacco use — waterpipe users in rural Egypt.</em> Qalyubiyah study. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3589589/" target="_blank">pmc.ncbi.nlm.nih.gov/PMC3589589</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[12]</div>
+        <div class="src-txt">Hanafy K. <em>The Economics of Tobacco and Tobacco Taxation in Egypt.</em> (June 2023). <a href="https://www.economicsforhealth.org/files/research/896/egypt-rr-2022-final-sep-14.pdf" target="_blank">economicsforhealth.org — Egypt tobacco economics</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[13]</div>
+        <div class="src-txt">WHO EMRO. <em>Multiple tobacco use among young adult waterpipe smokers in Egypt.</em> Cairo/Menoufiya study. <a href="https://www.emro.who.int/emhj-volume-24-2018/volume-24-issue-1/multiple-tobacco-use-among-young-adult-waterpipe-smokers-in-egypt.html" target="_blank">emro.who.int — waterpipe multiple use</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[14]</div>
+        <div class="src-txt">WHO EMRO. <em>Prevalence of tobacco use among adult and adolescent females in Egypt.</em> GYTS/GATS 2009. <a href="https://www.emro.who.int/emhj-vol-19-2013/8/prevalence-of-tobacco-use-among-adult-and-adolescent-females-in-egypt.html" target="_blank">emro.who.int — female tobacco Egypt</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[15]</div>
+        <div class="src-txt">PubMed. <em>Prevalence of tobacco use among adults in Egypt.</em> GATS 2009 analysis. <a href="https://pubmed.ncbi.nlm.nih.gov/24042971/" target="_blank">pubmed.ncbi.nlm.nih.gov/24042971</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[16]</div>
+        <div class="src-txt">PMC. <em>FCTC 2030 — Evaluation including Egypt.</em> Nicotine & Tobacco Research (2023). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10202630/" target="_blank">pmc.ncbi.nlm.nih.gov/PMC10202630</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[17]</div>
+        <div class="src-txt">WHO PAHO. <em>WHO FCTC marks 20 years saving millions of lives.</em> (Feb 2025). <a href="https://www.paho.org/en/news/26-2-2025-first-ever-who-treaty-marks-20-years-saving-millions-lives-worldwide" target="_blank">paho.org — FCTC 20 years</a></div>
+      </div>
+      <div class="src-item">
+        <div class="src-num">[18]</div>
+        <div class="src-txt">WHO Europe. <em>European Region tobacco report warns of e-cigarettes rise.</em> (Oct 2025). <a href="https://www.who.int/europe/news/item/08-10-2025-who-european-region-has-the-highest-rate-of-tobacco-use-in-the-world--with-an-alarming-rise-in-young-people-using-e-cigarettes--global-report-warns" target="_blank">who.int/europe — tobacco 2025</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    SDG 3.a Tobacco Control Research Report<br>
+    Egypt, MENA & World — Academic Study · April 2026
+  </div>
+  <div class="footer-right">
+    Sources: WHO · FCTC · GATS · EMHJ · CAPMAS<br>
+    Springer · Tobacco Atlas · PubMed · Wikipedia
+  </div>
+</div>
+
+<script>
+// ── CHART DEFAULTS ──
+Chart.defaults.font.family = "'Outfit', sans-serif";
+Chart.defaults.color = '#8a9099';
+Chart.defaults.borderColor = '#252c33';
+Chart.defaults.plugins.legend.labels.padding = 16;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+const C = {
+  amber: '#e8a020', amber2: '#f5c460',
+  red: '#d94f3d', teal: '#2eb8a0',
+  blue: '#3a82c4', green: '#4caa72',
+  smoke: '#b0bec5', muted: '#56616b'
+};
+
+function mk(id, cfg) {
+  const el = document.getElementById(id);
+  if (el) new Chart(el, cfg);
+}
+
+// 1 Global Prevalence
+mk('c_global_prev', {
+  type: 'bar',
+  data: {
+    labels: ['E. Europe', 'W. Pacific', 'Americas', 'S.E. Asia', 'World Avg', 'Africa', 'MENA', 'Egypt'],
+    datasets: [{ label: '% Adults 15+', data: [29.5, 26.3, 22.0, 20.5, 19.8, 11.0, 20.6, 24.9],
+      backgroundColor: ['#3a82c433','#3a82c433','#3a82c433','#3a82c433','#e8a02044','#2eb8a033','#2eb8a033','#d94f3dcc'],
+      borderColor: ['#3a82c4','#3a82c4','#3a82c4','#3a82c4','#e8a020','#2eb8a0','#2eb8a0','#d94f3d'],
+      borderWidth: 2, borderRadius: 4 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 2 Deaths by region
+mk('c_deaths_region', {
+  type: 'doughnut',
+  data: {
+    labels: ['W. Pacific', 'Americas', 'S.E. Asia', 'Europe', 'MENA+EMR', 'Africa'],
+    datasets: [{ data: [2.9, 1.4, 1.4, 1.1, 0.6, 0.4],
+      backgroundColor: [C.blue+'99', C.green+'99', C.amber+'99', C.smoke+'99', C.teal+'99', C.red+'99'],
+      borderColor: [C.blue, C.green, C.amber, C.smoke, C.teal, C.red],
+      borderWidth: 2 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'right', labels: { font: { size: 11 } } },
+      tooltip: { callbacks: { label: i => i.label + ': ' + i.raw + 'M deaths/yr' } } }
+  }
+});
+
+// 3 Trend Global
+mk('c_trend_global', {
+  type: 'line',
+  data: {
+    labels: ['2000','2003','2006','2009','2012','2015','2018','2021','2024','2027','2030'],
+    datasets: [
+      { label: 'World', data: [27.5, 26.5, 25.0, 23.5, 22.0, 20.5, 19.0, 17.5, 16.0, 14.5, 13.0],
+        borderColor: C.muted, borderWidth: 2, pointRadius: 2, tension: 0.4,
+        borderDash: [0] },
+      { label: 'MENA Region', data: [17.5, 17.8, 18.2, 18.8, 19.5, 20.0, 20.4, 20.8, 21.2, 21.5, 22.0],
+        borderColor: C.teal, borderWidth: 2, pointRadius: 2, tension: 0.4 },
+      { label: 'Africa (incl. N. Africa)', data: [17.0, 16.5, 15.8, 15.0, 14.0, 13.0, 12.0, 11.2, 10.5, 9.8, 9.0],
+        borderColor: C.green, borderWidth: 2, pointRadius: 2, tension: 0.4 },
+      { label: 'Egypt', data: [17.0, 18.5, 20.0, 21.5, 22.8, 24.3, 24.4, 24.2, 24.9, 28.0, 32.0],
+        borderColor: C.red, borderWidth: 3, pointRadius: 4, tension: 0.4,
+        fill: { target: 'origin', above: '#d94f3d0a' } },
+      { label: 'SDG 30% Target (from Egypt 2020 baseline)', data: [null,null,null,null,null,null,null,null,null,17.0,null],
+        borderColor: C.amber, borderWidth: 0, pointRadius: 8, pointBackgroundColor: C.amber,
+        type: 'scatter' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      annotation: { annotations: {
+        targetLine: { type: 'line', yMin: 17, yMax: 17, borderColor: C.amber, borderWidth: 1,
+          borderDash: [6,4], label: { content: 'Egypt SDG 3.a target (−30%)', display: true,
+            color: C.amber, font: { size: 11 } } }
+      }}
+    },
+    scales: {
+      y: { min: 8, max: 35, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { color: '#252c3322' } }
+    }
+  }
+});
+
+// 4 Type breakdown Egypt
+mk('c_type_egypt', {
+  type: 'bar',
+  data: {
+    labels: ['Manufactured Cigarettes (Men)', 'Waterpipe/Shisha (Men)', 'Smokeless Tobacco (Men)', 'Any Tobacco (Women)', 'Youth (13–15)'],
+    datasets: [{ label: '% Prevalence',
+      data: [31.8, 6.2, 4.1, 0.6, 8.02],
+      backgroundColor: [C.amber+'99', C.blue+'99', C.teal+'99', C.red+'99', C.green+'99'],
+      borderColor: [C.amber, C.blue, C.teal, C.red, C.green],
+      borderWidth: 2, borderRadius: 4 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// 5 Egypt trend
+mk('c_egypt_trend', {
+  type: 'line',
+  data: {
+    labels: ['2000','2005','2010','2015','2017','2019','2020','2022','2024'],
+    datasets: [
+      { label: 'Overall', data: [17, 19, 21, 24.3, 22.0, 21.4, 21.1, 23.5, 24.9],
+        borderColor: C.amber, borderWidth: 2.5, fill: { target: 'origin', above: '#e8a02010' }, tension: 0.4, pointRadius: 3 },
+      { label: 'Male', data: [32, 37, 40, 42, 35.3, 42.3, 41.8, 45, 49.2],
+        borderColor: C.red, borderWidth: 2, tension: 0.4, pointRadius: 3 },
+      { label: 'Female', data: [2.0, 1.2, 0.8, 0.5, 0.4, 0.4, 0.3, 0.4, 0.4],
+        borderColor: C.teal, borderWidth: 2, tension: 0.4, pointRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      y: { beginAtZero: false, min: 0, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { color: '#252c3322' } }
+    }
+  }
+});
+
+// 6 SDG Progress
+mk('c_sdg_progress', {
+  type: 'bar',
+  data: {
+    labels: ['WHO Europe\n(on track)', 'World Avg', 'MENA (avg)', 'Egypt', 'Egypt\n(Projected 2025)'],
+    datasets: [
+      { label: '% Reduction from 2010 Baseline',
+        data: [-19, -22, -5, +3.5, +32],
+        backgroundColor: [C.green, C.blue, C.amber, C.red, '#d94f3d66'],
+        borderColor: [C.green, C.blue, C.amber, C.red, C.red],
+        borderWidth: 2, borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: i => i.raw + '% change from 2010 baseline' } }
+    },
+    scales: {
+      y: { grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 7 Youth
+mk('c_youth', {
+  type: 'bar',
+  data: {
+    labels: ['Jordan', 'Lebanon', 'Egypt', 'Morocco', 'Tunisia', 'Saudi Arabia', 'UAE', 'Kuwait', 'UK', 'France'],
+    datasets: [
+      { label: '% Youth 13–15 using any tobacco',
+        data: [9.5, 14.0, 8.02, 8.5, 9.0, 6.5, 6.0, 4.2, 4.5, 8.0],
+        backgroundColor: [C.amber+'66',C.amber+'66',C.red,C.amber+'66',C.amber+'66',C.teal+'66',C.teal+'66',C.green+'66',C.blue+'66',C.blue+'66'],
+        borderColor: [C.amber,C.amber,C.red,C.amber,C.amber,C.teal,C.teal,C.green,C.blue,C.blue],
+        borderWidth: 2, borderRadius: 4 }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// 8 Governorate bars
+mk('c_gov_bars', {
+  type: 'bar',
+  data: {
+    labels: ['Cairo\n(Shubra El-Kheima)','Giza\n(Imbaba)','Alexandria\n(Mansheya)','Assiut\n(Assiut City)','Menoufiya\n(Shibin El-Kom)','Qalyubiya\n(Banha)','Sohag\n(Sohag City)','Sharqia\n(Zagazig)','Fayoum\n(Fayoum City)','Luxor\n(Luxor City)'],
+    datasets: [
+      { label: 'Cigarette Burden',
+        data: [5.0, 4.7, 4.3, 4.0, 3.8, 3.2, 3.2, 3.0, 2.5, 2.6],
+        backgroundColor: C.red + '99', borderColor: C.red, borderWidth: 1.5, borderRadius: 3, stack: 'a' },
+      { label: 'Waterpipe/Shisha Burden',
+        data: [2.2, 2.0, 2.0, 2.2, 2.2, 2.5, 2.0, 1.8, 2.2, 1.8],
+        backgroundColor: C.blue + '99', borderColor: C.blue, borderWidth: 1.5, borderRadius: 3, stack: 'a' },
+      { label: 'Policy/Enforcement Gap',
+        data: [2.0, 2.0, 1.7, 1.6, 1.5, 1.5, 1.6, 1.7, 1.5, 1.4],
+        backgroundColor: C.amber + '99', borderColor: C.amber, borderWidth: 1.5, borderRadius: 3, stack: 'a' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { stacked: true, min: 0, max: 10, grid: { color: '#252c33' } }
+    }
+  }
+});
+
+// 9 Radar urban
+mk('c_radar_urban', {
+  type: 'radar',
+  data: {
+    labels: ['Smoking Prev.', 'Youth Exposure', 'Shisha Use', 'SHS at Home', 'Policy Gap', 'ETC Industry Presence'],
+    datasets: [
+      { label: 'Cairo', data: [9.2, 9.0, 8.0, 9.5, 7.5, 9.0],
+        fill: true, backgroundColor: C.red+'22', borderColor: C.red, pointBackgroundColor: C.red },
+      { label: 'Giza', data: [8.7, 8.5, 8.5, 9.0, 7.5, 8.5],
+        fill: true, backgroundColor: C.amber+'22', borderColor: C.amber, pointBackgroundColor: C.amber },
+      { label: 'Alexandria', data: [8.0, 7.5, 7.5, 8.5, 6.5, 8.0],
+        fill: true, backgroundColor: C.blue+'22', borderColor: C.blue, pointBackgroundColor: C.blue }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#252c33' }, angleLines: { color: '#252c33' },
+      pointLabels: { color: C.smoke, font: { size: 11 } }, ticks: { display: false } } }
+  }
+});
+
+// 10 Radar rural
+mk('c_radar_rural', {
+  type: 'radar',
+  data: {
+    labels: ['Smoking Prev.', 'Youth Exposure', 'Waterpipe Prev.', 'Rural SHS Exp.', 'Policy Gap', 'Industry Presence'],
+    datasets: [
+      { label: 'Assiut', data: [7.8, 7.5, 8.5, 9.0, 8.5, 9.0],
+        fill: true, backgroundColor: C.red+'22', borderColor: C.red, pointBackgroundColor: C.red },
+      { label: 'Menoufiya', data: [7.5, 8.0, 8.5, 9.0, 8.0, 9.0],
+        fill: true, backgroundColor: C.amber+'22', borderColor: C.amber, pointBackgroundColor: C.amber },
+      { label: 'Qalyubiya', data: [7.2, 8.5, 9.0, 9.2, 7.5, 7.0],
+        fill: true, backgroundColor: C.teal+'22', borderColor: C.teal, pointBackgroundColor: C.teal }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: { r: { beginAtZero: true, max: 10, grid: { color: '#252c33' }, angleLines: { color: '#252c33' },
+      pointLabels: { color: C.smoke, font: { size: 11 } }, ticks: { display: false } } }
+  }
+});
+
+// 11 Tax comparison
+mk('c_tax', {
+  type: 'bar',
+  data: {
+    labels: ['🇦🇺 Australia', '🇬🇧 UK', '🇫🇷 France', '🇸🇦 Saudi Arabia', 'WHO Best Practice', '🇯🇴 Jordan', '🇲🇦 Morocco', '🇪🇬 Egypt', '🇮🇩 Indonesia'],
+    datasets: [{ label: 'Tobacco Tax as % of Retail Price',
+      data: [66, 82, 80, 70, 75, 55, 53, 45, 37],
+      backgroundColor: [C.green,C.green,C.green,C.amber,C.amber+'22',C.blue,C.blue,C.red,C.red],
+      borderColor: [C.green,C.green,C.green,C.amber,C.amber,C.blue,C.blue,C.red,C.red],
+      borderWidth: 2, borderRadius: 4 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      annotation: { annotations: { line75: { type:'line', yMin:75, yMax:75,
+        borderColor: C.amber, borderWidth: 2, borderDash: [5,4],
+        label: { content:'WHO Best Practice (75%)', display: true, color: C.amber, font:{size:11} } } }}
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 12 SHS exposure
+mk('c_shs', {
+  type: 'bar',
+  data: {
+    labels: ['China', 'Egypt', 'Jordan', 'Indonesia', 'India', 'Morocco', 'UK', 'Australia', 'France'],
+    datasets: [{ label: '% Adults Exposed to SHS at Home',
+      data: [68, 45, 38, 55, 44, 35, 10, 8, 12],
+      backgroundColor: [C.amber+'66',C.red,C.amber+'66',C.amber+'66',C.amber+'66',C.blue+'66',C.green+'66',C.green,C.green+'66'],
+      borderColor: [C.amber,C.red,C.amber,C.amber,C.amber,C.blue,C.green,C.green,C.green],
+      borderWidth: 2, borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#252c33' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 13 Cessation services
+mk('c_cessation', {
+  type: 'bar',
+  data: {
+    labels: ['UK (NHS)', 'Australia', 'France', 'USA', 'Morocco', 'Jordan', 'Egypt', 'Sudan', 'Yemen'],
+    datasets: [{ label: 'MPOWER O Score (0–4)',
+      data: [4, 4, 3, 4, 2, 2, 1, 1, 0],
+      backgroundColor: [C.green,C.green,C.green,C.green,C.blue,C.blue,C.red,C.red+'88',C.red+'44'],
+      borderColor: [C.green,C.green,C.green,C.green,C.blue,C.blue,C.red,C.red,C.red],
+      borderWidth: 2, borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, max: 4, grid: { color: '#252c33' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 14 Cost effectiveness
+mk('c_ce', {
+  type: 'bar',
+  data: {
+    labels: ['High Tobacco Tax', 'Plain Packaging', 'Mass Media Campaign', 'Quit Month Initiative', 'Smoke-Free Workplaces', 'NRT/Cessation Services', 'School Prevention', 'Generational Age Ban'],
+    datasets: [{ label: 'Cost per QALY Saved (USD)',
+      data: [50, 120, 250, 350, 420, 650, 800, 1100],
+      backgroundColor: [C.green,C.green+'cc',C.amber+'99',C.amber+'aa',C.blue+'99',C.blue+'aa',C.teal+'99',C.smoke+'88'],
+      borderColor: [C.green,C.green,C.amber,C.amber,C.blue,C.blue,C.teal,C.smoke],
+      borderWidth: 2, borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#252c33' }, ticks: { callback: v => '$' + v } },
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// 15 Bubble chart
+mk('c_bubble', {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label: 'High Tobacco Tax', data: [{ x: 2, y: 9.5, r: 24 }], backgroundColor: C.green + '88', borderColor: C.green },
+      { label: 'Plain Packaging', data: [{ x: 3, y: 8.5, r: 18 }], backgroundColor: C.amber + '88', borderColor: C.amber },
+      { label: 'Mass Media Campaign', data: [{ x: 4, y: 8.0, r: 20 }], backgroundColor: C.red + '88', borderColor: C.red },
+      { label: 'NRT/Cessation in UHC', data: [{ x: 5, y: 7.5, r: 16 }], backgroundColor: C.blue + '88', borderColor: C.blue },
+      { label: 'Smoke-Free Workplace', data: [{ x: 3, y: 7.0, r: 14 }], backgroundColor: C.teal + '88', borderColor: C.teal },
+      { label: 'Quit Month Initiative', data: [{ x: 2, y: 6.5, r: 12 }], backgroundColor: C.smoke + '88', borderColor: C.smoke },
+      { label: 'School Prevention', data: [{ x: 4, y: 7.8, r: 15 }], backgroundColor: '#6b3fa088', borderColor: '#6b3fa0' },
+      { label: 'Generational Ban', data: [{ x: 7, y: 9.0, r: 10 }], backgroundColor: C.amber + '55', borderColor: C.amber + 'aa' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'right', labels: { font: { size: 11 } } } },
+    scales: {
+      x: { min: 0, max: 10, grid: { color: '#252c33' },
+        title: { display: true, text: 'Implementation Difficulty (0=easy → 10=hard)', color: C.smoke } },
+      y: { min: 4, max: 10, grid: { color: '#252c33' },
+        title: { display: true, text: 'Impact Score (0=low → 10=high)', color: C.smoke } }
+    }
+  }
+});
+
+// ── TAB SWITCHING ──
+function switchTab(e, id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  e.currentTarget.classList.add('active');
+  setTimeout(() => Chart.instances.forEach(c => c.resize()), 100);
+}
+</script>
+</body>
+</html>
