@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Before Intervention – Asyut vs Minya</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #f8fafc;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dc2626;
+      color: white;
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .badge-wrap {
+      text-align: center;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+      font-size: 0.82rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid #334155;
+    }
+
+    .card-title {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      text-align: center;
+      margin-bottom: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    canvas {
+      max-height: 240px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #475569;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📊 BEFORE Intervention — Baseline Health Indicators</h1>
+  <div class="subtitle">Asyut vs Minya vs National Average &nbsp;|&nbsp; SDG 3 Case Study</div>
+  <div class="badge-wrap"><span class="badge">PRE-2024 DATA</span></div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-title">🩺 Maternal Mortality Ratio (per 100,000 live births)</div>
+      <canvas id="c1"></canvas>
+    </div>
+
+  </div>
+
+  <div class="footer">Made By <a href="https://www.instagram.com/dragon.fire.web/" style="all: unset; text-decoration: underline;">Dragon Code</a> &copy;2026.</div>
+
+  <script>
+    const A = 'rgba(34,211,238,0.8)';
+    const M = 'rgba(163,230,53,0.8)';
+    const N = 'rgba(100,116,139,0.65)';
+    const C = 'rgba(99,102,241,0.8)';
+    const D = 'rgba(20,184,166,0.8)';
+    const E = 'rgba(16,185,129,0.8)';
+
+    const AB = '#22d3ee', MB = '#a3e635', NB = '#94a3b8', CB = "#6366f1", DB = "#14b8a6",EB ="#10b981";
+    const grid = 'rgba(255,255,255,0.06)';
+    const tick = '#94a3b8';
+
+    const base = (yLabel) => ({
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#0f172a', titleColor: '#f8fafc', bodyColor: '#cbd5e1', borderColor: '#334155', borderWidth: 1 }
+      },
+      scales: {
+        x: { ticks: { color: tick, font: { size: 11 } }, grid: { color: grid } },
+        y: { ticks: { color: tick, font: { size: 11 } }, grid: { color: grid }, title: { display: true, text: yLabel, color: '#64748b', font: { size: 10 } } }
+      }
+    });
+
+    const groupedLegend = {
+      legend: { display: true, labels: { color: '#94a3b8', boxWidth: 13, font: { size: 11 } } },
+      tooltip: { backgroundColor: '#0f172a', titleColor: '#f8fafc', bodyColor: '#cbd5e1', borderColor: '#334155', borderWidth: 1 }
+    };
+
+    // C1 – Maternal Mortality
+    new Chart(document.getElementById('c1'), {
+      type: 'bar',
+      data: {
+        labels: ['Asyut', 'Minya', 'National Avg / Target'],
+        datasets: [
+          {
+            label: 'MMR', data: [65, 62, 44.1],
+            backgroundColor: [A, A, A], borderColor: [AB, AB, AB], borderWidth: 2, borderRadius: 7
+          },
+          {
+            label: 'Under-5 Mortality', data: [39, 42, 28],
+            backgroundColor: [E, E, E], borderColor: [EB, EB, EB], borderWidth: 2, borderRadius: 7
+          }
+          ,
+          {
+            label: 'Neonatal Mortality', data: [28, 17, 18],
+            backgroundColor: [M, M, M], borderColor: [MB, MB, MB], borderWidth: 2, borderRadius: 7
+          }
+          , {
+            label: 'TB Rate', data: [14.5, 13.2, 10.0],
+            backgroundColor: [N, N, N], borderColor: [NB, NB, NB], borderWidth: 2, borderRadius: 7
+          }
+          ,
+          {
+            label: 'Stunting %', data: [17.1, 18.5, 13.0],
+            backgroundColor: [C, C, C], borderColor: [CB, CB, CB], borderWidth: 2, borderRadius: 7
+          }
+          ,
+          {
+            label: 'Road Deaths (per 100k)', data: [11.5, 10.2, 4.9],
+            backgroundColor: [D,D, D], borderColor: [DB, DB, DB], borderWidth: 2, borderRadius: 7
+          }
+        ]
+      },
+    });
+
+
+
+
+  </script>
+</body>
+
+</html>
